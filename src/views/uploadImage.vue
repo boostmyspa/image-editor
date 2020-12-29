@@ -1,0 +1,42 @@
+<template>
+    <label>
+        <input @change="handleImage" type="file" id="imageLoader" name="imageLoader" accept="image/*">
+    </label>
+</template>
+
+<script>
+    export default {
+        name: "uploadImage",
+        data: () => {
+            return {
+                imageFile: null
+            }
+        },
+        methods: {
+            imageLoaded (imageObj, imageSrc) {
+                imageObj.onload = (e) => {
+                    let image = e.path[0];
+                    this.$store.commit('setUploadedImage', image);
+                };
+
+                imageObj.src = imageSrc;
+            },
+
+            handleImage (e) {
+                let
+                    imageObj = new Image(),
+                    reader = new FileReader();
+
+                reader.onload = (event) => {
+                    this.imageLoaded(imageObj, event.target.result);
+                };
+
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
