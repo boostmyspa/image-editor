@@ -6,17 +6,11 @@
         <v-stage ref="stage" :config="stageConfig">
             <v-layer ref="layer-main">
                 <v-image :config="{ image: uploadedImage }"></v-image>
-                <v-text v-for="text in texts" :key="text.id"
-                        :config="{
-                        x: stageConfig.width / 2,
-                        y: text.id * 15,
-                        text: text.value,
-                        fontSize: 30,
-                        fontFamily: 'Calibri',
-                        fill: 'green',
-                        draggable: true
-                        }"
-                ></v-text>
+
+                <template v-for="text in elements">
+                    <text-box v-if="text.name == 'text'" :item="text" :key="text.id"></text-box>
+                </template>
+
             </v-layer>
         </v-stage>
     </div>
@@ -24,16 +18,20 @@
 
 <script>
     // import Konva from 'konva';
-    import { mapState,/* mapGetters, mapMutations*/ } from 'vuex';
+    import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
+    import TextBox from './TextBox';
 
     export default {
         name: "MainCanvas",
+        components: {
+            'text-box': TextBox
+        },
+        props: [
+            'stageConfig'
+        ],
+
         data: () => {
             return {
-                stageConfig: {
-                    width: 500,
-                    height: 500
-                },
                 isEmpty: true
             }
         },
@@ -41,27 +39,22 @@
         methods: {
             windowResize () {
                 let container = document.querySelector('.canvas-container');
-                console.log(container);
-                this.stageConfig.width = container.offsetWidth;
-                this.stageConfig.height = container.offsetHeight;
+
+                this.$emit('stageSizeChange', {
+                    width: container.offsetWidth,
+                    height: container.offsetHeight
+                })
             },
         },
 
         computed: {
-            ...mapState([
-                'uploadedImage',
-                'texts'
+            ...mapState('bgImage', [
+                'uploadedImage'
             ]),
-            // ...mapState({
-            //     uploadedImage: (state) => {
-            //         return state.uploadedImage;
-            //         // console.log()
-            //     }
-            // }),
 
-            // ...mapGetters([
-            //     '',
-            // ])
+            ...mapState([
+                'elements'
+            ]),
         },
 
         created() {

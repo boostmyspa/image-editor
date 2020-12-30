@@ -1,26 +1,31 @@
 <template>
     <div>
         <br>
-        <input class="text-input" type="text" v-model="item.value">
-        <button class="remove" @click="remove">Remove</button>
+        <input class="text-input" type="text" v-model="item.text">
+        <button class="remove" @click="removeItem">Remove</button>
     </div>
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
+
     export default {
-        name: "TextElement",
+        name: "TextInput",
         props: [
             'item'
         ],
         data: () => {
            return {
-               textVal: ''
+
            }
         },
         methods: {
-            remove () {
-                console.log(this.item);
-                this.$store.dispatch('removeText', this.item.id)
+            ...mapActions('textBox', [
+                'remove',
+            ]),
+
+            removeItem () {
+                this.remove(this.item.id);
             }
         }
     }

@@ -2,9 +2,10 @@
   <div class="container">
     <div class="col-left">
       col-left
+        <button @click="getData">Get data</button>
     </div>
     <div class="col-center canvas-container">
-      <canvas-main></canvas-main>
+      <canvas-main :stageConfig="canvasMainConfig" @stageSizeChange="canvasMainSizeChanged"></canvas-main>
     </div>
     <div class="col-right">
       <div>
@@ -15,42 +16,75 @@
       <div v-if="uploadedImage">
         <hr>
         <p>Add texts</p>
-        <button @click="addNewText">Add Text</button>
-        <text-element v-for="text in texts" :key="text.id" :item="text"></text-element>
+        <button @click="addNewTextBox">Add Text</button>
+        <template v-for="text in elements">
+          <text-input v-if="text.name == 'text'" :key="text.id" :item="text"></text-input>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-    import { mapState,/* mapGetters,*/ mapMutations } from 'vuex';
+    import { mapState,/* mapGetters,*/ mapActions } from 'vuex';
     import MainCanvas from './views/MainCanvas';
     import UploadImage from './views/uploadImage'
-    import AddText from './views/TextElement';
+    import TextInput from './views/TextInput';
 
 export default {
     name: 'App',
     components: {
         'canvas-main': MainCanvas,
         'upload-image': UploadImage,
-        'text-element': AddText
+        'text-input': TextInput
+    },
+
+    data: () => {
+        return {
+            canvasMainConfig: {
+                x: 0.5,
+                y: 0.5,
+                width: 500,
+                height: 500,
+            }
+        }
     },
 
     methods: {
-        ...mapMutations([
-            'addNewText'
-        ])
+        ...mapActions('textBox', {
+            addTextBox: 'add',
+    }),
 
-        // ...mapMutations({
-        //
-        // })
+        getData () {
+            console.log(this.elements)
+        },
+
+        addNewTextBox () {
+            let textBox = {
+                value: '',
+                x: this.canvasMainConfig.width / 2,
+                y: 30,
+                width: 300,
+                height: 80,
+            };
+
+            this.addTextBox(textBox);
+        },
+
+        canvasMainSizeChanged (newSize) {
+            this.canvasMainConfig.width = newSize.width;
+            this.canvasMainConfig.height = newSize.height;
+        }
     },
 
     computed: {
         ...mapState([
-            'uploadedImage',
-            'texts'
+            'elements'
         ]),
+
+        ...mapState('bgImage', {
+            uploadedImage: state => state.uploadedImage,
+        })
     }
 }
 </script>

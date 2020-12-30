@@ -5,18 +5,26 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
+
     export default {
         name: "uploadImage",
+
         data: () => {
             return {
                 imageFile: null
             }
         },
+
         methods: {
+            ...mapActions('bgImage', [
+                'setUploadedImage',
+            ]),
+
             imageLoaded (imageObj, imageSrc) {
                 imageObj.onload = (e) => {
                     let image = e.path[0];
-                    this.$store.commit('setUploadedImage', image);
+                    this.setUploadedImage(image);
                 };
 
                 imageObj.src = imageSrc;
