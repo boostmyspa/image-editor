@@ -1,7 +1,10 @@
 <template>
     <div>
         <br>
-        <input class="text-input" type="text" v-model="item.text">
+        <input class="text-input" type="text"
+               :value="item.text"
+               @input="textInput"
+        >
         <button class="remove" @click="removeItem">Remove</button>
     </div>
 </template>
@@ -22,10 +25,16 @@
         methods: {
             ...mapActions('textBox', [
                 'remove',
+                'changeText'
             ]),
 
             removeItem () {
                 this.remove(this.item.id);
+            },
+
+            textInput (e) {
+                const text = e.target.value;
+                this.changeText({ item: this.item, text });
             }
         }
     }

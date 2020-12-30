@@ -3,7 +3,10 @@
         <p style="text-align: center">Upload Your Design</p>
     </div>
     <div v-else>
-        <v-stage ref="stage" :config="stageConfig">
+        <v-stage ref="stage"
+                 :config="stageConfig"
+                 @mousedown="handleStageMouseDown"
+        >
             <v-layer ref="layer-main">
                 <v-image :config="{ image: uploadedImage }"></v-image>
 
@@ -11,6 +14,7 @@
                     <text-box v-if="text.name == 'text'" :item="text" :key="text.id"></text-box>
                 </template>
 
+                <transformer :stageEventsBus="stageEventsBus"></transformer>
             </v-layer>
         </v-stage>
     </div>
@@ -18,13 +22,16 @@
 
 <script>
     // import Konva from 'konva';
+    import Vue from 'vue';
     import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
     import TextBox from './TextBox';
+    import Transformer from './Transformer';
 
     export default {
         name: "MainCanvas",
         components: {
-            'text-box': TextBox
+            'text-box': TextBox,
+            'transformer': Transformer
         },
         props: [
             'stageConfig'
@@ -32,7 +39,8 @@
 
         data: () => {
             return {
-                isEmpty: true
+                selectedShapeId: '',
+                stageEventsBus: new Vue()
             }
         },
 
@@ -45,6 +53,10 @@
                     height: container.offsetHeight
                 })
             },
+
+            handleStageMouseDown (event) {
+                this.stageEventsBus.$emit('handleStageMouseDown', event);
+            }
         },
 
         computed: {

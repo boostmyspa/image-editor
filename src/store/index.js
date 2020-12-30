@@ -18,9 +18,13 @@ export default new Vuex.Store({
     },
 
     getters: {
-        findElementIndexById: (state) => (id) => {
+        getElementIndexById: (state) => (id) => {
             return state.elements.findIndex( (el) => el.id == id )
         },
+
+        getElementById: (state) => (id) => {
+            return state.elements.find( (el) => el.id == id )
+        }
     },
 
     mutations: {
@@ -46,25 +50,25 @@ export default new Vuex.Store({
         addElement({ state, commit }, item) {
             commit('elementAdded');
 
-            item.id = state.elementsLastId;
+            item.id = 'id-' + state.elementsLastId;
 
             commit('addElement', item);
         },
 
         removeElement({ getters, commit }, item) {
-            let index = getters.findElementIndexById(item['id']);
+            let index = getters.getElementIndexById(item['id']);
 
             commit('removeElement', index);
         },
 
         removeElementById({ getters, commit }, id) {
-            let index = getters.findElementIndexById(id);
+            let index = getters.getElementIndexById(id);
 
             commit('removeElement', index);
         },
 
         changeElement({ getters, commit }, item) {
-            let index = getters.findElementIndexById(item['id']);
+            let index = getters.getElementIndexById(item['id']);
 
             commit('changeElement', { index, item });
         },

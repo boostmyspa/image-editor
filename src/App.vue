@@ -53,7 +53,7 @@ export default {
     methods: {
         ...mapActions('textBox', {
             addTextBox: 'add',
-    }),
+        }),
 
         getData () {
             console.log(this.elements)
@@ -64,8 +64,9 @@ export default {
                 value: '',
                 x: this.canvasMainConfig.width / 2,
                 y: 30,
-                width: 300,
-                height: 80,
+                // width: 300,
+                // height: 80,
+                // rotate: 0
             };
 
             this.addTextBox(textBox);
