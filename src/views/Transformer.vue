@@ -1,5 +1,9 @@
 <template>
-    <v-transformer ref="transformer"></v-transformer>
+    <v-transformer ref="transformer"
+                   :config="{
+                   rotateEnabled: false
+                   }"
+    ></v-transformer>
 </template>
 
 <script>
@@ -20,9 +24,10 @@
         methods: {
 
             handleStageMouseDown(e) {
+                const target = e.target;
 
                 // clicked on stage - clear selection
-                if (e.target === e.target.getStage()) {
+                if (target === target.getStage()) {
                     this.selectedShapeId = null;
                     this.updateTransformer();
                     return;
@@ -30,16 +35,17 @@
 
                 // clicked on transformer - do nothing
                 const clickedOnTransformer =
-                    e.target.getParent().className === 'Transformer';
+                    target.getParent().className === 'Transformer';
                 if (clickedOnTransformer) {
                     return;
                 }
 
                 // find clicked element by its name
-                const target = e.target;
                 const elementBox = target.findAncestor('.elementBox', true);
 
                 if (!elementBox) {
+                    this.selectedShapeId = null;
+                    this.updateTransformer();
                     return;
                 }
 

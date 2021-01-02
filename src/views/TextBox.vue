@@ -31,8 +31,9 @@
                         fontSize: 30,
                         fontFamily: 'Calibri',
                         align: 'center',
-                        fill: 'green',
-                        wrap: 'none',
+                        verticalAlign: 'middle',
+                        fill: 'black',
+                        // wrap: 'none',
                         }"
         ></v-text>
     </v-group>
@@ -48,7 +49,7 @@
         ],
         data: () => {
             return {
-
+                rotation: 0
             }
         },
 
@@ -69,11 +70,26 @@
             transforming (e) {
                 const
                     target = e.target,
-                    width = target.width() * target.scaleX(),
-                    height = target.height() * target.scaleY();
+                    newRotation = target.rotation();
 
-                this.transformed({ item: this.item, width, height });
+                const isRotation = Math.abs(this.rotation - newRotation) > 0.01;
+
+                if (isRotation) {
+                    this.rotation = newRotation;
+                }
+                else {
+                    let
+                        width = target.width() * target.scaleX(),
+                        height = target.height() * target.scaleY();
+
+                    this.transformed({ item: this.item, width, height });
+                }
+
             }
+        },
+
+        computed: {
+
         },
 
         mounted () {
