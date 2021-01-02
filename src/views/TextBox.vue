@@ -28,11 +28,11 @@
                         height: item.height,
                         // padding: 5,
                         text: item.text,
-                        fontSize: 30,
-                        fontFamily: 'Calibri',
-                        align: 'center',
-                        verticalAlign: 'middle',
-                        fill: 'black',
+                        fontSize: +item.settings.fontSize,
+                        fontFamily: item.settings.fontFamily,
+                        align: item.settings.hAlign,
+                        verticalAlign: item.settings.vAlign,
+                        fill: item.settings.fill,
                         // wrap: 'none',
                         }"
         ></v-text>
@@ -64,7 +64,7 @@
                     textBoxNode = e.target,
                     position = textBoxNode.position();
 
-                this.changePosition({ item: this.item, newPosition: position });
+                this.changePosition({ item: this.item, position });
             },
 
             transforming (e) {

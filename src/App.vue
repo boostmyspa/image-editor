@@ -92,31 +92,32 @@ export default {
 
 <style>
   html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+      height: 100%;
+      margin: 0;
+      padding: 0;
   }
 
   *, *::before, *::after {
-    box-sizing: border-box;
+      box-sizing: border-box;
   }
 
   .container {
-    display: flex;
-    width: 100%;
-    height: 100%;
+      display: flex;
+      width: 100%;
+      height: 100%;
   }
 
   .col-left,
   .col-right {
-    flex: 0 1 auto;
-    width: 25%;
-    padding: 10px;
-    border: 1px solid;
+      flex: 0 1 auto;
+      width: 25%;
+      padding: 10px;
+      border: 1px solid;
   }
 
   .col-center {
-    flex: 1 0 auto;
-    border: 1px solid;
+      flex: 1 0 auto;
+      width: 50%;
+      border: 1px solid;
   }
 </style>
