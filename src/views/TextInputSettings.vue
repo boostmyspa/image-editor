@@ -74,13 +74,26 @@
                     >{{ family }}</option>
                 </select>
             </label>
+            <br><br>
+
+            <label>
+                Color
+                <color-picker :value="settings.fill" @input="fillChange"
+                              :disableAlpha="true"
+                ></color-picker>
+            </label>
         </fieldset>
     </div>
 </template>
 
 <script>
+    import ColorPicker from 'vue-color/src/components/Chrome.vue'; // https://www.npmjs.com/package/vue-color
+
     export default {
         name: "TextInputSettings",
+        components: {
+            'color-picker': ColorPicker
+        },
         props: [
             'settings'
         ],
@@ -109,15 +122,22 @@
             },
 
             fontSizeChange (e) {
-                let fontSize = +e.target.value;
+                const fontSize = +e.target.value;
                 this.localSettings.fontSize = Math.min(this.fontSizeMax, Math.max(this.fontSizeMin, fontSize));
 
                 this.setSettings();
             },
 
             fontFamilyChange (e) {
-                let fontFamily = e.target.value;
+                const fontFamily = e.target.value;
                 this.localSettings.fontFamily = fontFamily;
+
+                this.setSettings();
+            },
+
+            fillChange (e) {
+                const fillColor = e.hex; // color in "hex" format
+                this.localSettings.fill = fillColor;
 
                 this.setSettings();
             },

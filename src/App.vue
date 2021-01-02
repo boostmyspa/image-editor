@@ -61,9 +61,9 @@ export default {
 
         addNewTextBox () {
             let textBox = {
-                value: '',
-                x: this.canvasMainConfig.width / 2,
-                y: 30,
+                // value: '',
+                // x: this.canvasMainConfig.width / 2,
+                // y: 30,
                 // width: 300,
                 // height: 80,
                 // rotate: 0
