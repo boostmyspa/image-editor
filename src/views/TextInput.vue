@@ -33,6 +33,10 @@
            }
         },
         methods: {
+            ...mapActions([
+                'changeSelectedElementId',
+            ]),
+
             ...mapActions('textBox', [
                 'remove',
                 'changeText',
@@ -40,6 +44,7 @@
             ]),
 
             removeItem () {
+                this.changeSelectedElementId(null);
                 this.remove(this.item.id);
             },
 

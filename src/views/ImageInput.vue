@@ -45,6 +45,10 @@
         },
 
         methods: {
+            ...mapActions([
+                'changeSelectedElementId',
+            ]),
+
             ...mapActions('imageBox', [
                 'remove',
                 'changeImage',
@@ -52,6 +56,7 @@
             ]),
 
             removeItem () {
+                this.changeSelectedElementId(null);
                 this.remove(this.item.id);
             },
 

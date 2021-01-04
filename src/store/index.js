@@ -17,7 +17,8 @@ export default new Vuex.Store({
 
     state: {
         elementsLastId: 0,
-        elements: []
+        elements: [],
+        selectedElementId: null
     },
 
     getters: {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
             state.elements.splice(index, 1, item)
         },
 
+        changeSelectedElementId(state, id) {
+            state.selectedElementId = id;
+        }
     },
 
     actions: {
@@ -76,5 +80,8 @@ export default new Vuex.Store({
             commit('changeElement', { index, item });
         },
 
+        changeSelectedElementId({ commit }, id) {
+            commit('changeSelectedElementId', id);
+        }
     }
 })

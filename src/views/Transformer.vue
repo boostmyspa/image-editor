@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapState, mapGetters, mapActions } from 'vuex';
 
     export default {
         name: "Transformer",
@@ -17,19 +17,29 @@
 
         data: () => {
             return {
-                selectedShapeId: null
+
             }
         },
 
         methods: {
+            ...mapActions([
+                'changeSelectedElementId',
+            ]),
+
+            transformerSelect(id) {
+                this.changeSelectedElementId(id);
+            },
+
+            transformerDeselect() {
+                this.changeSelectedElementId(null);
+            },
 
             handleStageMouseDown(e) {
                 const target = e.target;
 
                 // clicked on stage - clear selection
                 if (target === target.getStage()) {
-                    this.selectedShapeId = null;
-                    this.updateTransformer();
+                    this.transformerDeselect();
                     return;
                 }
 
@@ -44,8 +54,7 @@
                 const elementBox = target.findAncestor('.elementBox', true);
 
                 if (!elementBox) {
-                    this.selectedShapeId = null;
-                    this.updateTransformer();
+                    this.transformerDeselect();
                     return;
                 }
 
@@ -53,21 +62,18 @@
                 const element = this.getElementById(id);
 
                 if (element) {
-                    this.selectedShapeId = id;
+                    this.transformerSelect(id);
                 } else {
-                    this.selectedShapeId = null;
+                    this.transformerDeselect();
                 }
-
-                this.updateTransformer();
             },
 
             updateTransformer() {
                 // here we need to manually attach or detach Transformer node
                 const transformerNode = this.$refs.transformer.getNode();
                 const stage = transformerNode.getStage();
-                const { selectedShapeId } = this;
 
-                const selectedNode = stage.findOne('#' + selectedShapeId);
+                const selectedNode = stage.findOne('#' + this.selectedElementId);
 
                 // do nothing if selected node is already attached
                 if (selectedNode === transformerNode.node()) {
@@ -93,6 +99,16 @@
             ...mapGetters([
                 'getElementById'
             ]),
+
+            ...mapState([
+                'selectedElementId'
+            ]),
+        },
+
+        watch: {
+            selectedElementId() {
+                this.updateTransformer();
+            }
         }
     }
 </script>
