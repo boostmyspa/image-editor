@@ -21,7 +21,10 @@
 
         <hr>
 
-          <div class="element-item" v-for="(el, index) in elements.slice().reverse()" :key="el.id">
+          <div class="element-item" v-for="(el, index) in elements.slice().reverse()"
+               :class="el.id == selectedElementId ? 'active' : ''"
+               :key="el.id"
+          >
               <b>{{ elements.length - index }}) {{ el.name }}</b>
               <text-input v-if="el.name == 'textBox'" :item="el"></text-input>
               <image-input v-if="el.name == 'imageBox'" :item="el"></image-input>
@@ -96,7 +99,8 @@ export default {
 
     computed: {
         ...mapState([
-            'elements'
+            'elements',
+            'selectedElementId'
         ]),
 
         ...mapState('bgImage', {
@@ -147,5 +151,9 @@ export default {
       margin: 0 0 10px;
       padding: 0 0 10px;
       border-bottom: 1px solid;
+  }
+
+  .element-item.active {
+      background: #ccc;
   }
 </style>
