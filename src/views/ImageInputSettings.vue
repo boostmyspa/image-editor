@@ -55,58 +55,18 @@
                 bottom
             </label>
         </fieldset>
-
-        <fieldset>
-            <legend>Font</legend>
-            <label>
-                Font Size <small>({{ fontSizeMin }}-{{ fontSizeMax }})</small>
-                <input type="number" :value="settings.fontSize" @change="fontSizeChange">
-            </label>
-            <br><br>
-
-            <label>
-                Font Family
-                <br>
-                <select name="font-family" :value="settings.fontFamily" @change="fontFamilyChange">
-                    <option v-for="family in fontFamilyList" :key="family"
-                            :value="family"
-                            :selected="family == settings.fontFamily"
-                    >{{ family }}</option>
-                </select>
-            </label>
-            <br><br>
-
-            <label>
-                Color
-                <color-picker :value="settings.fill" @input="fillChange"
-                              :disableAlpha="true"
-                ></color-picker>
-            </label>
-        </fieldset>
     </div>
 </template>
 
 <script>
-    import ColorPicker from 'vue-color/src/components/Chrome.vue'; // https://www.npmjs.com/package/vue-color
-
     export default {
-        name: "TextInputSettings",
-        components: {
-            'color-picker': ColorPicker
-        },
+        name: "ImageInputSettings",
         props: [
             'settings'
         ],
         data: () => {
             return {
-                localSettings: {},
-                fontSizeMin: 10,
-                fontSizeMax: 48,
-                fontFamilyList: [
-                    'Calibri',
-                    'Arial',
-                    'Tahoma'
-                ]
+                localSettings: {}
             }
         },
 
@@ -121,34 +81,9 @@
                 this.setSettings();
             },
 
-            fontSizeChange (e) {
-                const fontSize = +e.target.value;
-                this.localSettings.fontSize = Math.min(this.fontSizeMax, Math.max(this.fontSizeMin, fontSize));
-
-                this.setSettings();
-            },
-
-            fontFamilyChange (e) {
-                const fontFamily = e.target.value;
-                this.localSettings.fontFamily = fontFamily;
-
-                this.setSettings();
-            },
-
-            fillChange (e) {
-                const fillColor = e.hex; // color in "hex" format
-                this.localSettings.fill = fillColor;
-
-                this.setSettings();
-            },
-
             setSettings () {
                 this.$emit('settingsChanged', this.localSettings);
             }
-        },
-
-        computed: {
-
         },
 
         mounted () {

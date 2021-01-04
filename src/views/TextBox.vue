@@ -12,21 +12,12 @@
              @dragend="changeTextBoxPosition"
              @transform="transforming"
     >
-        <v-rect :config="{
-                        x: 0,
-                        y: 0,
-                        width: item.width,
-                        height: item.height,
-                        stroke: 'black',
-                        strokeWidth: 1,
-                        }"
-        ></v-rect>
         <v-text :config="{
                         x: 0,
                         y: 0,
                         width: item.width,
                         height: item.height,
-                        // padding: 5,
+                        padding: 1,
                         text: item.text,
                         fontSize: +item.settings.fontSize,
                         fontFamily: item.settings.fontFamily,
@@ -36,6 +27,16 @@
                         // wrap: 'none',
                         }"
         ></v-text>
+
+        <v-rect :config="{
+                        x: 0,
+                        y: 0,
+                        width: item.width,
+                        height: item.height,
+                        stroke: 'black',
+                        strokeWidth: 1,
+                        }"
+        ></v-rect>
     </v-group>
 </template>
 

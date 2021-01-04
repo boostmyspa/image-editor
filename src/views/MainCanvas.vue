@@ -10,8 +10,9 @@
             <v-layer ref="layer-main">
                 <v-image :config="{ image: uploadedImage }"></v-image>
 
-                <template v-for="text in elements">
-                    <text-box v-if="text.name == 'text'" :item="text" :key="text.id"></text-box>
+                <template v-for="el in elements">
+                    <text-box v-if="el.name == 'textBox'" :item="el" :key="el.id"></text-box>
+                    <image-box v-else-if="el.name == 'imageBox'" :item="el" :key="el.id"></image-box>
                 </template>
 
                 <transformer :stageEventsBus="stageEventsBus"></transformer>
@@ -25,12 +26,14 @@
     import Vue from 'vue';
     import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
     import TextBox from './TextBox';
+    import ImageBox from './ImageBox';
     import Transformer from './Transformer';
 
     export default {
         name: "MainCanvas",
         components: {
             'text-box': TextBox,
+            'image-box': ImageBox,
             'transformer': Transformer
         },
         props: [
@@ -46,7 +49,7 @@
 
         methods: {
             windowResize () {
-                let container = document.querySelector('.canvas-container');
+                const container = document.getElementById('canvas-container');
 
                 this.$emit('stageSizeChange', {
                     width: container.offsetWidth,

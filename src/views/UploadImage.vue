@@ -1,6 +1,6 @@
 <template>
     <label>
-        <input @change="handleImage" type="file" id="imageLoader" name="imageLoader" accept="image/*">
+        <input @change="handleImage" type="file" name="imageLoader" accept="image/*">
     </label>
 </template>
 
@@ -12,7 +12,7 @@
 
         data: () => {
             return {
-                imageFile: null
+                // imageFile: null
             }
         },
 
@@ -46,5 +46,7 @@
 </script>
 
 <style scoped>
-
+    [type="file"] {
+        max-width: 100%;
+    }
 </style>

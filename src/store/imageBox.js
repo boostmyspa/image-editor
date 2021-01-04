@@ -1,21 +1,20 @@
 export default {
     namespaced: true,
-    
+
     state: {
         default: {
-            name: 'textBox',
-            text: '',
+            name: 'imageBox',
+            src: null,
+            image: null,
             x: 0,
             y: 0,
             width: 150,
-            height: 30,
+            height: 150,
             rotate: 0,
             settings: {
                 hAlign: 'center',
                 vAlign: 'middle',
-                fontSize: '30',
-                fontFamily: 'Calibri',
-                fill: 'black'
+                // fitContain: true, // true: contain, false: cover
             }
         }
     },
@@ -35,11 +34,10 @@ export default {
             const def = state.default;
             const itemSettings = item.settings || {};
 
-            let textItem = {
+            let imageItem = {
                 scaleX: 1, // don't change. This is for prevent the transformer scaling
                 scaleY: 1,
                 name: def.name,
-                text: item.text || def.text,
                 x: item.x || def.x,
                 y: item.y || def.y,
                 width: item.width || def.width,
@@ -48,24 +46,23 @@ export default {
                 settings: {
                     hAlign: itemSettings.hAlign || def.settings.hAlign,
                     vAlign: itemSettings.vAlign || def.settings.vAlign,
-                    fontSize: itemSettings.fontSize || def.settings.fontSize,
-                    fontFamily: itemSettings.fontFamily || def.settings.fontFamily,
-                    fill: itemSettings.fill || def.settings.fill
+                    // fitContain: itemSettings.fitContain || def.settings.fitContain,
                 }
             };
 
-            dispatch('addElement', textItem, { root: true });
+            dispatch('addElement', imageItem, { root: true });
         },
 
         remove({ dispatch }, id) {
             dispatch('removeElementById', id, { root: true });
         },
 
-        changeText ({ dispatch }, { item, text }) {
+        changeImage ({ dispatch }, { item, image, src }) {
             let
                 newItem = Object.assign({}, item);
 
-            newItem.text = text;
+            newItem.image = image;
+            newItem.src = src;
 
             dispatch('changeElement', newItem, { root: true });
         },

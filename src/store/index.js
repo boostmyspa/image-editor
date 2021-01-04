@@ -1,15 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import moduleTextBox from './textBox';
 import moduleBackgroundImage from './bgImage'
+import moduleTextBox from './textBox';
+import moduleImageBox from './imageBox';
+
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
+        bgImage: moduleBackgroundImage,
         textBox: moduleTextBox,
-        bgImage: moduleBackgroundImage
+        imageBox: moduleImageBox
     },
 
     state: {

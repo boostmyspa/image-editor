@@ -5,8 +5,10 @@
                :value="item.text"
                @input="textInput"
         >
-        <button class="settings" @click="showSettings = !showSettings">Settings</button>
-        <button class="remove" @click="removeItem">Remove</button>
+        <div class="buttons">
+            <button @click="showSettings = !showSettings">Settings</button>
+            | <button @click="removeItem">Remove</button>
+        </div>
         <div class="clearfix"></div>
 
         <text-input-settings v-if="showSettings" :settings="item.settings" @settingsChanged="settingsChanged"></text-input-settings>
@@ -58,14 +60,9 @@
 
     }
 
-    .remove {
+    .buttons {
         float: right;
-        margin-left: 5px;
-    }
-
-    .settings {
-        float: right;
-        margin-left: 5px;
+        margin: 5px 0 0;
     }
 
     .clearfix {
