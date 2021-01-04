@@ -1,7 +1,8 @@
 <template>
     <v-transformer ref="transformer"
                    :config="{
-                   rotateEnabled: false
+                   rotateEnabled: false,
+                   boundBoxFunc: boundBoxFunc
                    }"
     ></v-transformer>
 </template>
@@ -17,7 +18,7 @@
 
         data: () => {
             return {
-
+                minTransformSize: 20
             }
         },
 
@@ -89,6 +90,18 @@
                 }
                 transformerNode.getLayer().batchDraw();
             },
+
+            boundBoxFunc(oldBox, newBox) {
+                if (newBox.width < this.minTransformSize) {
+                    newBox.width = this.minTransformSize;
+                    return newBox;
+                }
+                if (newBox.height < this.minTransformSize) {
+                    newBox.height = this.minTransformSize;
+                    return newBox;
+                }
+                return newBox;
+            }
         },
 
         created () {

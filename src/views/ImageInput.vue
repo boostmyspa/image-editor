@@ -102,7 +102,7 @@
 <style scoped>
     .current-image {
         display: block;
-        width: 100px;
+        max-width: 100px;
         margin: 5px auto;
     }
 

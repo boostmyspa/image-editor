@@ -48,11 +48,11 @@
         data: () => {
             return {
                 rotation: 0,
-                imageHeight: 0
+                minTransformSize: 20
             }
         },
         methods: {
-            ...mapActions('textBox', [
+            ...mapActions('imageBox', [
                 'changePosition',
                 'transformed'
             ]),
@@ -68,6 +68,8 @@
             transforming (e) {
                 const
                     target = e.target,
+                    // stage = e.target.getStage(),
+                    // transformer = stage.find('Transformer')[0],
                     newRotation = target.rotation();
 
                 const isRotation = Math.abs(this.rotation - newRotation) > 0.01;
@@ -77,10 +79,29 @@
                 }
                 else {
                     let
+                        // stopTransform = false,
                         width = target.width() * target.scaleX(),
                         height = target.height() * target.scaleY();
 
+
+                    // the box minimum transformation size
+                    // if (width < this.minTransformSize - 10) {
+                    //     stopTransform = true;
+                    //     width = this.minTransformSize + 2;
+                    // }
+                    //
+                    // if (height < this.minTransformSize - 10) {
+                    //     stopTransform = true;
+                    //     height = this.minTransformSize + 2;
+                    // }
+
                     this.transformed({ item: this.item, width, height });
+
+                    // if (transformer && stopTransform) {
+                    //     transformer.stopTransform();
+                    //     transformer.forceUpdate();
+                    //     stage.draw();
+                    // }
                 }
 
             }
@@ -96,12 +117,24 @@
                     boxWidth = this.item.width,
                     boxHeight = this.item.height;
 
-                let scale = Math.min(boxWidth / imgWidth, boxHeight / imgHeight);
+                let
+                    size,
+                    scale = Math.min(boxWidth / imgWidth, boxHeight / imgHeight);
 
-                return {
-                    width: imgWidth * scale,
-                    height: imgHeight * scale
+                if (scale >= 1) {
+                    size = {
+                        width: imgWidth,
+                        height: imgHeight
+                    }
                 }
+                else {
+                    size = {
+                        width: imgWidth * scale,
+                        height: imgHeight * scale
+                    }
+                }
+
+                return size;
             },
 
             imagePositionX () {
