@@ -132,8 +132,9 @@ export default {
   }
 
   .col-right {
-    height: 100%;
-    overflow: auto;
+      height: 100%;
+      overflow: auto;
+      overflow-x: hidden;
   }
 
   .col-center {
@@ -143,8 +144,8 @@ export default {
   }
 
   .element-item {
-    margin: 0 0 10px;
-    padding: 0 0 10px;
-    border-bottom: 1px solid;
+      margin: 0 0 10px;
+      padding: 0 0 10px;
+      border-bottom: 1px solid;
   }
 </style>

@@ -9,9 +9,7 @@
 
         <img v-if="item.src" class="current-image" :src="item.src" alt="">
 
-        <div class="gallery" v-if="openGallery">
-            Gallery
-        </div>
+        <image-gallery v-show="openGallery" :gallery="imageGallery" @selectImage="setImageFromGallery"></image-gallery>
 
         <div class="buttons">
             <button @click="showSettings = !showSettings">Settings</button>
@@ -24,13 +22,15 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
     import ImageInputSettings from './ImageInputSettings'
+    import ImageGallery from './ImageGallery';
 
     export default {
         name: "ImageInput",
         components: {
-            'image-input-settings': ImageInputSettings
+            'image-input-settings': ImageInputSettings,
+            'image-gallery': ImageGallery
         },
 
         props: [
@@ -88,13 +88,18 @@
 
             setCurrentImage (image) {
                 this.changeImage({ item: this.item, image, src: image.src });
-
-                // this.addImageToGallery(image);
             },
 
-            addImageToGallery (/*image*/) {
-                // console.log(image);
-            }
+            setImageFromGallery (image) {
+                this.changeImage({ item: this.item, image, src: image.src });
+            },
+
+        },
+
+        computed: {
+            ...mapState('imageGallery', {
+                imageGallery: 'images'
+            }),
         }
     }
 </script>

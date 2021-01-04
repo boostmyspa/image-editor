@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import moduleBackgroundImage from './bgImage'
 import moduleTextBox from './textBox';
 import moduleImageBox from './imageBox';
+import moduleImageGallery from './imageGallery';
 
 
 Vue.use(Vuex);
@@ -12,7 +13,8 @@ export default new Vuex.Store({
     modules: {
         bgImage: moduleBackgroundImage,
         textBox: moduleTextBox,
-        imageBox: moduleImageBox
+        imageBox: moduleImageBox,
+        imageGallery: moduleImageGallery
     },
 
     state: {
