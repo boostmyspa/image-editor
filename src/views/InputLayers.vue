@@ -10,6 +10,7 @@
         <div class="element-item" v-for="(el, index) in elements.slice().reverse()"
              :class="el.id == selectedElementId ? 'active' : ''"
              :key="el.id"
+             @click="selectLayer(el.id)"
         >
             <b>{{ elements.length - index }}) {{ el.name }}</b>
             <text-input v-if="el.name == 'textBox'" :item="el"></text-input>
@@ -31,6 +32,10 @@
         },
 
         methods: {
+            ...mapActions([
+                'changeSelectedElementId',
+            ]),
+
             ...mapActions('textBox', {
                 addTextBox: 'add',
             }),
@@ -55,6 +60,10 @@
             addNewImageBox () {
                 this.addImageBox();
             },
+
+            selectLayer (id) {
+                this.changeSelectedElementId(id);
+            }
         },
 
         computed: {
@@ -68,8 +77,7 @@
 
 <style scoped>
     .element-item {
-        margin: 0 0 10px;
-        padding: 0 0 10px;
+        padding: 10px 0;
         border-bottom: 1px solid;
     }
 
