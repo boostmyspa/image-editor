@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import { mapState, /*mapGetters, mapActions*/ } from 'vuex';
+    import { mapState, mapGetters,/* mapActions*/ } from 'vuex';
     import MainCanvas from './views/MainCanvas';
     import UploadImage from './views/UploadImage';
     import InputLayers from './views/InputLayers';
@@ -45,7 +45,14 @@ export default {
 
     methods: {
         getData () {
-            console.log(this.elements)
+            console.log(this.elements);
+
+            this.saveAll();
+        },
+
+        saveAll () {
+            let dataForSave = JSON.stringify(this.prepareForSave);
+            console.log(dataForSave);
         },
 
         canvasMainSizeChanged (newSize) {
@@ -55,9 +62,17 @@ export default {
     },
 
     computed: {
+        ...mapState([
+            'elements',
+        ]),
+
         ...mapState('bgImage', {
             uploadedImage: state => state.uploadedImage,
-        })
+        }),
+
+        ...mapGetters([
+            'prepareForSave'
+        ])
     }
 }
 </script>

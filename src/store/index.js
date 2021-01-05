@@ -30,6 +30,52 @@ export default new Vuex.Store({
 
         getElementById: (state) => (id) => {
             return state.elements.find( (el) => el.id == id )
+        },
+
+        prepareForSave: (state) => {
+            let saveElements = state.elements.map((el) => {
+                const settings = el.settings || {};
+
+                switch (el.name) {
+                    case 'textBox':
+                        return {
+                            name: el.name,
+                            text: el.text,
+                            x: el.x,
+                            y: el.y,
+                            width: el.width,
+                            height: el.height,
+                            rotate: el.rotate,
+                            settings: {
+                                hAlign: settings.hAlign,
+                                vAlign: settings.vAlign,
+                                fontSize: settings.fontSize,
+                                fontFamily: settings.fontFamily,
+                                fill: settings.fill
+                            }
+                        };
+
+                    case 'imageBox':
+                        return {
+                            name: el.name,
+                            src: el.src,
+                            x: el.x,
+                            y: el.y,
+                            width: el.width,
+                            height: el.height,
+                            rotate: el.rotate,
+                            settings: {
+                                hAlign: settings.hAlign,
+                                vAlign: settings.vAlign
+                            }
+                        };
+
+                    default:
+                        return {}
+                }
+            });
+
+            return saveElements;
         }
     },
 
