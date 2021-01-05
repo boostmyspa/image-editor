@@ -13,41 +13,23 @@
         <upload-image></upload-image>
       </div>
 
-      <div v-if="uploadedImage">
-        <hr>
-        <p>Add Items</p>
-        <button @click="addNewTextBox">Add Text</button>
-        | <button @click="addNewImageBox">Add Image</button>
-
-        <hr>
-
-          <div class="element-item" v-for="(el, index) in elements.slice().reverse()"
-               :class="el.id == selectedElementId ? 'active' : ''"
-               :key="el.id"
-          >
-              <b>{{ elements.length - index }}) {{ el.name }}</b>
-              <text-input v-if="el.name == 'textBox'" :item="el"></text-input>
-              <image-input v-if="el.name == 'imageBox'" :item="el"></image-input>
-          </div>
-      </div>
+      <input-layers v-if="uploadedImage"></input-layers>
     </div>
   </div>
 </template>
 
 <script>
-    import { mapState,/* mapGetters,*/ mapActions } from 'vuex';
+    import { mapState, /*mapGetters, mapActions*/ } from 'vuex';
     import MainCanvas from './views/MainCanvas';
-    import UploadImage from './views/UploadImage'
-    import TextInput from './views/TextInput';
-    import ImageInput from './views/ImageInput';
+    import UploadImage from './views/UploadImage';
+    import InputLayers from './views/InputLayers';
 
 export default {
     name: 'App',
     components: {
         'canvas-main': MainCanvas,
         'upload-image': UploadImage,
-        'text-input': TextInput,
-        'image-input': ImageInput
+        'input-layers': InputLayers,
     },
 
     data: () => {
@@ -62,33 +44,8 @@ export default {
     },
 
     methods: {
-        ...mapActions('textBox', {
-            addTextBox: 'add',
-        }),
-
-        ...mapActions('imageBox', {
-            addImageBox: 'add',
-        }),
-
         getData () {
             console.log(this.elements)
-        },
-
-        addNewTextBox () {
-            let textBox = {
-                // value: '',
-                // x: this.canvasMainConfig.width / 2,
-                // y: 30,
-                // width: 300,
-                // height: 80,
-                // rotate: 0
-            };
-
-            this.addTextBox(textBox);
-        },
-
-        addNewImageBox () {
-            this.addImageBox();
         },
 
         canvasMainSizeChanged (newSize) {
@@ -98,11 +55,6 @@ export default {
     },
 
     computed: {
-        ...mapState([
-            'elements',
-            'selectedElementId'
-        ]),
-
         ...mapState('bgImage', {
             uploadedImage: state => state.uploadedImage,
         })
@@ -145,15 +97,5 @@ export default {
       flex: 1 0 auto;
       width: 50%;
       border: 1px solid;
-  }
-
-  .element-item {
-      margin: 0 0 10px;
-      padding: 0 0 10px;
-      border-bottom: 1px solid;
-  }
-
-  .element-item.active {
-      background: #ccc;
   }
 </style>
