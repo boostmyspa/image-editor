@@ -35,8 +35,8 @@ export default {
     data: () => {
         return {
             canvasMainConfig: {
-                x: 0.5,
-                y: 0.5,
+                x: -0.5,
+                y: -0.5,
                 width: 500,
                 height: 500,
             }
@@ -81,21 +81,25 @@ export default {
 
   .col-left,
   .col-right {
+      overflow: auto;
+      overflow-x: hidden;
       flex: 0 1 auto;
       width: 25%;
+      height: 100%;
       padding: 10px;
-      border: 1px solid;
+  }
+
+  .col-left {
+      border-right: 1px solid;
   }
 
   .col-right {
-      height: 100%;
-      overflow: auto;
-      overflow-x: hidden;
+      border-left: 1px solid;
   }
 
   .col-center {
       flex: 1 0 auto;
       width: 50%;
-      border: 1px solid;
+      /*border: 1px solid;*/
   }
 </style>

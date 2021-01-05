@@ -185,7 +185,5 @@
 </script>
 
 <style scoped>
-    [type="file"] {
-        max-width: 100%;
-    }
+
 </style>

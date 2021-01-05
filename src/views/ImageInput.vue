@@ -119,4 +119,8 @@
     .clearfix {
         clear: both;
     }
+
+    [type="file"] {
+        max-width: 100%;
+    }
 </style>
