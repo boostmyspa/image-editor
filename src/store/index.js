@@ -52,6 +52,10 @@ export default new Vuex.Store({
 
         changeSelectedElementId(state, id) {
             state.selectedElementId = id;
+        },
+
+        replaceElementInOrder(state, { from, to }) {
+            state.elements.splice(to, 0, state.elements.splice(from, 1)[0]);
         }
     },
 
@@ -84,6 +88,10 @@ export default new Vuex.Store({
 
         changeSelectedElementId({ commit }, id) {
             commit('changeSelectedElementId', id);
+        },
+
+        replaceElementInOrder({ commit }, { from, to }) {
+            commit('replaceElementInOrder', { from, to });
         }
     }
 })
