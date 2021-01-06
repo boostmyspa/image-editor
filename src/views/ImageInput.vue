@@ -1,9 +1,7 @@
 <template>
     <div>
         <br>
-        <label>
-            <input @change="handleImage" type="file" name="imageLoader" accept="image/*">
-        </label>
+        <upload-image @uploadedImage="setCurrentImage"></upload-image>
         |
         <button @click="openGallery = !openGallery">Select from Gallery</button>
 
@@ -23,12 +21,14 @@
 
 <script>
     import { mapState, mapActions } from 'vuex';
+    import UploadImage from './UploadImage';
     import ImageInputSettings from './ImageInputSettings'
     import ImageGallery from './ImageGallery';
 
     export default {
         name: "ImageInput",
         components: {
+            'upload-image': UploadImage,
             'image-input-settings': ImageInputSettings,
             'image-gallery': ImageGallery
         },
@@ -62,28 +62,6 @@
 
             settingsChanged (newSettings) {
                 this.changeSettings({ item: this.item, settings: newSettings });
-            },
-
-            imageLoaded (imageObj, imageSrc) {
-                imageObj.onload = (e) => {
-                    let image = e.path[0];
-
-                    this.setCurrentImage(image);
-                };
-
-                imageObj.src = imageSrc;
-            },
-
-            handleImage (e) {
-                let
-                    imageObj = new Image(),
-                    reader = new FileReader();
-
-                reader.onload = (event) => {
-                    this.imageLoaded(imageObj, event.target.result);
-                };
-
-                reader.readAsDataURL(e.target.files[0]);
             },
 
             setCurrentImage (image) {

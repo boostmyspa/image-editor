@@ -38,6 +38,8 @@ export default {
                 scaleX: 1, // don't change. This is for prevent the transformer scaling
                 scaleY: 1,
                 name: def.name,
+                src: item.src || def.src,
+                image: item.image || def.image,
                 x: item.x || def.x,
                 y: item.y || def.y,
                 width: item.width || def.width,

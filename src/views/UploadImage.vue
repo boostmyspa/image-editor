@@ -6,16 +6,11 @@
          @dragenter.prevent
          @dragleave="isHovered = false"
     >
-        <p style="text-align: center">
-            Upload Your Design
-            <label>
-                <input @change="handleImage" type="file" name="imageLoader" accept="image/*">
-            </label>
-        </p>
+        <slot></slot>
     </div>
     <div v-else class="upload-image">
         <label>
-            <input @change="handleImage" type="file" name="imageLoader" accept="image/*">
+            <input @change="handleImage" :value="value" type="file" name="imageLoader" accept="image/*">
         </label>
     </div>
 </template>
@@ -30,15 +25,23 @@
 
         data: () => {
             return {
+                value: '',
                 isHovered: false
             }
         },
 
         methods: {
+            clearInput () {
+               this.value = null
+            },
+
             imageLoaded (imageObj, imageSrc) {
                 imageObj.onload = (e) => {
                     let image = e.path[0];
                     this.$emit('uploadedImage', image);
+
+                    // clear the input[type="file"] value for load the same file few times
+                    this.clearInput();
                 };
 
                 imageObj.src = imageSrc;
@@ -46,6 +49,8 @@
 
             handleImage (e) {
                 this.isHovered = false;
+                // change value property before clear for trigger the reactivity
+                this.value = '';
 
                 let
                     imageObj = new Image(),

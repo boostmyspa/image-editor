@@ -1,5 +1,7 @@
 <template>
-    <upload-image :dragUploadEnable="dragUploadEnable" @uploadedImage="uploadedImage"></upload-image>
+    <upload-image :dragUploadEnable="dragUploadEnable" @uploadedImage="uploadedImage">
+        <slot></slot>
+    </upload-image>
 </template>
 
 <script>
