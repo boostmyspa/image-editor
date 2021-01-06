@@ -48,6 +48,7 @@
         methods: {
             ...mapActions([
                 'changeSelectedElementId',
+                'setSelectedElementIdToLastId',
                 'replaceElementInOrder'
             ]),
 
@@ -60,20 +61,13 @@
             }),
 
             addNewTextBox () {
-                let textBox = {
-                    // value: '',
-                    // x: this.canvasMainConfig.width / 2,
-                    // y: 30,
-                    // width: 300,
-                    // height: 80,
-                    // rotate: 0
-                };
-
-                this.addTextBox(textBox);
+                this.addTextBox();
+                this.setSelectedElementIdToLastId();
             },
 
             addNewImageBox () {
                 this.addImageBox();
+                this.setSelectedElementIdToLastId();
             },
 
             selectLayer (id) {

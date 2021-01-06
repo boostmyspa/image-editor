@@ -136,6 +136,11 @@ export default new Vuex.Store({
             commit('changeSelectedElementId', id);
         },
 
+        setSelectedElementIdToLastId({ state, commit }) {
+            const elementsLastId = `id-${state.elementsLastId}`;
+            commit('changeSelectedElementId', elementsLastId);
+        },
+
         replaceElementInOrder({ commit }, { from, to }) {
             commit('replaceElementInOrder', { from, to });
         }
