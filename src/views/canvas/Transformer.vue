@@ -24,15 +24,15 @@
 
         methods: {
             ...mapActions([
-                'changeSelectedElementId',
+                'changeSelectedLayerId',
             ]),
 
             transformerSelect(id) {
-                this.changeSelectedElementId(id);
+                this.changeSelectedLayerId(id);
             },
 
             transformerDeselect() {
-                this.changeSelectedElementId(null);
+                this.changeSelectedLayerId(null);
             },
 
             handleStageMouseDown(e) {
@@ -51,18 +51,18 @@
                     return;
                 }
 
-                // find clicked element by its name
-                const elementBox = target.findAncestor('.elementBox', true);
+                // find clicked layer by its name
+                const layerBox = target.findAncestor('.layerBox', true);
 
-                if (!elementBox) {
+                if (!layerBox) {
                     this.transformerDeselect();
                     return;
                 }
 
-                const id = elementBox.id();
-                const element = this.getElementById(id);
+                const id = layerBox.id();
+                const layer = this.getLayerById(id);
 
-                if (element) {
+                if (layer) {
                     this.transformerSelect(id);
                 } else {
                     this.transformerDeselect();
@@ -74,7 +74,7 @@
                 const transformerNode = this.$refs.transformer.getNode();
                 const stage = transformerNode.getStage();
 
-                const selectedNode = stage.findOne('#' + this.selectedElementId);
+                const selectedNode = stage.findOne('#' + this.selectedLayerId);
 
                 // do nothing if selected node is already attached
                 if (selectedNode === transformerNode.node()) {
@@ -110,16 +110,16 @@
 
         computed: {
             ...mapGetters([
-                'getElementById'
+                'getLayerById'
             ]),
 
             ...mapState([
-                'selectedElementId'
+                'selectedLayerId'
             ]),
         },
 
         watch: {
-            selectedElementId() {
+            selectedLayerId() {
                 this.updateTransformer();
             }
         }

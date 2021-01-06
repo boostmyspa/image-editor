@@ -18,35 +18,35 @@ export default new Vuex.Store({
     },
 
     state: {
-        elementsLastId: 0,
-        elements: [],
-        selectedElementId: null,
+        layersLastId: 0,
+        layers: [],
+        selectedLayerId: null,
         dataFromServer: null
     },
 
     getters: {
-        getElementIndexById: (state) => (id) => {
-            return state.elements.findIndex( (el) => el.id == id )
+        getLayerIndexById: (state) => (id) => {
+            return state.layers.findIndex( (item) => item.id == id )
         },
 
-        getElementById: (state) => (id) => {
-            return state.elements.find( (el) => el.id == id )
+        getLayerById: (state) => (id) => {
+            return state.layers.find( (item) => item.id == id )
         },
 
         prepareForSave: (state) => {
-            let saveElements = state.elements.map((el) => {
-                const settings = el.settings || {};
+            let saveLayers = state.layers.map((item) => {
+                const settings = item.settings || {};
 
-                switch (el.name) {
+                switch (item.name) {
                     case 'textBox':
                         return {
-                            name: el.name,
-                            text: el.text,
-                            x: el.x,
-                            y: el.y,
-                            width: el.width,
-                            height: el.height,
-                            rotate: el.rotate,
+                            name: item.name,
+                            text: item.text,
+                            x: item.x,
+                            y: item.y,
+                            width: item.width,
+                            height: item.height,
+                            rotate: item.rotate,
                             settings: {
                                 hAlign: settings.hAlign,
                                 vAlign: settings.vAlign,
@@ -58,13 +58,13 @@ export default new Vuex.Store({
 
                     case 'imageBox':
                         return {
-                            name: el.name,
-                            src: el.src,
-                            x: el.x,
-                            y: el.y,
-                            width: el.width,
-                            height: el.height,
-                            rotate: el.rotate,
+                            name: item.name,
+                            src: item.src,
+                            x: item.x,
+                            y: item.y,
+                            width: item.width,
+                            height: item.height,
+                            rotate: item.rotate,
                             settings: {
                                 hAlign: settings.hAlign,
                                 vAlign: settings.vAlign
@@ -76,37 +76,37 @@ export default new Vuex.Store({
                 }
             });
 
-            return saveElements;
+            return saveLayers;
         }
     },
 
     mutations: {
-        clearElements(state) {
-            state.elements = [];
+        clearLayers(state) {
+            state.layers = [];
         },
 
-        elementAdded(state) {
-            state.elementsLastId++;
+        layerAdded(state) {
+            state.layersLastId++;
         },
 
-        addElement(state, item) {
-            state.elements.push(item);
+        addLayer(state, item) {
+            state.layers.push(item);
         },
 
-        removeElement(state, index) {
-            state.elements.splice(index, 1);
+        removeLayer(state, index) {
+            state.layers.splice(index, 1);
         },
 
-        changeElement(state, { index, item }) {
-            state.elements.splice(index, 1, item)
+        changeLayer(state, { index, item }) {
+            state.layers.splice(index, 1, item)
         },
 
-        changeSelectedElementId(state, id) {
-            state.selectedElementId = id;
+        changeSelectedLayerId(state, id) {
+            state.selectedLayerId = id;
         },
 
-        replaceElementInOrder(state, { from, to }) {
-            state.elements.splice(to, 0, state.elements.splice(from, 1)[0]);
+        replaceLayerInOrder(state, { from, to }) {
+            state.layers.splice(to, 0, state.layers.splice(from, 1)[0]);
         },
 
         saveDataToServer(state, {data}) {
@@ -115,43 +115,43 @@ export default new Vuex.Store({
     },
 
     actions: {
-        addElement({ state, commit }, item) {
-            commit('elementAdded');
+        addLayer({ state, commit }, item) {
+            commit('layerAdded');
 
-            item.id = 'id-' + state.elementsLastId;
+            item.id = 'id-' + state.layersLastId;
 
-            commit('addElement', item);
+            commit('addLayer', item);
         },
 
-        removeElement({ getters, commit }, item) {
-            let index = getters.getElementIndexById(item['id']);
+        removeLayer({ getters, commit }, item) {
+            let index = getters.getLayerIndexById(item['id']);
 
-            commit('removeElement', index);
+            commit('removeLayer', index);
         },
 
-        removeElementById({ getters, commit }, id) {
-            let index = getters.getElementIndexById(id);
+        removeLayerById({ getters, commit }, id) {
+            let index = getters.getLayerIndexById(id);
 
-            commit('removeElement', index);
+            commit('removeLayer', index);
         },
 
-        changeElement({ getters, commit }, item) {
-            let index = getters.getElementIndexById(item['id']);
+        changeLayer({ getters, commit }, item) {
+            let index = getters.getLayerIndexById(item['id']);
 
-            commit('changeElement', { index, item });
+            commit('changeLayer', { index, item });
         },
 
-        changeSelectedElementId({ commit }, id) {
-            commit('changeSelectedElementId', id);
+        changeSelectedLayerId({ commit }, id) {
+            commit('changeSelectedLayerId', id);
         },
 
-        setSelectedElementIdToLastId({ state, commit }) {
-            const elementsLastId = `id-${state.elementsLastId}`;
-            commit('changeSelectedElementId', elementsLastId);
+        setSelectedLayerIdToLastId({ state, commit }) {
+            const layersLastId = `id-${state.layersLastId}`;
+            commit('changeSelectedLayerId', layersLastId);
         },
 
-        replaceElementInOrder({ commit }, { from, to }) {
-            commit('replaceElementInOrder', { from, to });
+        replaceLayerInOrder({ commit }, { from, to }) {
+            commit('replaceLayerInOrder', { from, to });
         },
 
         saveDataToServer({ commit }, data) {
@@ -160,12 +160,12 @@ export default new Vuex.Store({
 
         loadDataFromServer({ state, commit, dispatch }) {
 
-            commit('clearElements');
+            commit('clearLayers');
 
-            let elementsData = JSON.parse(state.dataFromServer);
+            let layersData = JSON.parse(state.dataFromServer);
 
-            elementsData.forEach((el) => {
-                dispatch('addElement', el);
+            layersData.forEach((item) => {
+                dispatch('addLayer', item);
             });
         }
     }

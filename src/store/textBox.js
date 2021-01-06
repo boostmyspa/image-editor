@@ -54,11 +54,11 @@ export default {
                 }
             };
 
-            dispatch('addElement', textItem, { root: true });
+            dispatch('addLayer', textItem, { root: true });
         },
 
         remove({ dispatch }, id) {
-            dispatch('removeElementById', id, { root: true });
+            dispatch('removeLayerById', id, { root: true });
         },
 
         changeText ({ dispatch }, { item, text }) {
@@ -67,7 +67,7 @@ export default {
 
             newItem.text = text;
 
-            dispatch('changeElement', newItem, { root: true });
+            dispatch('changeLayer', newItem, { root: true });
         },
 
         changePosition ({ dispatch }, { item, position }) {
@@ -77,7 +77,7 @@ export default {
             newItem.x = position.x;
             newItem.y = position.y;
 
-            dispatch('changeElement', newItem, { root: true });
+            dispatch('changeLayer', newItem, { root: true });
         },
 
         transformed ({ dispatch }, { item, width, height }) {
@@ -87,7 +87,7 @@ export default {
             newItem.width = width;
             newItem.height = height;
 
-            dispatch('changeElement', newItem, { root: true });
+            dispatch('changeLayer', newItem, { root: true });
         },
 
         changeSettings ({ dispatch }, { item, settings}) {
@@ -96,7 +96,7 @@ export default {
 
             newItem.settings = settings;
 
-            dispatch('changeElement', newItem, { root: true });
+            dispatch('changeLayer', newItem, { root: true });
         }
     }
 }

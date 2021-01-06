@@ -2,7 +2,7 @@
     <v-group
              :config="{
                    id: item.id,
-                   name: 'textBox elementBox',
+                   name: 'textBox layerBox',
                    x: item.x,
                    y: item.y,
                    width: item.width,

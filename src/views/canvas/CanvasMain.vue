@@ -13,9 +13,9 @@
             <v-layer ref="layer-main">
                 <v-image :config="{ image: uploadedImage }"></v-image>
 
-                <template v-for="el in elements">
-                    <text-box v-if="el.name == 'textBox'" :item="el" :key="el.id"></text-box>
-                    <image-box v-else-if="el.name == 'imageBox'" :item="el" :key="el.id"></image-box>
+                <template v-for="layer in layers">
+                    <text-box v-if="layer.name == 'textBox'" :item="layer" :key="layer.id"></text-box>
+                    <image-box v-else-if="layer.name == 'imageBox'" :item="layer" :key="layer.id"></image-box>
                 </template>
 
                 <transformer :stageEventsBus="stageEventsBus"></transformer>
@@ -75,7 +75,7 @@
             ]),
 
             ...mapState([
-                'elements'
+                'layers'
             ]),
         },
 

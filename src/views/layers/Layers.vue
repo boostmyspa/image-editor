@@ -7,16 +7,16 @@
 
         <hr>
 
-        <draggable class="element-item-list" v-model="inputLayersList" :move="move" @end="dragElementEnd">
-            <div class="element-item" v-for="(el) in elements.slice().reverse()"
+        <draggable class="layer-item-list" v-model="inputLayersList" :move="move" @end="dragLayerEnd">
+            <div class="layer-item" v-for="layer in layers.slice().reverse()"
                  draggable="true"
-                 :class="el.id == selectedElementId ? 'active' : ''"
-                 :key="el.id"
-                 @click="selectLayer(el.id)"
+                 :class="layer.id == selectedLayerId ? 'active' : ''"
+                 :key="layer.id"
+                 @click="selectLayer(layer.id)"
             >
-                <b>{{ el.name }}</b>
-                <text-input v-if="el.name == 'textBox'" :item="el"></text-input>
-                <image-input v-if="el.name == 'imageBox'" :item="el"></image-input>
+                <b>{{ layer.name }}</b>
+                <text-input v-if="layer.name == 'textBox'" :item="layer"></text-input>
+                <image-input v-if="layer.name == 'imageBox'" :item="layer"></image-input>
             </div>
         </draggable>
 
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    // !important: elements are rendered in the reverse order
+    // !important: layers are rendered in the reverse order
 
     import { mapState,/* mapGetters,*/ mapActions } from 'vuex';
     import draggable from 'vuedraggable'; // https://github.com/SortableJS/Vue.Draggable
@@ -47,9 +47,9 @@
 
         methods: {
             ...mapActions([
-                'changeSelectedElementId',
-                'setSelectedElementIdToLastId',
-                'replaceElementInOrder'
+                'changeSelectedLayerId',
+                'setSelectedLayerIdToLastId',
+                'replaceLayerInOrder'
             ]),
 
             ...mapActions('textBox', {
@@ -62,27 +62,27 @@
 
             addNewTextBox () {
                 this.addTextBox();
-                this.setSelectedElementIdToLastId();
+                this.setSelectedLayerIdToLastId();
             },
 
             addNewImageBox () {
                 this.addImageBox();
-                this.setSelectedElementIdToLastId();
+                this.setSelectedLayerIdToLastId();
             },
 
             selectLayer (id) {
-                this.changeSelectedElementId(id);
+                this.changeSelectedLayerId(id);
             },
 
-            reverseElementIndex(array, index) {
+            reverseLayerIndex(array, index) {
                 return array.length - index - 1;
             },
 
-            dragElementEnd (e) {
-                const fromPosition = this.reverseElementIndex(this.elements, e.oldIndex);
-                const toPosition = this.reverseElementIndex(this.elements, e.newIndex);
+            dragLayerEnd (e) {
+                const fromPosition = this.reverseLayerIndex(this.layers, e.oldIndex);
+                const toPosition = this.reverseLayerIndex(this.layers, e.newIndex);
                 
-                this.replaceElementInOrder({ from: fromPosition, to: toPosition});
+                this.replaceLayerInOrder({ from: fromPosition, to: toPosition});
             },
 
             move (e) {
@@ -93,13 +93,13 @@
 
         computed: {
             ...mapState([
-                'elements',
-                'selectedElementId'
+                'layers',
+                'selectedLayerId'
             ]),
 
             inputLayersList: {
                 get() {
-                    return this.elements
+                    return this.layers
                 },
                 set() {
 
@@ -110,12 +110,12 @@
 </script>
 
 <style scoped>
-    .element-item {
+    .layer-item {
         padding: 10px 0;
         border-bottom: 1px solid;
     }
 
-    .element-item.active {
+    .layer-item.active {
         background: #ccc;
     }
 </style>

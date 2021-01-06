@@ -21,14 +21,14 @@
 
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex';
-    import MainCanvas from './views/canvas/CanvasMain';
+    import CanvasMain from './views/canvas/CanvasMain';
     import uploadBackgroundLayer from './views/uploader/UploadBackgroundLayer';
     import InputLayers from './views/layers/Layers';
 
 export default {
     name: 'App',
     components: {
-        'canvas-main': MainCanvas,
+        'canvas-main': CanvasMain,
         'upload-background-layer': uploadBackgroundLayer,
         'input-layers': InputLayers,
     },
@@ -54,7 +54,7 @@ export default {
         ]),
 
         saveData () {
-            // console.log(this.elements);
+            // console.log(this.layers);
 
             let dataForSave = JSON.stringify(this.prepareForSave);
 
@@ -87,7 +87,7 @@ export default {
 
     computed: {
         ...mapState([
-            'elements',
+            'layers',
         ]),
 
         ...mapState('bgImage', {

@@ -16,7 +16,7 @@
 
         methods: {
             ...mapActions([
-                'setSelectedElementIdToLastId'
+                'setSelectedLayerIdToLastId'
             ]),
 
             ...mapActions('imageBox', {
@@ -30,7 +30,7 @@
                 };
 
                 this.addImageBox(item);
-                this.setSelectedElementIdToLastId();
+                this.setSelectedLayerIdToLastId();
             }
         }
     }
