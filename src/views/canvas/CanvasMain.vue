@@ -28,8 +28,8 @@
     // import Konva from 'konva';
     import Vue from 'vue';
     import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
-    import uploadBackgroundLayer from './uploadBackgroundLayer';
-    import uploadImageBoxLayer from './uploadImageBoxLayer';
+    import uploadBackgroundLayer from '../uploader/UploadBackgroundLayer';
+    import uploadImageBoxLayer from '../uploader/UploadImageBoxLayer';
     import TextBox from './TextBox';
     import ImageBox from './ImageBox';
     import Transformer from './Transformer';

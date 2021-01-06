@@ -28,8 +28,8 @@
 
     import { mapState,/* mapGetters,*/ mapActions } from 'vuex';
     import draggable from 'vuedraggable'; // https://github.com/SortableJS/Vue.Draggable
-    import TextInput from './TextInput';
-    import ImageInput from './ImageInput';
+    import TextInput from './TextLayer';
+    import ImageInput from './ImageLayer';
 
     export default {
         name: "InputLayers",

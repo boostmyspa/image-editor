@@ -20,9 +20,9 @@
 
 <script>
     import { mapState, mapGetters,/* mapActions*/ } from 'vuex';
-    import MainCanvas from './views/CanvasMain';
-    import uploadBackgroundLayer from './views/uploadBackgroundLayer';
-    import InputLayers from './views/InputLayers';
+    import MainCanvas from './views/canvas/CanvasMain';
+    import uploadBackgroundLayer from './views/uploader/UploadBackgroundLayer';
+    import InputLayers from './views/layers/Layers';
 
 export default {
     name: 'App',

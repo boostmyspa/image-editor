@@ -21,9 +21,9 @@
 
 <script>
     import { mapState, mapActions } from 'vuex';
-    import UploadImage from './UploadImage';
-    import ImageInputSettings from './ImageInputSettings'
-    import ImageGallery from './ImageGallery';
+    import UploadImage from '../uploader/UploadImage';
+    import ImageInputSettings from './ImageLayerSettings'
+    import ImageGallery from '../gallery/ImageGallery';
 
     export default {
         name: "ImageInput",
