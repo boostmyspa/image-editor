@@ -1,5 +1,5 @@
 <template>
-    <upload-image v-if="!uploadedImage" :dragUploadEnable="true"></upload-image>
+    <upload-background-layer v-if="!uploadedImage" :dragUploadEnable="true"></upload-background-layer>
 
     <v-stage v-else ref="stage"
              :config="stageConfig"
@@ -22,7 +22,7 @@
     // import Konva from 'konva';
     import Vue from 'vue';
     import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
-    import UploadImage from './UploadImage';
+    import uploadBackgroundLayer from './uploadBackgroundLayer';
     import TextBox from './TextBox';
     import ImageBox from './ImageBox';
     import Transformer from './Transformer';
@@ -30,7 +30,7 @@
     export default {
         name: "MainCanvas",
         components: {
-            'upload-image': UploadImage,
+            'upload-background-layer': uploadBackgroundLayer,
             'text-box': TextBox,
             'image-box': ImageBox,
             'transformer': Transformer

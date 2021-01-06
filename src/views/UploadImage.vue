@@ -21,8 +21,6 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
-
     export default {
         name: "UploadImage",
 
@@ -37,14 +35,10 @@
         },
 
         methods: {
-            ...mapActions('bgImage', [
-                'setUploadedImage',
-            ]),
-
             imageLoaded (imageObj, imageSrc) {
                 imageObj.onload = (e) => {
                     let image = e.path[0];
-                    this.setUploadedImage(image);
+                    this.$emit('uploadedImage', image);
                 };
 
                 imageObj.src = imageSrc;
