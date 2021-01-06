@@ -20,7 +20,8 @@ export default new Vuex.Store({
     state: {
         elementsLastId: 0,
         elements: [],
-        selectedElementId: null
+        selectedElementId: null,
+        dataFromServer: null
     },
 
     getters: {
@@ -80,6 +81,10 @@ export default new Vuex.Store({
     },
 
     mutations: {
+        clearElements(state) {
+            state.elements = [];
+        },
+
         elementAdded(state) {
             state.elementsLastId++;
         },
@@ -102,7 +107,11 @@ export default new Vuex.Store({
 
         replaceElementInOrder(state, { from, to }) {
             state.elements.splice(to, 0, state.elements.splice(from, 1)[0]);
-        }
+        },
+
+        saveDataToServer(state, {data}) {
+            state.dataFromServer = data;
+        },
     },
 
     actions: {
@@ -143,6 +152,21 @@ export default new Vuex.Store({
 
         replaceElementInOrder({ commit }, { from, to }) {
             commit('replaceElementInOrder', { from, to });
+        },
+
+        saveDataToServer({ commit }, data) {
+            commit('saveDataToServer', { data });
+        },
+
+        loadDataFromServer({ state, commit, dispatch }) {
+
+            commit('clearElements');
+
+            let elementsData = JSON.parse(state.dataFromServer);
+
+            elementsData.forEach((el) => {
+                dispatch('addElement', el);
+            });
         }
     }
 })

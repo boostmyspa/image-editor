@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="col-left">
-        <button @click="getData">Get data</button>
+        <button @click="saveData">Save data</button>
         | <button @click="changeScale">Zoom ({{ scaleIncrease ? '-' : '+' }})</button>
+        | <button @click="loadData">Load data</button>
     </div>
     <div id="canvas-container" class="col-center">
       <canvas-main :stageConfig="canvasMainConfig" @stageSizeChange="canvasMainSizeChanged"></canvas-main>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-    import { mapState, mapGetters,/* mapActions*/ } from 'vuex';
+    import { mapState, mapGetters, mapActions } from 'vuex';
     import MainCanvas from './views/canvas/CanvasMain';
     import uploadBackgroundLayer from './views/uploader/UploadBackgroundLayer';
     import InputLayers from './views/layers/Layers';
@@ -47,15 +48,22 @@ export default {
     },
 
     methods: {
-        getData () {
-            console.log(this.elements);
+        ...mapActions([
+            'saveDataToServer',
+            'loadDataFromServer'
+        ]),
 
-            this.saveAll();
+        saveData () {
+            // console.log(this.elements);
+
+            let dataForSave = JSON.stringify(this.prepareForSave);
+
+            this.saveDataToServer(dataForSave);
+            console.log('Data saved');
         },
 
-        saveAll () {
-            let dataForSave = JSON.stringify(this.prepareForSave);
-            console.log(dataForSave);
+        loadData () {
+           this.loadDataFromServer();
         },
 
         canvasMainSizeChanged (newSize) {

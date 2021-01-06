@@ -54,6 +54,7 @@
         },
         methods: {
             ...mapActions('imageBox', [
+                'changeImage',
                 'changePosition',
                 'transformed'
             ]),
@@ -180,6 +181,25 @@
                 }
 
                 return y;
+            }
+        },
+
+        beforeMount () {
+            const
+                imageSrc = this.item.src,
+                itemImage = this.item.image;
+
+            if (imageSrc && !itemImage) {
+                let
+                    imageObj = new Image();
+
+                imageObj.onload = (e) => {
+                    let image = e.path[0];
+
+                    this.changeImage({ item: this.item, image: image, src: imageSrc })
+                };
+
+                imageObj.src = imageSrc;
             }
         }
     }
