@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="col-left">
-      col-left
         <button @click="getData">Get data</button>
         | <button @click="changeScale">Zoom ({{ scaleIncrease ? '-' : '+' }})</button>
     </div>
@@ -21,7 +20,7 @@
 
 <script>
     import { mapState, mapGetters,/* mapActions*/ } from 'vuex';
-    import MainCanvas from './views/MainCanvas';
+    import MainCanvas from './views/CanvasMain';
     import UploadImage from './views/UploadImage';
     import InputLayers from './views/InputLayers';
 

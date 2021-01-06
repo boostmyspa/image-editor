@@ -1,30 +1,28 @@
 <template>
-    <div v-if="!uploadedImage">
-        <p style="text-align: center">Upload Your Design</p>
-    </div>
-    <div v-else>
-        <v-stage ref="stage"
-                 :config="stageConfig"
-                 @mousedown="handleStageMouseDown"
-        >
-            <v-layer ref="layer-main">
-                <v-image :config="{ image: uploadedImage }"></v-image>
+    <upload-image v-if="!uploadedImage" :dragUploadEnable="true"></upload-image>
 
-                <template v-for="el in elements">
-                    <text-box v-if="el.name == 'textBox'" :item="el" :key="el.id"></text-box>
-                    <image-box v-else-if="el.name == 'imageBox'" :item="el" :key="el.id"></image-box>
-                </template>
+    <v-stage v-else ref="stage"
+             :config="stageConfig"
+             @mousedown="handleStageMouseDown"
+    >
+        <v-layer ref="layer-main">
+            <v-image :config="{ image: uploadedImage }"></v-image>
 
-                <transformer :stageEventsBus="stageEventsBus"></transformer>
-            </v-layer>
-        </v-stage>
-    </div>
+            <template v-for="el in elements">
+                <text-box v-if="el.name == 'textBox'" :item="el" :key="el.id"></text-box>
+                <image-box v-else-if="el.name == 'imageBox'" :item="el" :key="el.id"></image-box>
+            </template>
+
+            <transformer :stageEventsBus="stageEventsBus"></transformer>
+        </v-layer>
+    </v-stage>
 </template>
 
 <script>
     // import Konva from 'konva';
     import Vue from 'vue';
     import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
+    import UploadImage from './UploadImage';
     import TextBox from './TextBox';
     import ImageBox from './ImageBox';
     import Transformer from './Transformer';
@@ -32,6 +30,7 @@
     export default {
         name: "MainCanvas",
         components: {
+            'upload-image': UploadImage,
             'text-box': TextBox,
             'image-box': ImageBox,
             'transformer': Transformer
