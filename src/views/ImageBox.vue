@@ -32,6 +32,7 @@
                         height: item.height,
                         stroke: 'black',
                         strokeWidth: 1,
+                        strokeScaleEnabled: false,
                         }"
         ></v-rect>
     </v-group>

@@ -3,6 +3,7 @@
     <div class="col-left">
       col-left
         <button @click="getData">Get data</button>
+        | <button @click="changeScale">Zoom ({{ scaleIncrease ? '-' : '+' }})</button>
     </div>
     <div id="canvas-container" class="col-center">
       <canvas-main :stageConfig="canvasMainConfig" @stageSizeChange="canvasMainSizeChanged"></canvas-main>
@@ -39,7 +40,10 @@ export default {
                 y: -0.5,
                 width: 500,
                 height: 500,
-            }
+                scaleX: 1,
+                scaleY: 1
+            },
+            scaleIncrease: false
         }
     },
 
@@ -58,6 +62,19 @@ export default {
         canvasMainSizeChanged (newSize) {
             this.canvasMainConfig.width = newSize.width;
             this.canvasMainConfig.height = newSize.height;
+        },
+
+        changeScale () {
+            this.scaleIncrease = !this.scaleIncrease;
+
+            if (this.scaleIncrease) {
+                this.canvasMainConfig.scaleX = 2;
+                this.canvasMainConfig.scaleY = 2;
+            }
+            else {
+                this.canvasMainConfig.scaleX = 1;
+                this.canvasMainConfig.scaleY = 1;
+            }
         }
     },
 
