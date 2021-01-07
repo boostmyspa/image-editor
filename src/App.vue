@@ -2,8 +2,12 @@
   <div class="container">
     <div class="col-left">
         <button @click="saveData">Save data</button>
-        | <button @click="changeScale">Zoom ({{ scaleIncrease ? '-' : '+' }})</button>
         | <button @click="loadData">Load data</button>
+        | <button @click="changeScale">Zoom ({{ scaleIncrease ? '-' : '+' }})</button>
+
+        <hr>
+        <button @click="loadGalleryData">Load Gallery data</button>
+        <gallery></gallery>
     </div>
     <div id="canvas-container" class="col-center">
       <canvas-main :stageConfig="canvasMainConfig" @stageSizeChange="canvasMainSizeChanged"></canvas-main>
@@ -11,7 +15,7 @@
     <div class="col-right">
       <div>
         <p>Upload the background image</p>
-        <upload-background-layer></upload-background-layer>
+        <upload-background-layer :label="'Upload Image'"></upload-background-layer>
       </div>
 
       <input-layers v-if="uploadedImage"></input-layers>
@@ -24,6 +28,7 @@
     import CanvasMain from './views/canvas/CanvasMain';
     import uploadBackgroundLayer from './views/uploader/UploadBackgroundLayer';
     import InputLayers from './views/layers/Layers';
+    import Gallery from './views/gallery/Gallery';
 
 export default {
     name: 'App',
@@ -31,6 +36,7 @@ export default {
         'canvas-main': CanvasMain,
         'upload-background-layer': uploadBackgroundLayer,
         'input-layers': InputLayers,
+        'gallery': Gallery
     },
 
     data: () => {
@@ -66,6 +72,10 @@ export default {
            this.loadDataFromServer();
         },
 
+        loadGalleryData () {
+            console.log(this.$store.state.gallery.gallery);
+        },
+
         canvasMainSizeChanged (newSize) {
             this.canvasMainConfig.width = newSize.width;
             this.canvasMainConfig.height = newSize.height;
@@ -87,12 +97,16 @@ export default {
 
     computed: {
         ...mapState([
-            'layers',
+            'layers'
         ]),
 
-        ...mapState('bgImage', {
-            uploadedImage: state => state.uploadedImage,
-        }),
+        ...mapState('gallery', [
+            'gallery'
+        ]),
+
+        ...mapState('bgImage', [
+            'uploadedImage'
+        ]),
 
         ...mapGetters([
             'prepareForSave'

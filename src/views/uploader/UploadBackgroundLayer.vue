@@ -1,5 +1,5 @@
 <template>
-    <upload-image :dragUploadEnable="dragUploadEnable" @uploadedImage="uploadedImage">
+    <upload-image :dragUploadEnable="dragUploadEnable" :label="label" @uploadedImage="uploadedImage">
         <slot></slot>
     </upload-image>
 </template>
@@ -14,6 +14,7 @@
             'upload-image': UploadImage,
         },
         props: [
+            'label',
             'dragUploadEnable'
         ],
 

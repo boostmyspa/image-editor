@@ -10,6 +10,7 @@
     </div>
     <div v-else class="upload-image">
         <label>
+            {{ label }}
             <input @change="handleImage" :value="value" type="file" name="imageLoader" accept="image/*">
         </label>
     </div>
@@ -20,6 +21,7 @@
         name: "UploadImage",
 
         props: [
+            'label',
             'dragUploadEnable'
         ],
 
