@@ -5,7 +5,7 @@
         </p>
     </upload-background-layer>
 
-    <upload-image-box-layer v-else>
+    <upload-image-box-layer v-else :multiple="true">
         <v-stage ref="stage"
                  :config="stageConfig"
                  @mousedown="handleStageMouseDown"

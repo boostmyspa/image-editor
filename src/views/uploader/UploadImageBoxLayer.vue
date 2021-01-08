@@ -1,5 +1,5 @@
 <template>
-    <upload-image :dragUploadEnable="true" @uploadedImage="uploadedImage">
+    <upload-image :dragUploadEnable="true" :multiple="multiple" @uploadedImage="uploadedImage">
         <slot></slot>
     </upload-image>
 </template>
@@ -13,6 +13,10 @@
         components: {
             'upload-image': UploadImage,
         },
+
+        props: [
+            'multiple',
+        ],
 
         methods: {
             ...mapActions([

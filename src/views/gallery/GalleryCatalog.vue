@@ -3,7 +3,7 @@
         <p>
             <b @click="open = !open">{{ catalog.title }}</b>
             <button class="remove-catalog" @click.left="remove">Remove</button>
-            | <upload-image :label="'Add Images'" @uploadedImage="addImages"></upload-image>
+            | <upload-image :label="'Add Images'" :multiple="true" @uploadedImage="addImages"></upload-image>
         </p>
 
         <div v-if="catalog.items.length" class="gallery-catalog-items">

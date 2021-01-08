@@ -1,17 +1,19 @@
 <template>
-    <div v-if="dragUploadEnable" class="upload-image-drag-zone"
-         @drop.prevent="handleImage"
+    <div v-if="dragUploadEnable"
+         class="upload-image-drag-zone"
          :class="isHovered ? 'hovered' : ''"
+         :multiple="multiple"
          @dragover.prevent="isHovered = true"
          @dragenter.prevent
          @dragleave="isHovered = false"
+         @drop.prevent="handleImage"
     >
         <slot></slot>
     </div>
     <div v-else class="upload-image">
         <label>
             {{ label }}
-            <input @change="handleImage" :value="value" type="file" name="imageLoader" accept="image/*">
+            <input @change="handleImage" :value="value" :multiple="multiple" type="file" name="imageLoader" accept="image/*">
         </label>
     </div>
 </template>
@@ -20,10 +22,19 @@
     export default {
         name: "UploadImage",
 
-        props: [
-            'label',
-            'dragUploadEnable'
-        ],
+        props: {
+            label: {
+                type: String
+            },
+            dragUploadEnable: {
+                type: Boolean,
+                default: false
+            },
+            multiple: {
+                type: Boolean,
+                default: false
+            }
+        },
 
         data: () => {
             return {
@@ -37,16 +48,25 @@
                this.value = null
             },
 
-            imageLoaded (imageObj, imageSrc) {
+            imageLoaded (imageSrc) {
+                let imageObj = new Image();
+
                 imageObj.onload = (e) => {
                     let image = e.path[0];
                     this.$emit('uploadedImage', image);
-
-                    // clear the input[type="file"] value for load the same file few times
-                    this.clearInput();
                 };
 
                 imageObj.src = imageSrc;
+            },
+
+            imageReader (imageSrc) {
+                let reader = new FileReader();
+
+                reader.onload = (event) => {
+                    this.imageLoaded(event.target.result);
+                };
+
+                reader.readAsDataURL(imageSrc);
             },
 
             handleImage (e) {
@@ -54,22 +74,25 @@
                 // change value property before clear for trigger the reactivity
                 this.value = '';
 
-                let
-                    imageObj = new Image(),
-                    reader = new FileReader();
-
-                reader.onload = (event) => {
-                    this.imageLoaded(imageObj, event.target.result);
-                };
+                let filesSrcArray = null;
 
                 if (e.dataTransfer) {
                     // drop upload
-                    reader.readAsDataURL(e.dataTransfer.files[0]);
+                    filesSrcArray = e.dataTransfer.files;
                 }
                 else {
                     // input upload
-                    reader.readAsDataURL(e.target.files[0]);
+                    filesSrcArray = e.target.files;
                 }
+
+                if (!this.multiple) {
+                    filesSrcArray = [filesSrcArray[0]];
+                }
+
+                filesSrcArray.forEach(this.imageReader);
+
+                // clear the input[type="file"] value for load the same file few times
+                this.clearInput();
             }
         },
     }
