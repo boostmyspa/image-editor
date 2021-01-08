@@ -13,7 +13,12 @@
     <div v-else class="upload-image">
         <label>
             {{ label }}
-            <input @change="handleImage" :value="value" :multiple="multiple" type="file" name="imageLoader" accept="image/*">
+            <input type="file" name="imageLoader"
+                    :value="value"
+                    :multiple="multiple"
+                    :accept="acceptFileTypes.join(',')"
+                    @change="handleImage"
+            >
         </label>
     </div>
 </template>
@@ -39,13 +44,31 @@
         data: () => {
             return {
                 value: '',
-                isHovered: false
+                isHovered: false,
+                acceptFileTypes: [
+                    'image/bmp',
+                    'image/jpg',
+                    'image/jpeg',
+                    'image/png',
+                    'image/svg+xml',
+                    'image/tiff'
+                ]
             }
         },
 
         methods: {
             clearInput () {
                this.value = null
+            },
+
+            acceptImagesOnly (file) {
+                const  fileType = file['type'];
+
+                if (!this.acceptFileTypes.includes(fileType)) {
+                    return null;
+                }
+
+                return file;
             },
 
             imageLoaded (imageSrc) {
@@ -60,17 +83,23 @@
             },
 
             imageReader (imageSrc) {
+                // upload only images
+                let correctImageSrc = this.acceptImagesOnly(imageSrc);
+
+                if (!correctImageSrc) return;
+
                 let reader = new FileReader();
 
                 reader.onload = (event) => {
                     this.imageLoaded(event.target.result);
                 };
 
-                reader.readAsDataURL(imageSrc);
+                reader.readAsDataURL(correctImageSrc);
             },
 
             handleImage (e) {
                 this.isHovered = false;
+
                 // change value property before clear for trigger the reactivity
                 this.value = '';
 
@@ -85,6 +114,7 @@
                     filesSrcArray = e.target.files;
                 }
 
+                // if not multiple then select only first file
                 if (!this.multiple) {
                     filesSrcArray = [filesSrcArray[0]];
                 }
