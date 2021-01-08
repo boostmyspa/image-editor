@@ -21,7 +21,7 @@
 
         data: () => {
            return {
-               rootGallery: null
+               galleryRoot: null
            }
         },
 
@@ -36,12 +36,12 @@
             },
 
             dragStart () {
-                this.setDraggedImage({ image: this.image, rootGallery: this.rootGallery });
+                this.setDraggedImage({ image: this.image, galleryRoot: this.galleryRoot });
             },
 
             findRoot (group) {
                 if (group.isRoot) {
-                    this.rootGallery = group;
+                    this.galleryRoot = group;
                 }
                 else {
                     this.findRoot(group.parent);

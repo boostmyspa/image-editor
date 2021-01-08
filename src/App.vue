@@ -15,7 +15,7 @@
     <div class="col-right">
       <div>
         <p>Upload the background image</p>
-        <upload-image-to-canvas :label="'Upload Image'" :specifiedGallery="'Backgrounds'"></upload-image-to-canvas>
+        <upload-image-to-canvas :label="'Upload Image'" :specifiedGalleryRootId="'Backgrounds'"></upload-image-to-canvas>
       </div>
 
       <input-layers v-if="uploadedImage"></input-layers>

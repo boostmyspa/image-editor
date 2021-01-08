@@ -1,5 +1,5 @@
 <template>
-    <upload-image-to-canvas v-if="!uploadedImage" :specifiedGallery="'Backgrounds'" :dragUploadEnable="true">
+    <upload-image-to-canvas v-if="!uploadedImage" :specifiedGalleryRootId="'Backgrounds'" :dragUploadEnable="true">
         <p style="text-align: center">
             Drag Your Design Here
         </p>

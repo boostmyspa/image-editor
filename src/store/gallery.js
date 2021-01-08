@@ -62,21 +62,21 @@ export default {
         catalogsLastId: 0,
         gallery: [
             {
-                rootId: 0,
+                rootId: 'Backgrounds',
                 isRoot: true,
                 title: 'Backgrounds',
                 groups: [],
                 items: []
             },
             {
-                rootId: 1,
+                rootId: 'Statics',
                 isRoot: true,
-                title: 'Static',
+                title: 'Statics',
                 groups: [],
                 items: []
             },
             {
-                rootId: 2,
+                rootId: 'Catalogs',
                 isRoot: true,
                 title: 'Catalog',
                 groups: [],
@@ -84,7 +84,7 @@ export default {
             }
         ],
         draggedImage: null,
-        draggedImageRootGallery: null,
+        draggedImageGalleryRoot: null,
     },
 
     getters: {
@@ -134,8 +134,8 @@ export default {
             state.draggedImage = image;
         },
 
-        setDraggedImageRootGallery (state, rootGallery) {
-            state.draggedImageRootGallery = rootGallery;
+        setDraggedImageGalleryRoot (state, galleryRoot) {
+            state.draggedImageGalleryRoot = galleryRoot;
         },
     },
 
@@ -210,8 +210,8 @@ export default {
             commit('addImageToGroup', { group: catalog, imageObject});
         },
 
-        setDraggedImage ({ commit }, { image, rootGallery }) {
-            commit('setDraggedImageRootGallery', rootGallery);
+        setDraggedImage ({ commit }, { image, galleryRoot }) {
+            commit('setDraggedImageGalleryRoot', galleryRoot);
             commit('setDraggedImage', { image });
         }
     }

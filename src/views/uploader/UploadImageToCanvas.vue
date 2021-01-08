@@ -31,7 +31,7 @@
                 type: Boolean,
                 default: false
             },
-            specifiedGallery: {
+            specifiedGalleryRootId: {
                 type: String,
                 // required: true
             }
@@ -72,17 +72,17 @@
             uploadedImage (image) {
                 if (this.imageDraggedFromGallery) {
                     // image was dragged from Gallery
-                    // with specified "RootGallery" (contain title)
-                    const rootGalleryTitle = this.draggedImageRootGallery && this.draggedImageRootGallery.title;
+                    // with specified "GalleryRoot.rootId"
+                    const galleryRootId = this.draggedImageGalleryRoot && this.draggedImageGalleryRoot.rootId;
 
-                    this.specifiedGalleryUploadedImage(image, rootGalleryTitle);
+                    this.specifiedGalleryUploadedImage(image, galleryRootId);
                 }
                 else {
 
                     // image was dragged not from Gallery
-                    if (this.specifiedGallery) {
-                        // and dropped to this Component with the defined "specifiedGallery" name
-                        this.specifiedGalleryUploadedImage(image, this.specifiedGallery);
+                    if (this.specifiedGalleryRootId) {
+                        // and dropped to this Component with the defined "specifiedGalleryRootId"
+                        this.specifiedGalleryUploadedImage(image, this.specifiedGalleryRootId);
                     }
                     else {
                         // image was dragged to the common Canvas Component
@@ -100,20 +100,20 @@
                     }
                 }
 
-                this.setDraggedImage({ image: null, rootGallery: null });
+                this.setDraggedImage({ image: null, galleryRoot: null });
             },
 
-            specifiedGalleryUploadedImage (image, rootGalleryTitle) {
-                switch (rootGalleryTitle) {
+            specifiedGalleryUploadedImage (image, galleryRootId) {
+                switch (galleryRootId) {
                     case 'Backgrounds':
                         this.setImageAsBackground(image);
                         break;
 
-                    case 'Static':
+                    case 'Statics':
                         this.setImageAsStatic(image);
                         break;
 
-                    case 'Catalog':
+                    case 'Catalogs':
                         this.setImageAsCatalog(image);
                         break;
 
@@ -131,7 +131,7 @@
 
             ...mapState('gallery', {
                 imageDraggedFromGallery: 'draggedImage',
-                draggedImageRootGallery: 'draggedImageRootGallery'
+                draggedImageGalleryRoot: 'draggedImageGalleryRoot'
             }),
         }
     }
