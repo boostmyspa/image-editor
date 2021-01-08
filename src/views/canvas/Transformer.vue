@@ -24,15 +24,15 @@
 
         methods: {
             ...mapActions([
-                'changeSelectedLayerId',
+                'setSelectedLayerId',
             ]),
 
             transformerSelect(id) {
-                this.changeSelectedLayerId(id);
+                this.setSelectedLayerId(id);
             },
 
             transformerDeselect() {
-                this.changeSelectedLayerId(null);
+                this.setSelectedLayerId(null);
             },
 
             handleStageMouseDown(e) {

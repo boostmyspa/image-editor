@@ -34,7 +34,7 @@
         },
         methods: {
             ...mapActions([
-                'changeSelectedLayerId',
+                'setSelectedLayerId',
             ]),
 
             ...mapActions('textBox', [
@@ -44,7 +44,7 @@
             ]),
 
             removeItem () {
-                this.changeSelectedLayerId(null);
+                this.setSelectedLayerId(null);
                 this.remove(this.item.id);
             },
 

@@ -4,7 +4,7 @@
             <b @click="open = !open">{{ group.title }}</b>
             <button v-if="!group.isRoot" @click.left="remove">Remove</button>
             | <button @click.left="addGroup">Add Group</button>
-            | <upload-image v-if="group.items" :label="'Add Image'" @uploadedImage="addImage"></upload-image>
+            | <upload-image v-if="group.items" :label="'Add Image'" :multiple="true" @uploadedImage="addImage"></upload-image>
             | <button v-if="group.catalogs" @click.left="addCatalog">Add Catalog</button>
         </p>
         <div v-show="open" class="gallery-items">

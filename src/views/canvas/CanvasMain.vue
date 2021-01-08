@@ -1,11 +1,11 @@
 <template>
-    <upload-background-layer v-if="!uploadedImage" :dragUploadEnable="true">
+    <upload-image-to-canvas v-if="!uploadedImage" :specifiedGallery="'Backgrounds'" :dragUploadEnable="true">
         <p style="text-align: center">
             Drag Your Design Here
         </p>
-    </upload-background-layer>
+    </upload-image-to-canvas>
 
-    <upload-image-box-layer v-else :multiple="true">
+    <upload-image-to-canvas v-else :multiple="true" :dragUploadEnable="true">
         <v-stage ref="stage"
                  :config="stageConfig"
                  @mousedown="handleStageMouseDown"
@@ -21,15 +21,14 @@
                 <transformer :stageEventsBus="stageEventsBus"></transformer>
             </v-layer>
         </v-stage>
-    </upload-image-box-layer>
+    </upload-image-to-canvas>
 </template>
 
 <script>
     // import Konva from 'konva';
     import Vue from 'vue';
     import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
-    import uploadBackgroundLayer from '../uploader/UploadBackgroundLayer';
-    import uploadImageBoxLayer from '../uploader/UploadImageBoxLayer';
+    import UploadImageToCanvas from '../uploader/UploadImageToCanvas';
     import TextBox from './TextBox';
     import ImageBox from './ImageBox';
     import Transformer from './Transformer';
@@ -37,8 +36,7 @@
     export default {
         name: "MainCanvas",
         components: {
-            'upload-background-layer': uploadBackgroundLayer,
-            'upload-image-box-layer': uploadImageBoxLayer,
+            'upload-image-to-canvas': UploadImageToCanvas,
             'text-box': TextBox,
             'image-box': ImageBox,
             'transformer': Transformer

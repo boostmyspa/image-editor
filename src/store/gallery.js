@@ -78,11 +78,13 @@ export default {
             {
                 rootId: 2,
                 isRoot: true,
-                title: 'Choices',
+                title: 'Catalog',
                 groups: [],
                 catalogs: []
             }
         ],
+        draggedImage: null,
+        draggedImageRootGallery: null,
     },
 
     getters: {
@@ -127,6 +129,14 @@ export default {
         removeCatalogByIndex (state, { parentGroup, index }) {
             parentGroup.catalogs.splice(index, 1);
         },
+
+        setDraggedImage (state, { image }) {
+            state.draggedImage = image;
+        },
+
+        setDraggedImageRootGallery (state, rootGallery) {
+            state.draggedImageRootGallery = rootGallery;
+        },
     },
 
     actions: {
@@ -156,6 +166,7 @@ export default {
             let newGroup = {
                 id: state.groupsLastId,
                 title: `New Group`,
+                parent: parentGroup,
                 groups: [],
                 [itemsOrCatalogs]: []
             };
@@ -199,6 +210,9 @@ export default {
             commit('addImageToGroup', { group: catalog, imageObject});
         },
 
-
+        setDraggedImage ({ commit }, { image, rootGallery }) {
+            commit('setDraggedImageRootGallery', rootGallery);
+            commit('setDraggedImage', { image });
+        }
     }
 }

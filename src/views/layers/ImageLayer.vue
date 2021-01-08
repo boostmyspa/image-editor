@@ -46,7 +46,7 @@
 
         methods: {
             ...mapActions([
-                'changeSelectedLayerId',
+                'setSelectedLayerId',
             ]),
 
             ...mapActions('imageBox', [
@@ -56,7 +56,7 @@
             ]),
 
             removeItem () {
-                this.changeSelectedLayerId(null);
+                this.setSelectedLayerId(null);
                 this.remove(this.item.id);
             },
 

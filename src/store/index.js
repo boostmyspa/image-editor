@@ -103,7 +103,7 @@ export default new Vuex.Store({
             state.layers.splice(index, 1, item)
         },
 
-        changeSelectedLayerId(state, id) {
+        setSelectedLayerId(state, id) {
             state.selectedLayerId = id;
         },
 
@@ -117,12 +117,14 @@ export default new Vuex.Store({
     },
 
     actions: {
-        addLayer({ state, commit }, item) {
+        addLayer({ state, commit, dispatch }, item) {
             commit('layerAdded');
 
             item.id = 'id-' + state.layersLastId;
 
             commit('addLayer', item);
+
+            dispatch('setSelectedLayerIdToLastId');
         },
 
         removeLayer({ getters, commit }, item) {
@@ -143,13 +145,13 @@ export default new Vuex.Store({
             commit('changeLayer', { index, item });
         },
 
-        changeSelectedLayerId({ commit }, id) {
-            commit('changeSelectedLayerId', id);
+        setSelectedLayerId({ commit }, id) {
+            commit('setSelectedLayerId', id);
         },
 
         setSelectedLayerIdToLastId({ state, commit }) {
             const layersLastId = `id-${state.layersLastId}`;
-            commit('changeSelectedLayerId', layersLastId);
+            commit('setSelectedLayerId', layersLastId);
         },
 
         replaceLayerInOrder({ commit }, { from, to }) {

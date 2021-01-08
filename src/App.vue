@@ -15,7 +15,7 @@
     <div class="col-right">
       <div>
         <p>Upload the background image</p>
-        <upload-background-layer :label="'Upload Image'"></upload-background-layer>
+        <upload-image-to-canvas :label="'Upload Image'" :specifiedGallery="'Backgrounds'"></upload-image-to-canvas>
       </div>
 
       <input-layers v-if="uploadedImage"></input-layers>
@@ -26,7 +26,7 @@
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex';
     import CanvasMain from './views/canvas/CanvasMain';
-    import uploadBackgroundLayer from './views/uploader/UploadBackgroundLayer';
+    import UploadImageToCanvas from './views/uploader/UploadImageToCanvas';
     import InputLayers from './views/layers/Layers';
     import Gallery from './views/gallery/Gallery';
 
@@ -34,7 +34,7 @@ export default {
     name: 'App',
     components: {
         'canvas-main': CanvasMain,
-        'upload-background-layer': uploadBackgroundLayer,
+        'upload-image-to-canvas': UploadImageToCanvas,
         'input-layers': InputLayers,
         'gallery': Gallery
     },

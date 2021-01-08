@@ -1,7 +1,7 @@
 <template>
     <div class="gallery-catalog-item">
         <input class="gallery-catalog-item-title" type="text" v-model="image.title">
-        <img class="gallery-catalog-img"
+        <img class="gallery-catalog-img" draggable="false"
              :src="image.src"
              :title="image.title"
              @click="selectImage"

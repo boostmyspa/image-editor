@@ -24,6 +24,8 @@
 </template>
 
 <script>
+    import { mapState, /*mapActions*/ } from 'vuex';
+
     export default {
         name: "UploadImage",
 
@@ -38,7 +40,7 @@
             multiple: {
                 type: Boolean,
                 default: false
-            }
+            },
         },
 
         data: () => {
@@ -100,6 +102,13 @@
             handleImage (e) {
                 this.isHovered = false;
 
+                // if the image is dragged from the Gallery
+                if (this.draggedImage) {
+                    this.imageDraggedFromGallery();
+
+                    return;
+                }
+
                 // change value property before clear for trigger the reactivity
                 this.value = '';
 
@@ -123,8 +132,23 @@
 
                 // clear the input[type="file"] value for load the same file few times
                 this.clearInput();
+            },
+            
+            imageDraggedFromGallery () {
+                const imageSrc = this.draggedImage.src;
+
+                this.imageLoaded(imageSrc);
+
+                // reset the draggedImage state after drag end,
+                // when image been used, by call: "setDraggedImage(null)"
             }
         },
+
+        computed: {
+            ...mapState('gallery', [
+                'draggedImage'
+            ]),
+        }
     }
 </script>
 

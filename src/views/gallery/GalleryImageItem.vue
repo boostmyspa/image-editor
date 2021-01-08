@@ -1,9 +1,9 @@
 <template>
-    <div class="gallery-image-item">
-        <img class="gallery-img"
+    <div class="gallery-image-item" >
+        <img class="gallery-img" draggable="true"
              :src="image.src"
              :title="image.title"
-             @click="selectImage"
+             @dragstart="dragStart"
         >
         <button class="remove-image" @click.left="remove">X</button>
     </div>
@@ -16,22 +16,42 @@
         name: "GalleryImageItem",
         props: [
             'image',
-            'group'
+            'group',
         ],
+
+        data: () => {
+           return {
+               rootGallery: null
+           }
+        },
 
         methods: {
             ...mapActions('gallery', [
-                'removeImageFromGroup'
+                'removeImageFromGroup',
+                'setDraggedImage'
             ]),
 
             remove () {
                 this.removeImageFromGroup({ group: this.group, imageItem: this.image })
             },
 
-            selectImage () {
+            dragStart () {
+                this.setDraggedImage({ image: this.image, rootGallery: this.rootGallery });
+            },
 
+            findRoot (group) {
+                if (group.isRoot) {
+                    this.rootGallery = group;
+                }
+                else {
+                    this.findRoot(group.parent);
+                }
             }
-        }
+        },
+
+        mounted () {
+            this.findRoot(this.group);
+        },
     }
 </script>
 

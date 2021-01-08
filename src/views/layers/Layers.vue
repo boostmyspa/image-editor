@@ -47,8 +47,7 @@
 
         methods: {
             ...mapActions([
-                'changeSelectedLayerId',
-                'setSelectedLayerIdToLastId',
+                'setSelectedLayerId',
                 'replaceLayerInOrder'
             ]),
 
@@ -62,16 +61,14 @@
 
             addNewTextBox () {
                 this.addTextBox();
-                this.setSelectedLayerIdToLastId();
             },
 
             addNewImageBox () {
                 this.addImageBox();
-                this.setSelectedLayerIdToLastId();
             },
 
             selectLayer (id) {
-                this.changeSelectedLayerId(id);
+                this.setSelectedLayerId(id);
             },
 
             reverseLayerIndex(array, index) {
