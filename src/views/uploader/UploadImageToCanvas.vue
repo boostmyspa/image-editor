@@ -57,6 +57,7 @@
 
             setImageAsStatic (image) {
                 let item = {
+                    type: 'imageStatic',
                     image,
                     src: image.src
                 };
@@ -65,7 +66,18 @@
             },
 
             setImageAsCatalog (image) {
-                console.log(image);
+                let item = {
+                    type: 'imageCatalog',
+                    image,
+                    src: image.src
+                };
+
+                if (this.imageDraggedFromGallery) {
+                    // bound only the catalogId. If needed, I will add link to catalog
+                    item.catalogId = this.imageDraggedFromGallery.catalog.id;
+                }
+
+                this.addImageBox(item);
             },
 
 

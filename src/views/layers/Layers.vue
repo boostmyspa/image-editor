@@ -14,7 +14,7 @@
                  :key="layer.id"
                  @click="selectLayer(layer.id)"
             >
-                <b>{{ layer.name }}</b>
+                <b>{{ layer.name }}: {{ layer.type }}</b>
                 <text-input v-if="layer.name == 'textBox'" :item="layer"></text-input>
                 <image-input v-if="layer.name == 'imageBox'" :item="layer"></image-input>
             </div>
@@ -64,7 +64,11 @@
             },
 
             addNewImageBox () {
-                this.addImageBox();
+                let imageItem = {
+                    type: 'imageStatic'
+                };
+
+                this.addImageBox(imageItem);
             },
 
             selectLayer (id) {

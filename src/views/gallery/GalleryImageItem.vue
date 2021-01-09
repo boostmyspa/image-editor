@@ -50,6 +50,7 @@
         },
 
         mounted () {
+            // galleryRoot can be 'Backgrounds' or 'Statics'
             this.findRoot(this.group);
         },
     }

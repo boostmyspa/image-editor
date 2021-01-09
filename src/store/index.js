@@ -60,7 +60,10 @@ export default new Vuex.Store({
 
                     case 'imageBox':
                         return {
+                            catalogId: item.catalogId,
+                            type: item.type,
                             name: item.name,
+                            label: item.label,
                             src: item.src,
                             x: item.x,
                             y: item.y,

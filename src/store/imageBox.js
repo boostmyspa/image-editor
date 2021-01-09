@@ -3,7 +3,11 @@ export default {
 
     state: {
         default: {
+            // id: null, - sets when image layer adding to the 'layers'
+            catalogId: null, // - sets for image layer as Catalog. Use for save to the server and restore the data
+            type: 'imageStatic', // imageStatic, imageCatalog
             name: 'imageBox',
+            label: '', // used as the Catalog "question"
             src: null,
             image: null,
             x: 0,
@@ -37,7 +41,10 @@ export default {
             let imageItem = {
                 scaleX: 1, // don't change. This is for prevent the transformer scaling
                 scaleY: 1,
+                catalogId: item.catalogId || def.catalogId,
+                type: item.type || def.type,
                 name: def.name,
+                label: item.label || def.label,
                 src: item.src || def.src,
                 image: item.image || def.image,
                 x: item.x || def.x,

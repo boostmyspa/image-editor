@@ -4,7 +4,6 @@
         <img class="gallery-catalog-img" draggable="false"
              :src="image.src"
              :title="image.title"
-             @click="selectImage"
         >
         <button class="remove-catalog-item" @click.left="remove">X</button>
     </div>
@@ -29,10 +28,10 @@
                 this.removeImageFromGroup({ group: this.catalog, imageItem: this.image })
             },
 
-            selectImage () {
 
-            }
-        }
+        },
+
+
     }
 </script>
 

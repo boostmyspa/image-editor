@@ -1,5 +1,10 @@
 <template>
     <div>
+        <label v-if="item.catalogId">
+            Set label
+            <input type="text" v-model="item.label">
+        </label>
+
         <br>
         <upload-image @uploadedImage="setCurrentImage"></upload-image>
         |
