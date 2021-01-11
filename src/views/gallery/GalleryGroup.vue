@@ -95,17 +95,24 @@
 
             addGroup () {
                 this.addNewGroup({ parentGroup: this.group });
+                this.openGroup();
             },
 
             addImage (image) {
                 let src = image.src;
 
                 this.addImageToGroup({ group: this.group, src });
+                this.openGroup();
             },
 
-            addCatalog() {
+            addCatalog () {
                 this.addNewCatalog({ parentGroup: this.group });
+                this.openGroup();
             },
+
+            openGroup () {
+                this.open = true;
+            }
 
         },
 

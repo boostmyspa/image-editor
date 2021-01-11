@@ -66,11 +66,16 @@
             addImages (image) {
                 let src = image.src;
                 this.addImageToCatalog({ catalog: this.catalog, src: src });
+                this.openCatalog();
             },
 
             startDrag () {
                 this.setDraggedImage({ image: this.catalogThumbnail, galleryRoot: this.galleryRoot });
             },
+
+            openCatalog () {
+                this.open = true;
+            }
         },
 
         computed: {
