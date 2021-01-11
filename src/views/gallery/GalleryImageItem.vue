@@ -5,7 +5,7 @@
              :title="image.title"
              @dragstart="dragStart"
         >
-        <button class="remove-image" @click.left="remove">X</button>
+        <button v-if="!inPublicGroup" class="remove-image" @click.left="remove">X</button>
     </div>
 </template>
 
@@ -17,11 +17,13 @@
         props: [
             'image',
             'group',
+            'galleryRoot',
+            'inPublicGroup',
         ],
 
         data: () => {
            return {
-               galleryRoot: null
+
            }
         },
 
@@ -32,26 +34,17 @@
             ]),
 
             remove () {
-                this.removeImageFromGroup({ group: this.group, imageItem: this.image })
+                this.removeImageFromGroup({ group: this.group, imageItem: this.image });
             },
 
             dragStart () {
                 this.setDraggedImage({ image: this.image, galleryRoot: this.galleryRoot });
             },
 
-            findRoot (group) {
-                if (group.isRoot) {
-                    this.galleryRoot = group;
-                }
-                else {
-                    this.findRoot(group.parent);
-                }
-            }
         },
 
         mounted () {
-            // galleryRoot can be 'Backgrounds' or 'Statics'
-            this.findRoot(this.group);
+
         },
     }
 </script>

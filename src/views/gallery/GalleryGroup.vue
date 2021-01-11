@@ -2,23 +2,51 @@
     <div class="gallery-group" :class="!group.isRoot ? 'nested' : ''">
         <p>
             <b @click="open = !open">{{ group.title }}</b>
-            <button v-if="!group.isRoot" @click.left="remove">Remove</button>
-            | <button @click.left="addGroup">Add Group</button>
-            | <upload-image v-if="group.items" :label="'Add Image'" :multiple="true" @uploadedImage="addImage"></upload-image>
-            | <button v-if="group.catalogs" @click.left="addCatalog">Add Catalog</button>
+
+            <span v-if="!isPublicGroup">
+                <button v-if="!group.isRoot" @click.left="remove">Remove</button>
+                | <button @click.left="addGroup">Add Group</button>
+                | <upload-image v-if="group.items" :label="'Add Image'" :multiple="true" @uploadedImage="addImage"></upload-image>
+                | <button v-if="group.catalogs" @click.left="addCatalog">Add Catalog</button>
+            </span>
         </p>
+
         <div v-show="open" class="gallery-items">
+            <template v-if="galleryPublic" note="this group only exists at the root level">
+                <gallery-group v-for="nestedGroup in rootPublicGroup.groups"
+                               :parent="group"
+                               :group="nestedGroup"
+                               :isPublicGroup="true"
+                               :galleryRoot="group"
+                               :key="'public-' + nestedGroup.id"
+                ></gallery-group>
+            </template>
+
             <gallery-group v-for="nestedGroup in group.groups"
                            :parent="group"
                            :group="nestedGroup"
+                           :isPublicGroup="groupIsPublic"
+                           :galleryRoot="currentGalleryRoot"
                            :key="nestedGroup.id"
             ></gallery-group>
 
             <div v-if="group.items" class="gallery-images">
-                <gallery-image-item v-for="image in group.items" :image="image" :group="group" :key="image.id"></gallery-image-item>
+                <gallery-image-item v-for="image in group.items"
+                                    :image="image"
+                                    :group="group"
+                                    :inPublicGroup="groupIsPublic"
+                                    :galleryRoot="currentGalleryRoot"
+                                    :key="image.id"
+                ></gallery-image-item>
             </div>
             <div v-if="group.catalogs" class="gallery-catalogs">
-                <gallery-image-catalog v-for="catalog in group.catalogs" :catalog="catalog" :group="group" :key="catalog.id"></gallery-image-catalog>
+                <gallery-image-catalog v-for="catalog in group.catalogs"
+                                       :catalog="catalog"
+                                       :group="group"
+                                       :inPublicGroup="groupIsPublic"
+                                       :galleryRoot="currentGalleryRoot"
+                                       :key="catalog.id"
+                ></gallery-image-catalog>
             </div>
         </div>
         <hr>
@@ -40,13 +68,16 @@
         },
 
         props: [
+            'galleryPublic',
             'group',
-            'parent'
+            'parent',
+            'galleryRoot',
+            'isPublicGroup',
         ],
 
         data: () => {
             return {
-                open: false
+                open: false,
             }
         },
 
@@ -68,6 +99,7 @@
 
             addImage (image) {
                 let src = image.src;
+
                 this.addImageToGroup({ group: this.group, src });
             },
 
@@ -78,6 +110,24 @@
         },
 
         computed: {
+            rootPublicGroup () {
+                // uses only for the "galleryPublic"
+                let rootId = this.group.rootId;
+                let publicGroup = this.galleryPublic.find( (item) => item.rootId == rootId);
+
+                return publicGroup;
+            },
+
+            groupIsPublic () {
+                return this.group.isRoot ? false : this.isPublicGroup;
+            },
+
+            currentGalleryRoot () {
+                return this.group.isRoot ? this.group : this.galleryRoot;
+            },
+        },
+
+        mounted () {
 
         }
     }

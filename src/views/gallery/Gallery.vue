@@ -1,7 +1,7 @@
 <template>
     <div class="gallery" note="sort the gallery by the items Name or DateAdding (settings)">
         <h3>Gallery</h3>
-        <gallery-group v-for="group in gallery" :group="group" :key="group.rootId"></gallery-group>
+        <gallery-group v-for="group in galleryPrivate" :galleryPublic="galleryPublic" :group="group" :key="group.rootId"></gallery-group>
     </div>
 </template>
 
@@ -27,9 +27,10 @@
         },
 
         computed: {
-            ...mapState('gallery', [
-                'gallery'
-            ]),
+            ...mapState('gallery', {
+                galleryPrivate: 'gallery',
+                galleryPublic: 'galleryPublic'
+            }),
 
         }
     }

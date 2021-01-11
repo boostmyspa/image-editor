@@ -1,11 +1,12 @@
 <template>
     <div class="gallery-catalog-item">
-        <input class="gallery-catalog-item-title" type="text" v-model="image.title">
+        <b>{{ image.title }}</b>
+        <input v-if="!inPublicGroup" class="gallery-catalog-item-title" type="text" v-model="image.title">
         <img class="gallery-catalog-img" draggable="false"
              :src="image.src"
              :title="image.title"
         >
-        <button class="remove-catalog-item" @click.left="remove">X</button>
+        <button v-if="!inPublicGroup" class="remove-catalog-item" @click.left="remove">X</button>
     </div>
 </template>
 
@@ -16,7 +17,8 @@
         name: "GalleryImageItem",
         props: [
             'image',
-            'catalog'
+            'catalog',
+            'inPublicGroup',
         ],
 
         methods: {

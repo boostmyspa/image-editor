@@ -2,9 +2,13 @@
     <div class="gallery-catalog">
         <p>
             <b @click="open = !open">{{ catalog.title }}</b>
-            <button class="remove-catalog" @click.left="remove">Remove</button>
-            | <upload-image :label="'Add Images'" :multiple="true" @uploadedImage="addImages"></upload-image>
-            <br>
+
+            <span v-if="!inPublicGroup">
+                <button class="remove-catalog" @click.left="remove">Remove</button>
+                | <upload-image :label="'Add Images'" :multiple="true" @uploadedImage="addImages"></upload-image>
+                <br>
+            </span>
+
             <img v-if="catalog.items.length"
                  class="gallery-catalog-thumbnail"
                  :src="catalogThumbnail.src"
@@ -13,7 +17,12 @@
         </p>
 
         <div v-show="open" v-if="catalog.items.length" class="gallery-catalog-items">
-            <gallery-catalog-item v-for="image in catalog.items" :image="image" :catalog="catalog" :key="image.id"></gallery-catalog-item>
+            <gallery-catalog-item v-for="image in catalog.items"
+                                  :image="image"
+                                  :catalog="catalog"
+                                  :inPublicGroup="inPublicGroup"
+                                  :key="image.id"
+            ></gallery-catalog-item>
         </div>
     </div>
 </template>
@@ -32,13 +41,14 @@
 
         props: [
             'catalog',
-            'group'
+            'group',
+            'galleryRoot',
+            'inPublicGroup',
         ],
 
         data: () => {
            return {
                open: false,
-               galleryRoot: null,
            }
         },
 
@@ -55,7 +65,7 @@
 
             addImages (image) {
                 let src = image.src;
-                this.addImageToCatalog({ catalog: this.catalog, src });
+                this.addImageToCatalog({ catalog: this.catalog, src: src });
             },
 
             startDrag () {
@@ -77,8 +87,7 @@
         },
 
         mounted () {
-            // galleryRoot can be only 'Catalogs'
-            this.galleryRoot = this.gallery.find( (item) => item.rootId == 'Catalogs' );
+
         }
     }
 </script>

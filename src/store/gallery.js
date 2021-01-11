@@ -60,10 +60,197 @@ export default {
         groupsLastId: 0,
         imagesLastId: 0,
         catalogsLastId: 0,
+        galleryPublic: [
+            {
+                rootId: 'Backgrounds',
+                isRoot: true,
+                isPublic: true,
+                title: 'Backgrounds',
+                groups: [{
+                    id: 1,
+                    title: 'Lazapis Backgrounds',
+                    groups: [
+                        {
+                            id: 4,
+                            title: 'Inner Backgrounds',
+                            groups: [],
+                            items: [
+                                {
+                                    id: 'public-item-1',
+                                    src: 'img/Baby-Yoda-PNG-File.png',
+                                    title: 'Baby-Yoda-PNG-File.png'
+                                },
+                                {
+                                    id: 'public-item-5',
+                                    src: 'img/test.jpg',
+                                    title: 'test.jpg'
+                                },
+                            ]
+                        }
+                    ],
+                    items: [
+                        {
+                            id: 'public-item-1',
+                            src: 'img/Baby-Yoda-PNG-File.png',
+                            title: 'Baby-Yoda-PNG-File.png'
+                        },
+                        {
+                            id: 'public-item-2',
+                            src: 'img/Pasted File at December 26, 2020 6_34 AM.png',
+                            title: 'Pasted File at December 26, 2020 6_34 AM.png'
+                        },
+                        {
+                            id: 'public-item-3',
+                            src: 'img/PC8p6YfBGWo.jpg',
+                            title: 'PC8p6YfBGWo.jpg'
+                        },
+                        {
+                            id: 'public-item-4',
+                            src: 'img/small.jpg',
+                            title: 'small.jpg'
+                        },
+                        {
+                            id: 'public-item-5',
+                            src: 'img/test.jpg',
+                            title: 'test.jpg'
+                        },
+                    ]
+                }],
+                items: []
+            },
+            {
+                rootId: 'Statics',
+                isRoot: true,
+                isPublic: true,
+                title: 'Statics',
+                groups: [{
+                    id: 2,
+                    title: 'Lazapis Statics',
+                    groups: [
+                        {
+                            id: 5,
+                            title: 'Inner Statics',
+                            groups: [],
+                            items: [
+                                {
+                                    id: 'public-item-1',
+                                    src: 'img/Baby-Yoda-PNG-File.png',
+                                    title: 'Baby-Yoda-PNG-File.png'
+                                },
+                                {
+                                    id: 'public-item-5',
+                                    src: 'img/test.jpg',
+                                    title: 'test.jpg'
+                                },
+                            ]
+                        }
+                    ],
+                    items: [
+                        {
+                            id: 'public-item-1',
+                            src: 'img/Baby-Yoda-PNG-File.png',
+                            title: 'Baby-Yoda-PNG-File.png'
+                        },
+                        {
+                            id: 'public-item-2',
+                            src: 'img/Pasted File at December 26, 2020 6_34 AM.png',
+                            title: 'Pasted File at December 26, 2020 6_34 AM.png'
+                        },
+                        {
+                            id: 'public-item-3',
+                            src: 'img/PC8p6YfBGWo.jpg',
+                            title: 'PC8p6YfBGWo.jpg'
+                        },
+                        {
+                            id: 'public-item-4',
+                            src: 'img/small.jpg',
+                            title: 'small.jpg'
+                        },
+                        {
+                            id: 'public-item-5',
+                            src: 'img/test.jpg',
+                            title: 'test.jpg'
+                        },
+                    ]
+                }],
+                items: []
+            },
+            {
+                rootId: 'Catalogs',
+                isRoot: true,
+                isPublic: true,
+                title: 'Catalogs',
+                groups: [{
+                    id: 3,
+                    title: 'Lazapis Catalogs',
+                    groups: [
+                        {
+                            id: 6,
+                            title: 'Inner Catalogs',
+                            groups: [],
+                            catalogs: [
+                                {
+                                    id: 3,
+                                    title: 'Inner Catalog 11',
+                                    items: [
+                                        {
+                                            id: 'public-item-1',
+                                            src: 'img/Baby-Yoda-PNG-File.png',
+                                            title: 'Baby-Yoda-PNG-File.png'
+                                        },
+                                        {
+                                            id: 'public-item-5',
+                                            src: 'img/test.jpg',
+                                            title: 'test.jpg'
+                                        },
+                                    ]
+                                },
+                            ]
+                        }
+                    ],
+                    catalogs: [
+                        {
+                            id: 1,
+                            title: 'Inner Catalog 1',
+                            items: [
+                                {
+                                    id: 'public-item-1',
+                                    src: 'img/Baby-Yoda-PNG-File.png',
+                                    title: 'Baby-Yoda-PNG-File.png'
+                                },
+                                {
+                                    id: 'public-item-5',
+                                    src: 'img/test.jpg',
+                                    title: 'test.jpg'
+                                },
+                            ]
+                        },
+                        {
+                            id: 2,
+                            title: 'Inner Catalog 2',
+                            items: [
+                                {
+                                    id: 'public-item-5',
+                                    src: 'img/test.jpg',
+                                    title: 'test.jpg'
+                                },
+                                {
+                                    id: 'public-item-1',
+                                    src: 'img/Baby-Yoda-PNG-File.png',
+                                    title: 'Baby-Yoda-PNG-File.png'
+                                },
+                            ]
+                        }
+                    ]
+                }],
+                catalogs: []
+            }
+        ], // each gallery root-group should contain the Lazapis Public group (library)
         gallery: [
             {
                 rootId: 'Backgrounds',
                 isRoot: true,
+                isPublic: false,
                 title: 'Backgrounds',
                 groups: [],
                 items: []
@@ -71,6 +258,7 @@ export default {
             {
                 rootId: 'Statics',
                 isRoot: true,
+                isPublic: false,
                 title: 'Statics',
                 groups: [],
                 items: []
@@ -78,7 +266,8 @@ export default {
             {
                 rootId: 'Catalogs',
                 isRoot: true,
-                title: 'Catalog',
+                isPublic: false,
+                title: 'Catalogs',
                 groups: [],
                 catalogs: []
             }
