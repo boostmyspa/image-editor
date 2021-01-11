@@ -3,6 +3,8 @@
 
 module.exports = {
 
+    publicPath: '',
+
     // отключение хэшей в именах файлов
     // filenameHashing: false,
 
