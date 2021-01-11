@@ -17,7 +17,7 @@
 
 <script>
     import { mapActions } from 'vuex';
-    import TextInputSettings from './TextLayerSettings';
+    import TextInputSettings from './LayerTextSettings';
 
     export default {
         name: "TextInput",

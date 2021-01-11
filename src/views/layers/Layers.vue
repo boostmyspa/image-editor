@@ -15,8 +15,8 @@
                  @click="selectLayer(layer.id)"
             >
                 <b>{{ layer.name }}: {{ layer.type }}</b>
-                <text-input v-if="layer.name == 'textBox'" :item="layer"></text-input>
-                <image-input v-if="layer.name == 'imageBox'" :item="layer"></image-input>
+                <layer-text v-if="layer.name == 'textBox'" :item="layer"></layer-text>
+                <layer-image v-if="layer.name == 'imageBox'" :item="layer"></layer-image>
             </div>
         </draggable>
 
@@ -28,15 +28,15 @@
 
     import { mapState,/* mapGetters,*/ mapActions } from 'vuex';
     import draggable from 'vuedraggable'; // https://github.com/SortableJS/Vue.Draggable
-    import TextInput from './TextLayer';
-    import ImageInput from './ImageLayer';
+    import LayerText from './LayerText';
+    import LayerImage from './LayerImage';
 
     export default {
         name: "InputLayers",
         components: {
             draggable,
-            'text-input': TextInput,
-            'image-input': ImageInput
+            'layer-text': LayerText,
+            'layer-image': LayerImage
         },
 
         data: () => {

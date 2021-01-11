@@ -5,7 +5,7 @@ export default {
         default: {
             // id: null, - sets when image layer adding to the 'layers'
             catalogId: null, // - sets for image layer as Catalog. Use for save to the server and restore the data
-            type: 'imageStatic', // imageStatic, imageCatalog
+            type: 'imageStatic', // imageStatic, imageCatalog (sets on Upload image to canvas)
             name: 'imageBox',
             label: '', // used as the Catalog "question"
             src: null,

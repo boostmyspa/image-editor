@@ -1,18 +1,17 @@
 <template>
     <div>
-        <label v-if="item.catalogId">
-            Set label
-            <input type="text" v-model="item.label">
-        </label>
-
-        <br>
-        <upload-image @uploadedImage="setCurrentImage"></upload-image>
-        |
-        <button @click="openGallery = !openGallery">Select from Gallery</button>
+        <div v-if="item.catalogId">
+            <label>
+                Set label
+                <input type="text" v-model="item.label">
+            </label>
+            <br>
+        </div>
+        <div v-else>
+            <upload-image @uploadedImage="setCurrentImage"></upload-image>
+        </div>
 
         <img v-if="item.src" class="current-image" :src="item.src" alt="">
-
-        <image-gallery v-show="openGallery" :gallery="imageGallery" @selectImage="setImageFromGallery"></image-gallery>
 
         <div class="buttons">
             <button @click="showSettings = !showSettings">Settings</button>
@@ -27,15 +26,13 @@
 <script>
     import { mapState, mapActions } from 'vuex';
     import UploadImage from '../uploader/UploadImage';
-    import ImageInputSettings from './ImageLayerSettings'
-    import ImageGallery from '../gallery/ImageGallery';
+    import ImageInputSettings from './LayerImageSettings'
 
     export default {
         name: "ImageInput",
         components: {
             'upload-image': UploadImage,
             'image-input-settings': ImageInputSettings,
-            'image-gallery': ImageGallery
         },
 
         props: [
@@ -83,6 +80,11 @@
             ...mapState('imageGallery', {
                 imageGallery: 'images'
             }),
+
+        },
+
+        mounted () {
+            console.log(this.item);
         }
     }
 </script>
