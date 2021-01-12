@@ -1,11 +1,21 @@
 <template>
     <div class="gallery-group" :class="!group.isRoot ? 'nested' : ''">
         <p>
-            <b @click="open = !open">{{ group.title }}</b>
+            <input v-if="titleRename"
+                   type="text"
+                   v-model.trim="group.title"
+                   @blur="titleRenameDone"
+                   @keydown.enter="titleRenameDone"
+            >
+            <b v-else @click="open = !open">{{ group.title }}</b>
 
             <span v-if="!isPublicGroup">
-                <button v-if="!group.isRoot" @click.left="remove">Remove</button>
-                | <button @click.left="addGroup">Add Group</button>
+                <span v-if="!group.isRoot">
+                    <button @click.left="titleRename = !titleRename">Rename</button>
+                    | <button @click.left="remove">Remove</button>
+                    |
+                </span>
+                <button @click.left="addGroup">Add Group</button>
                 | <upload-image v-if="group.items" :label="'Add Image'" :multiple="true" @uploadedImage="addImage"></upload-image>
                 | <button v-if="group.catalogs" @click.left="addCatalog">Add Catalog</button>
             </span>
@@ -78,6 +88,7 @@
         data: () => {
             return {
                 open: false,
+                titleRename: false
             }
         },
 
@@ -112,7 +123,11 @@
 
             openGroup () {
                 this.open = true;
-            }
+            },
+
+            titleRenameDone () {
+               this.titleRename = false;
+            },
 
         },
 

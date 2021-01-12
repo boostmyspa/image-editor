@@ -1,10 +1,17 @@
 <template>
     <div class="gallery-catalog">
         <p>
-            <b @click="open = !open">{{ catalog.title }}</b>
+            <input v-if="titleRename"
+                   type="text"
+                   v-model.trim="catalog.title"
+                   @blur="titleRenameDone"
+                   @keydown.enter="titleRenameDone"
+            >
+            <b v-else @click="open = !open">{{ catalog.title }}</b>
 
             <span v-if="!inPublicGroup">
-                <button class="remove-catalog" @click.left="remove">Remove</button>
+                <button @click.left="titleRename = !titleRename">Rename</button>
+                | <button class="remove-catalog" @click.left="remove">Remove</button>
                 | <upload-image :label="'Add Images'" :multiple="true" @uploadedImage="addImages"></upload-image>
                 <br>
             </span>
@@ -49,6 +56,7 @@
         data: () => {
            return {
                open: false,
+               titleRename: false,
            }
         },
 
@@ -75,7 +83,11 @@
 
             openCatalog () {
                 this.open = true;
-            }
+            },
+
+            titleRenameDone () {
+                this.titleRename = false;
+            },
         },
 
         computed: {
