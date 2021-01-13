@@ -29,6 +29,7 @@ export default new Vuex.Store({
                         height: 4000
                     },
                     backgroundImage: {
+                        // ? change the product color or size ?
                         src: null
                     }
                 },{
