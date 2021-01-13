@@ -223,6 +223,11 @@ export default {
                                     src: 'img/test.jpg',
                                     title: 'test.jpg'
                                 },
+                                {
+                                    id: 'public-item-3',
+                                    src: 'img/PC8p6YfBGWo.jpg',
+                                    title: 'PC8p6YfBGWo.jpg'
+                                },
                             ]
                         },
                         {
@@ -238,6 +243,11 @@ export default {
                                     id: 'public-item-1',
                                     src: 'img/Baby-Yoda-PNG-File.png',
                                     title: 'Baby-Yoda-PNG-File.png'
+                                },
+                                {
+                                    id: 'public-item-2',
+                                    src: 'img/Pasted File at December 26, 2020 6_34 AM.png',
+                                    title: 'Pasted File at December 26, 2020 6_34 AM.png'
                                 },
                             ]
                         }
@@ -273,7 +283,8 @@ export default {
             }
         ],
         draggedImage: null,
-        draggedImageGalleryRoot: null,
+        draggedCatalog: null,
+        draggedItemGalleryRoot: null,
     },
 
     getters: {
@@ -323,9 +334,14 @@ export default {
             state.draggedImage = image;
         },
 
-        setDraggedImageGalleryRoot (state, galleryRoot) {
-            state.draggedImageGalleryRoot = galleryRoot;
+        setDraggedCatalog (state, { catalog }) {
+            state.draggedCatalog = catalog;
         },
+
+        setDraggedItemGalleryRoot (state, { galleryRoot }) {
+            state.draggedItemGalleryRoot = galleryRoot;
+        },
+
     },
 
     actions: {
@@ -400,8 +416,17 @@ export default {
         },
 
         setDraggedImage ({ commit }, { image, galleryRoot }) {
-            commit('setDraggedImageGalleryRoot', galleryRoot);
+            commit('setDraggedItemGalleryRoot', { galleryRoot });
             commit('setDraggedImage', { image });
+        },
+
+        setDraggedCatalog ({ commit }, { catalog, galleryRoot }) {
+            commit('setDraggedItemGalleryRoot', { galleryRoot });
+            commit('setDraggedCatalog', { catalog });
+
+            let thumbnail = catalog ? catalog.items[0] : null;
+
+            commit('setDraggedImage', { image: thumbnail });
         }
     }
 }

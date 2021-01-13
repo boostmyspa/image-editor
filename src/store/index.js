@@ -61,6 +61,8 @@ export default new Vuex.Store({
                     case 'imageBox':
                         return {
                             catalogId: item.catalogId,
+                            fromPublicGallery: item.fromPublicGallery,
+                            catalogThumbnailIndex: item.catalogThumbnailIndex,
                             type: item.type,
                             name: item.name,
                             label: item.label,

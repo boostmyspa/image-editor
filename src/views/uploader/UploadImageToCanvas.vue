@@ -39,7 +39,8 @@
 
         methods: {
             ...mapActions('gallery', [
-                'setDraggedImage'
+                'setDraggedImage',
+                'setDraggedCatalog',
             ]),
 
             ...mapActions('bgImage', {
@@ -72,9 +73,12 @@
                     src: image.src
                 };
 
-                if (this.imageDraggedFromGallery) {
-                    // bound only the catalogId. If needed, I will add link to catalog
-                    item.catalogId = this.imageDraggedFromGallery.catalog.id;
+                if (this.catalogDraggedFromGallery) {
+                    const catalog = this.catalogDraggedFromGallery;
+
+                    item.catalog = catalog;
+                    item.catalogId = catalog.id;
+                    item.fromPublicGallery = this.draggedItemGalleryRoot.isPublic;
                 }
 
                 this.addImageBox(item);
@@ -82,18 +86,16 @@
 
 
             uploadedImage (image) {
-                if (this.imageDraggedFromGallery) {
-                    // image was dragged from Gallery
-                    // with specified "GalleryRoot.rootId"
-                    const galleryRootId = this.draggedImageGalleryRoot && this.draggedImageGalleryRoot.rootId;
+                // if image/catalog was dragged from Gallery, it have specified "GalleryRoot.rootId"
+                const draggedItemGalleryRoot = this.draggedItemGalleryRoot && this.draggedItemGalleryRoot.rootId;
 
-                    this.specifiedGalleryUploadedImage(image, galleryRootId);
+                if (this.imageDraggedFromGallery || this.catalogDraggedFromGallery) {
+                    this.specifiedGalleryUploadedImage(image, draggedItemGalleryRoot);
                 }
                 else {
-
                     // image was dragged not from Gallery
                     if (this.specifiedGalleryRootId) {
-                        // and dropped to this Component with the defined "specifiedGalleryRootId"
+                        // and dropped to the Component with the defined "specifiedGalleryRootId"
                         this.specifiedGalleryUploadedImage(image, this.specifiedGalleryRootId);
                     }
                     else {
@@ -112,7 +114,9 @@
                     }
                 }
 
+                // reset the dragged items
                 this.setDraggedImage({ image: null, galleryRoot: null });
+                this.setDraggedCatalog({ catalog: null, galleryRoot: null });
             },
 
             specifiedGalleryUploadedImage (image, galleryRootId) {
@@ -143,7 +147,8 @@
 
             ...mapState('gallery', {
                 imageDraggedFromGallery: 'draggedImage',
-                draggedImageGalleryRoot: 'draggedImageGalleryRoot'
+                catalogDraggedFromGallery: 'draggedCatalog',
+                draggedItemGalleryRoot: 'draggedItemGalleryRoot',
             }),
         }
     }

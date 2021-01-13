@@ -5,6 +5,9 @@ export default {
         default: {
             // id: null, - sets when image layer adding to the 'layers'
             catalogId: null, // - sets for image layer as Catalog. Use for save to the server and restore the data
+            catalog: null,
+            fromPublicGallery: false,
+            catalogThumbnailIndex: 0,
             type: 'imageStatic', // imageStatic, imageCatalog (sets on Upload image to canvas)
             name: 'imageBox',
             label: '', // used as the Catalog "question"
@@ -38,23 +41,34 @@ export default {
             const def = state.default;
             const itemSettings = item.settings || {};
 
+            const setProperty = (propName) => {
+                return item[propName] || def[propName];
+            };
+
+            const setPropertySettings = (propName) => {
+                return itemSettings[propName] || def[propName];
+            };
+
             let imageItem = {
                 scaleX: 1, // don't change. This is for prevent the transformer scaling
                 scaleY: 1,
-                catalogId: item.catalogId || def.catalogId,
-                type: item.type || def.type,
+                catalogId: setProperty('catalogId'),
+                catalog: setProperty('catalog'),
+                fromPublicGallery: setProperty('fromPublicGallery'),
+                catalogThumbnailIndex: setProperty('catalogThumbnailIndex'),
+                type: setProperty('type'),
                 name: def.name,
-                label: item.label || def.label,
-                src: item.src || def.src,
-                image: item.image || def.image,
-                x: item.x || def.x,
-                y: item.y || def.y,
-                width: item.width || def.width,
-                height: item.height || def.height,
-                rotate: item.rotate || def.rotate,
+                label: setProperty('label'),
+                src: setProperty('src'),
+                image: setProperty('image'),
+                x: setProperty('x'),
+                y: setProperty('y'),
+                width: setProperty('width'),
+                height: setProperty('height'),
+                rotate: setProperty('rotate'),
                 settings: {
-                    hAlign: itemSettings.hAlign || def.settings.hAlign,
-                    vAlign: itemSettings.vAlign || def.settings.vAlign,
+                    hAlign: setPropertySettings('hAlign'),
+                    vAlign: setPropertySettings('vAlign'),
                     // fitContain: itemSettings.fitContain || def.settings.fitContain,
                 }
             };
@@ -103,6 +117,6 @@ export default {
             newItem.settings = settings;
 
             dispatch('changeLayer', newItem, { root: true });
-        }
+        },
     }
 }

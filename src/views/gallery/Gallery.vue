@@ -1,7 +1,7 @@
 <template>
     <div class="gallery" note="sort the gallery by the items Name or DateAdding (settings)">
         <h3>Gallery</h3>
-        <gallery-group v-for="group in galleryPrivate" :galleryPublic="galleryPublic" :group="group" :key="group.rootId"></gallery-group>
+        <gallery-group v-for="group in galleryPrivate" :publicGroup="setPublicRootGroup(group)" :group="group" :key="group.rootId"></gallery-group>
     </div>
 </template>
 
@@ -24,6 +24,10 @@
             ...mapActions('gallery', [
 
             ]),
+
+            setPublicRootGroup (group) {
+                return this.galleryPublic.find( (item) => item.rootId == group.rootId );
+            }
         },
 
         computed: {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="item.catalogId">
+        <div v-if="isCatalog">
             <label>
                 Set label
                 <input type="text" v-model="item.label">
@@ -11,7 +11,14 @@
             <upload-image @uploadedImage="setCurrentImage"></upload-image>
         </div>
 
-        <img v-if="item.src" class="current-image" :src="item.src" alt="">
+        <catalog-thumbnail v-if="item.catalog"
+                           :catalog="item.catalog"
+                           :catalogThumbnailIndex="item.catalogThumbnailIndex"
+                           @setCurrentImage="setCurrentImage"
+        ></catalog-thumbnail>
+        <div v-else-if="item.src" class="current-image-box">
+            <img class="current-image" :src="item.src" alt="">
+        </div>
 
         <div class="buttons">
             <button @click="showSettings = !showSettings">Settings</button>
@@ -26,13 +33,15 @@
 <script>
     import { mapState, mapActions } from 'vuex';
     import UploadImage from '../uploader/UploadImage';
-    import ImageInputSettings from './LayerImageSettings'
+    import ImageInputSettings from './LayerImageSettings';
+    import CatalogThumbnail from './CatalogThumbnail';
 
     export default {
         name: "ImageInput",
         components: {
             'upload-image': UploadImage,
             'image-input-settings': ImageInputSettings,
+            'catalog-thumbnail': CatalogThumbnail,
         },
 
         props: [
@@ -42,7 +51,7 @@
         data: () => {
             return {
                 openGallery: false,
-                showSettings: false
+                showSettings: false,
             }
         },
 
@@ -54,7 +63,7 @@
             ...mapActions('imageBox', [
                 'remove',
                 'changeImage',
-                'changeSettings'
+                'changeSettings',
             ]),
 
             removeItem () {
@@ -70,8 +79,13 @@
                 this.changeImage({ item: this.item, image, src: image.src });
             },
 
-            setImageFromGallery (image) {
-                this.changeImage({ item: this.item, image, src: image.src });
+            restoreCatalog () {
+                // let isGalleryPublic = this.item.fromPublicGallery;
+
+                // next here need find the Catalog by its id in the Public/Private Gallery;
+                // the same should be done for the Static and Background data
+
+                // !!!!!! or Catalog will be loaded from the Server and will not changed.
             },
 
         },
@@ -81,19 +95,33 @@
                 imageGallery: 'images'
             }),
 
+            isCatalog () {
+                return this.item.type == 'imageCatalog';
+            },
         },
 
         mounted () {
-            console.log(this.item);
+            if (this.item.catalogId) {
+                // when data load from server
+                // restore a link to the Catalog by its id
+                this.restoreCatalog();
+            }
         }
     }
 </script>
 
 <style scoped>
+    .current-image-box {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        margin: 5px 0 0;
+    }
+
     .current-image {
         display: block;
         max-width: 100px;
-        margin: 5px auto;
+        margin: 5px 0;
     }
 
     .buttons {

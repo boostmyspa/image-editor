@@ -64,7 +64,7 @@
             ...mapActions('gallery', [
                 'removeCatalog',
                 'addImageToCatalog',
-                'setDraggedImage'
+                'setDraggedCatalog'
             ]),
 
             remove () {
@@ -78,7 +78,7 @@
             },
 
             startDrag () {
-                this.setDraggedImage({ image: this.catalogThumbnail, galleryRoot: this.galleryRoot });
+                this.setDraggedCatalog({ catalog: this.catalog, galleryRoot: this.galleryRoot });
             },
 
             openCatalog () {
@@ -96,10 +96,7 @@
             ]),
 
             catalogThumbnail () {
-                let thumbnail = this.catalog.items[0];
-                thumbnail.catalog = this.catalog;
-
-                return thumbnail;
+                return this.catalog.items[0];
             }
         },
 

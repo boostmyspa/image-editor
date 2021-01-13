@@ -22,12 +22,12 @@
         </p>
 
         <div v-show="open" class="gallery-items">
-            <template v-if="galleryPublic" note="this group only exists at the root level">
-                <gallery-group v-for="nestedGroup in rootPublicGroup.groups"
+            <template v-if="publicGroup" note="this group only exists at the root level">
+                <gallery-group v-for="nestedGroup in publicGroup.groups"
                                :parent="group"
                                :group="nestedGroup"
                                :isPublicGroup="true"
-                               :galleryRoot="group"
+                               :galleryRoot="publicGroup"
                                :key="'public-' + nestedGroup.id"
                 ></gallery-group>
             </template>
@@ -78,7 +78,7 @@
         },
 
         props: [
-            'galleryPublic',
+            'publicGroup',
             'group',
             'parent',
             'galleryRoot',
@@ -132,14 +132,6 @@
         },
 
         computed: {
-            rootPublicGroup () {
-                // uses only for the "galleryPublic"
-                let rootId = this.group.rootId;
-                let publicGroup = this.galleryPublic.find( (item) => item.rootId == rootId);
-
-                return publicGroup;
-            },
-
             groupIsPublic () {
                 return this.group.isRoot ? false : this.isPublicGroup;
             },
