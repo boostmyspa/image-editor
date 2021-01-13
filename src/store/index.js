@@ -4,7 +4,6 @@ import Vuex from 'vuex';
 import moduleBackgroundImage from './bgImage'
 import moduleTextBox from './textBox';
 import moduleImageBox from './imageBox';
-import moduleImageGallery from './imageGallery';
 import moduleGallery from './gallery';
 
 
@@ -15,11 +14,53 @@ export default new Vuex.Store({
         bgImage: moduleBackgroundImage,
         textBox: moduleTextBox,
         imageBox: moduleImageBox,
-        imageGallery: moduleImageGallery,
         gallery: moduleGallery,
     },
 
     state: {
+
+        design: {
+            title: 'Your Personalized Long Distance Bond',
+            products: [
+                {
+                    title: 'Premium Unisex T-Shirt',
+                    templateSize: {
+                        width: 4000, // pixels or inches
+                        height: 4000
+                    },
+                    backgroundImage: {
+                        src: null
+                    }
+                },{
+                    title: 'Premium Long Sleeve'
+                },{
+                    title: 'Colored Mug',
+                    templateSize: {
+                        width: 500, // pixels or inches
+                        height: 500
+                    },
+                    backgroundImage: {
+                        src: null
+                    }
+                },
+            ],
+            templates: [
+                {
+                    title: '2 People',
+                    size: { // minimum size for the largest of products (probably default sizes)
+                        width: 500, // pixels or inches
+                        height: 500
+                    }
+                }
+            ]
+        },
+
+        stageSize: {
+            width: 500,
+            height: 500
+        },
+
+
         layersLastId: 0,
         layers: [],
         selectedLayerId: null,

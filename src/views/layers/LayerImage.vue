@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import { /*mapState,*/ mapActions } from 'vuex';
     import UploadImage from '../uploader/UploadImage';
     import ImageInputSettings from './LayerImageSettings';
     import CatalogThumbnail from './CatalogThumbnail';
@@ -91,10 +91,6 @@
         },
 
         computed: {
-            ...mapState('imageGallery', {
-                imageGallery: 'images'
-            }),
-
             isCatalog () {
                 return this.item.type == 'imageCatalog';
             },
