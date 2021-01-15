@@ -142,7 +142,7 @@
 
         computed: {
             ...mapState('bgImage', {
-                backgroundImage: 'uploadedImage'
+                backgroundImage: 'image'
             }),
 
             ...mapState('gallery', {

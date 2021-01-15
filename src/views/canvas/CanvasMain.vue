@@ -11,7 +11,10 @@
                  @mousedown="handleStageMouseDown"
         >
             <v-layer ref="layer-main">
-                <v-image :config="{ image: uploadedImage }"></v-image>
+                <background-box
+                        :stageWidth="stageConfig.width"
+                        :stageHeight="stageConfig.height"
+                ></background-box>
 
                 <template v-for="layer in layers">
                     <text-box v-if="layer.name == 'textBox'" :item="layer" :key="layer.id"></text-box>
@@ -29,6 +32,7 @@
     import Vue from 'vue';
     import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
     import UploadImageToCanvas from '../uploader/UploadImageToCanvas';
+    import BackgroundBox from './BackgroundBox';
     import TextBox from './TextBox';
     import ImageBox from './ImageBox';
     import Transformer from './Transformer';
@@ -37,6 +41,7 @@
         name: "MainCanvas",
         components: {
             'upload-image-to-canvas': UploadImageToCanvas,
+            'background-box': BackgroundBox,
             'text-box': TextBox,
             'image-box': ImageBox,
             'transformer': Transformer
@@ -68,9 +73,9 @@
         },
 
         computed: {
-            ...mapState('bgImage', [
-                'uploadedImage'
-            ]),
+            ...mapState('bgImage', {
+                uploadedImage: 'image'
+            }),
 
             ...mapState([
                 'layers'

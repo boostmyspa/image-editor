@@ -14,11 +14,11 @@
     </div>
     <div class="col-right">
       <div>
-        <p>Upload the background image</p>
+        <p>Upload the background image <button @click="changeBackgroundImageCover">Change Image To {{ backgroundImageCover ? 'Contain' : 'Cover' }}</button></p>
         <upload-image-to-canvas :label="'Upload Image'" :specifiedGalleryRootId="'Backgrounds'"></upload-image-to-canvas>
       </div>
 
-      <input-layers v-if="uploadedImage"></input-layers>
+      <input-layers v-if="backgroundImage"></input-layers>
     </div>
   </div>
 </template>
@@ -58,6 +58,10 @@ export default {
             'saveDataToServer',
             'loadDataFromServer'
         ]),
+
+        ...mapActions('bgImage', {
+            changeBackgroundImageCover: 'changeImageCover'
+        }),
 
         saveData () {
             // console.log(this.layers);
@@ -104,9 +108,10 @@ export default {
             'gallery'
         ]),
 
-        ...mapState('bgImage', [
-            'uploadedImage'
-        ]),
+        ...mapState('bgImage', {
+            backgroundImage: 'image',
+            backgroundImageCover: 'imageCover',
+        }),
 
         ...mapGetters([
             'prepareForSave'
