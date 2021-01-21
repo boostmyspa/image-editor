@@ -1,15 +1,6 @@
 <template>
-    <div>
-        <div v-if="isCatalog">
-            <label>
-                Set label
-                <input type="text" v-model="item.label">
-            </label>
-            <br>
-        </div>
-        <div v-else>
-            <upload-image @uploadedImage="setCurrentImage"></upload-image>
-        </div>
+    <div class="layer layer-image" @click="selectLayer">
+        <i class="layer-type-icon icon-image"></i>
 
         <catalog-thumbnail v-if="item.catalog"
                            :catalog="item.catalog"
@@ -17,30 +8,33 @@
                            @setCurrentImage="setCurrentImage"
         ></catalog-thumbnail>
         <div v-else-if="item.src" class="current-image-box">
-            <img class="current-image" :src="item.src" alt="">
+            <img class="current-image-box--thumbnail" :src="item.src" alt="">
         </div>
 
-        <div class="buttons">
-            <button @click="showSettings = !showSettings">Settings</button>
-            | <button @click="removeItem">Remove</button>
+        <div v-if="isCatalog">
+            <input type="text" v-model="item.label" placeholder="Set label">
         </div>
-        <div class="clearfix"></div>
+        <div v-else>
+            <upload-image @uploadedImage="setCurrentImage" class="btn-icon-wrap">
+                <i class="icon-image-update"></i>
+            </upload-image>
+        </div>
 
-        <image-input-settings v-if="showSettings" :settings="item.settings" @settingsChanged="settingsChanged"></image-input-settings>
+        <button @click.left="removeItem" class="btn-icon-wrap">
+            <i class="icon-delete-filled"></i>
+        </button>
     </div>
 </template>
 
 <script>
     import { /*mapState,*/ mapActions } from 'vuex';
     import UploadImage from '../uploader/UploadImage';
-    import ImageInputSettings from './LayerImageSettings';
     import CatalogThumbnail from './CatalogThumbnail';
 
     export default {
         name: "ImageInput",
         components: {
             'upload-image': UploadImage,
-            'image-input-settings': ImageInputSettings,
             'catalog-thumbnail': CatalogThumbnail,
         },
 
@@ -51,32 +45,27 @@
         data: () => {
             return {
                 openGallery: false,
-                showSettings: false,
             }
         },
 
         methods: {
-            ...mapActions([
-                'setSelectedLayerId',
+            ...mapActions('selectedLayer', [
+                'setSelectedLayer',
+                'changeImage',
+                'changeAlign',
             ]),
 
             ...mapActions('imageBox', [
                 'remove',
-                'changeImage',
-                'changeSettings',
             ]),
 
             removeItem () {
-                this.setSelectedLayerId(null);
+                this.setSelectedLayer(null);
                 this.remove(this.item.id);
             },
 
-            settingsChanged (newSettings) {
-                this.changeSettings({ item: this.item, settings: newSettings });
-            },
-
             setCurrentImage (image) {
-                this.changeImage({ item: this.item, image, src: image.src });
+                this.changeImage(image);
             },
 
             restoreCatalog () {
@@ -87,6 +76,10 @@
 
                 // !!!!!! or Catalog will be loaded from the Server and will not changed.
             },
+
+            selectLayer () {
+                this.$emit('selectLayer', this.item);
+            }
 
         },
 
@@ -107,29 +100,5 @@
 </script>
 
 <style scoped>
-    .current-image-box {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        margin: 5px 0 0;
-    }
 
-    .current-image {
-        display: block;
-        max-width: 100px;
-        margin: 5px 0;
-    }
-
-    .buttons {
-        float: right;
-        margin: 5px 0 0;
-    }
-
-    .clearfix {
-        clear: both;
-    }
-
-    [type="file"] {
-        max-width: 100%;
-    }
 </style>

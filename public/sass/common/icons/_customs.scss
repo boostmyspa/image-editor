@@ -1,0 +1,17 @@
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  width: auto;
+  margin: auto;
+}
+
+.icon-dot-3 {
+  &::before {
+    width: 20px;
+    font-size: 15px;
+    transform: rotateZ(90deg);
+  }
+}
+
+.icon-add-text {
+  font-size: 18px;
+}

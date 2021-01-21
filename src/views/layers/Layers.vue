@@ -1,26 +1,22 @@
 <template>
-    <div>
-        <hr>
-        <p>Add Items</p>
-        <button @click="addNewTextBox">Add Text</button>
-        | <button @click="addNewImageBox">Add Image</button>
-
-        <hr>
-
-        <draggable class="layer-item-list" v-model="inputLayersList" :move="move" @end="dragLayerEnd">
-            <div class="layer-item" v-for="layer in layers.slice().reverse()"
-                 draggable="true"
-                 :class="layer.id == selectedLayerId ? 'active' : ''"
-                 :key="layer.id"
-                 @click="selectLayer(layer.id)"
-            >
-                <b>{{ layer.name }}: {{ layer.type }}</b>
-                <layer-text v-if="layer.name == 'textBox'" :item="layer"></layer-text>
-                <layer-image v-if="layer.name == 'imageBox'" :item="layer"></layer-image>
-            </div>
-        </draggable>
-
-    </div>
+    <draggable class="layers-list" v-model="inputLayersList" :move="move" @end="dragLayerEnd">
+        <template v-for="layer in layers.slice().reverse()">
+            <layer-text v-if="layer.name == 'textBox'"
+                        draggable="true"
+                        :item="layer"
+                        :class="layer.id == selectedLayerId ? 'active' : ''"
+                        :key="layer.id"
+                        @selectLayer="selectLayer"
+            ></layer-text>
+            <layer-image v-if="layer.name == 'imageBox'"
+                         draggable="true"
+                         :item="layer"
+                         :class="layer.id == selectedLayerId ? 'active' : ''"
+                         :key="layer.id"
+                         @selectLayer="selectLayer"
+            ></layer-image>
+        </template>
+    </draggable>
 </template>
 
 <script>
@@ -47,32 +43,15 @@
 
         methods: {
             ...mapActions([
-                'setSelectedLayerId',
                 'replaceLayerInOrder'
             ]),
 
-            ...mapActions('textBox', {
-                addTextBox: 'add',
-            }),
+            ...mapActions('selectedLayer', [
+                'setSelectedLayer',
+            ]),
 
-            ...mapActions('imageBox', {
-                addImageBox: 'add',
-            }),
-
-            addNewTextBox () {
-                this.addTextBox();
-            },
-
-            addNewImageBox () {
-                let imageItem = {
-                    type: 'imageStatic'
-                };
-
-                this.addImageBox(imageItem);
-            },
-
-            selectLayer (id) {
-                this.setSelectedLayerId(id);
+            selectLayer (layer) {
+                this.setSelectedLayer(layer);
             },
 
             reverseLayerIndex(array, index) {
@@ -95,8 +74,15 @@
         computed: {
             ...mapState([
                 'layers',
-                'selectedLayerId'
             ]),
+
+            ...mapState('selectedLayer', [
+                'selectedLayer'
+            ]),
+
+            selectedLayerId () {
+                return this.selectedLayer && this.selectedLayer.id;
+            },
 
             inputLayersList: {
                 get() {

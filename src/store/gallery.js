@@ -408,7 +408,7 @@ export default {
 
             let imageObject = {
                 id: state.imagesLastId,
-                title: `New image`,
+                title: `New choice`,
                 src: src
             };
 

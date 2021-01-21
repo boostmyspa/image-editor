@@ -1,0 +1,12 @@
+
+.navbar {
+  height: $header-height;
+  padding: 15px 10px;
+  border-bottom: 1px solid $color-border;
+}
+
+.navbar-brand {
+  img {
+    width: 94px;
+  }
+}

@@ -4,8 +4,11 @@
              :src="image.src"
              :title="image.title"
              @dragstart="dragStart"
+             @dragend="dragEnd"
         >
-        <button v-if="!inPublicGroup" class="remove-image" @click.left="remove">X</button>
+        <button v-if="!inPublicGroup" class="btn-remove btn-icon-wrap" @click.left="remove">
+            <i class="icon-delete-filled"></i>
+        </button>
     </div>
 </template>
 
@@ -41,6 +44,12 @@
                 this.setDraggedImage({ image: this.image, galleryRoot: this.galleryRoot });
             },
 
+            dragEnd () {
+                console.log('dragEnd');
+
+                // this.setDraggedImage({ image: null, galleryRoot: null });
+            },
+
         },
 
         mounted () {
@@ -50,22 +59,5 @@
 </script>
 
 <style scoped>
-    .gallery-image-item {
-        position: relative;
-        flex: 0 1 auto;
-        width: calc(50% - 2px);
-        margin: 0 0 4px;
-    }
 
-    .gallery-img {
-        width: 100%;
-        /*cursor: pointer;*/
-    }
-
-    .remove-image {
-        position: absolute;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-    }
 </style>

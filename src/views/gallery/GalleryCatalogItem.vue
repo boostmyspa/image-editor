@@ -1,12 +1,28 @@
 <template>
     <div class="gallery-catalog-item">
-        <b>{{ image.title }}</b>
-        <input v-if="!inPublicGroup" class="gallery-catalog-item-title" type="text" v-model="image.title">
-        <img class="gallery-catalog-img" draggable="false"
+        <img class="gallery-catalog-thumbnail" draggable="false"
              :src="image.src"
              :title="image.title"
         >
-        <button v-if="!inPublicGroup" class="remove-catalog-item" @click.left="remove">X</button>
+
+        <input v-if="!inPublicGroup && titleRename"
+               ref="itemTitleInput"
+               class="gallery-catalog-item--title-input"
+               type="text"
+               v-model="image.title"
+               @blur="titleRenameDone"
+               @keydown.enter="titleRenameDone"
+        >
+        <b v-show="!titleRename" class="gallery-catalog-item--title-text" @dblclick="renameTitle">{{ image.title }}</b>
+
+        <div v-if="!inPublicGroup" class="gallery-catalog--buttons gallery-catalog-item--buttons">
+            <button @click.left="titleRename = !titleRename" class="btn-icon-wrap">
+                <i class="icon-edit"></i>
+            </button>
+            <button v-if="!inPublicGroup" @click.left="remove" class="btn-remove btn-icon-wrap">
+                <i class="icon-delete-filled"></i>
+            </button>
+        </div>
     </div>
 </template>
 
@@ -21,6 +37,12 @@
             'inPublicGroup',
         ],
 
+        data: () => {
+           return {
+               titleRename: false,
+           }
+        },
+
         methods: {
             ...mapActions('gallery', [
                 'removeImageFromGroup'
@@ -30,7 +52,27 @@
                 this.removeImageFromGroup({ group: this.catalog, imageItem: this.image })
             },
 
+            renameTitle () {
+                if (!this.inPublicGroup && !this.titleRename) {
+                    this.titleRename = true;
+                }
+            },
 
+            titleRenameDone () {
+                this.titleRename = false;
+            },
+        },
+
+        watch: {
+            titleRename () {
+                if (this.titleRename) {
+                    let t = setTimeout(() => {
+                        clearTimeout(t);
+                        this.$refs.itemTitleInput.focus();
+                    });
+
+                }
+            }
         },
 
 
@@ -38,26 +80,5 @@
 </script>
 
 <style scoped>
-    .gallery-catalog-item {
-        position: relative;
-        margin: 0 0 4px;
-        padding: 0 0 4px;
-        border-bottom: 1px solid;
-    }
 
-    .gallery-catalog-item-title {
-        margin: 0 0 4px;
-    }
-
-    .gallery-catalog-img {
-        max-width: 100%;
-        /*cursor: pointer;*/
-    }
-
-    .remove-catalog-item {
-        position: absolute;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-    }
 </style>

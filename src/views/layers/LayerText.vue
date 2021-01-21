@@ -1,76 +1,63 @@
 <template>
-    <div>
-        <br>
+    <div class="layer layer-text" @click="selectLayer">
+        <i class="layer-type-icon icon-add-text"></i>
+
         <input class="text-input" type="text"
                :value="item.text"
                @input="textInput"
         >
-        <div class="buttons">
-            <button @click="showSettings = !showSettings">Settings</button>
-            | <button @click="removeItem">Remove</button>
-        </div>
-        <div class="clearfix"></div>
 
-        <text-input-settings v-if="showSettings" :settings="item.settings" @settingsChanged="settingsChanged"></text-input-settings>
+        <button @click.left="removeItem" class="btn-icon-wrap">
+            <i class="icon-delete-filled"></i>
+        </button>
+
     </div>
 </template>
 
 <script>
     import { mapActions } from 'vuex';
-    import TextInputSettings from './LayerTextSettings';
 
     export default {
         name: "TextInput",
         components: {
-            'text-input-settings': TextInputSettings
+
         },
         props: [
             'item'
         ],
         data: () => {
            return {
-               showSettings: false,
+
            }
         },
         methods: {
-            ...mapActions([
-                'setSelectedLayerId',
+            ...mapActions('selectedLayer', [
+                'setSelectedLayer',
+                'changeText',
             ]),
 
             ...mapActions('textBox', [
                 'remove',
-                'changeText',
-                'changeSettings'
             ]),
 
             removeItem () {
-                this.setSelectedLayerId(null);
+                this.setSelectedLayer(null);
                 this.remove(this.item.id);
             },
 
             textInput (e) {
                 const text = e.target.value;
-                this.changeText({ item: this.item, text });
+
+                this.changeText(text);
             },
 
-            settingsChanged (newSettings) {
-                this.changeSettings({ item: this.item, settings: newSettings });
+            selectLayer () {
+                this.$emit('selectLayer', this.item);
             }
         }
     }
 </script>
 
 <style scoped>
-    .text-input {
 
-    }
-
-    .buttons {
-        float: right;
-        margin: 5px 0 0;
-    }
-
-    .clearfix {
-        clear: both;
-    }
 </style>

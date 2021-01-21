@@ -18,11 +18,9 @@ export default {
             width: 150,
             height: 150,
             rotate: 0,
-            settings: {
-                hAlign: 'center',
-                vAlign: 'middle',
-                // fitContain: true, // true: contain, false: cover
-            }
+            hAlign: 'center',
+            vAlign: 'middle',
+            // fitContain: true, // true: contain, false: cover
         }
     },
 
@@ -39,14 +37,9 @@ export default {
             item = item || {};
 
             const def = state.default;
-            const itemSettings = item.settings || {};
 
             const setProperty = (propName) => {
                 return item[propName] || def[propName];
-            };
-
-            const setPropertySettings = (propName) => {
-                return itemSettings[propName] || def[propName];
             };
 
             let imageItem = {
@@ -66,11 +59,9 @@ export default {
                 width: setProperty('width'),
                 height: setProperty('height'),
                 rotate: setProperty('rotate'),
-                settings: {
-                    hAlign: setPropertySettings('hAlign'),
-                    vAlign: setPropertySettings('vAlign'),
-                    // fitContain: itemSettings.fitContain || def.settings.fitContain,
-                }
+                hAlign: setProperty('hAlign'),
+                vAlign: setProperty('vAlign'),
+                // fitContain: itemSettings.fitContain || def.settings.fitContain,
             };
 
             dispatch('addLayer', imageItem, { root: true });
@@ -80,43 +71,5 @@ export default {
             dispatch('removeLayerById', id, { root: true });
         },
 
-        changeImage ({ dispatch }, { item, image, src }) {
-            let
-                newItem = Object.assign({}, item);
-
-            newItem.image = image;
-            newItem.src = src;
-
-            dispatch('changeLayer', newItem, { root: true });
-        },
-
-        changePosition ({ dispatch }, { item, position }) {
-            let
-                newItem = Object.assign({}, item);
-
-            newItem.x = position.x;
-            newItem.y = position.y;
-
-            dispatch('changeLayer', newItem, { root: true });
-        },
-
-        transformed ({ dispatch }, { item, width, height }) {
-            let
-                newItem = Object.assign({}, item);
-
-            newItem.width = width;
-            newItem.height = height;
-
-            dispatch('changeLayer', newItem, { root: true });
-        },
-
-        changeSettings ({ dispatch }, { item, settings}) {
-            let
-                newItem = Object.assign({}, item);
-
-            newItem.settings = settings;
-
-            dispatch('changeLayer', newItem, { root: true });
-        },
     }
 }

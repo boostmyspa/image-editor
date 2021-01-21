@@ -1,0 +1,148 @@
+
+.layers-settings-bar {
+  flex: 0 1 auto;
+  display: flex;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-size: 18px;
+  background: $color-brand-4;
+  border-bottom: 1px solid #c0c0ff;
+
+  &--group {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 3px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 6px;
+      bottom: 5px;
+      border-right: 1px solid #8b81ff;
+    }
+
+    &:last-of-type {
+      &::after {
+        content: none;
+      }
+    }
+
+    .icon-align {
+      font-size: 14px;
+    }
+  }
+
+  &--label {
+    margin: 0 2px 0 0;
+    font-size: 14px;
+  }
+
+  &--input {
+    width: 32px;
+    height: 18px;
+    margin: 4px 4px 0 0;
+    padding: 0 2px;
+    border: 0;
+    border-bottom: 1px dashed $color-brand;
+    font-size: 12px;
+    line-height: 1;
+    //text-align: center;
+    background: transparent;
+  }
+
+  .btn-icon-wrap {
+    &:hover {
+      background: $color-brand-2;
+    }
+  }
+
+  &--align {
+    position: relative;
+
+    &:hover {
+      .layers-settings-bar--align--choices {
+        display: flex;
+      }
+    }
+
+    .current-align-btn {
+      display: block;
+    }
+
+    &--choices {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      z-index: 1;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 2px;
+      border-radius: 4px;
+      background: $color-brand-4;
+
+      &-row {
+        display: flex;
+      }
+
+      .btn-icon-wrap {
+        margin: 1px;
+
+        &.active {
+          background: $color-btn-icon-wrap--bg-hover;
+        }
+      }
+    }
+  }
+
+  &--color-picker {
+    position: relative;
+
+    &:hover {
+      .layers-settings-bar--color-picker--select {
+        display: block;
+      }
+    }
+
+    .btn-icon-wrap {
+      display: block;
+    }
+
+    &--icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+      margin: auto;
+      border-radius: 2px;
+    }
+
+    &--select {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &--font-size {
+    display: flex;
+    align-items: center;
+
+    .layers-settings-bar--input {
+      width: 20px;
+      margin-right: 0;
+      text-align: center;
+    }
+  }
+
+  &--font-family {
+    height: 20px;
+    margin-left: 0.25rem;
+  }
+}

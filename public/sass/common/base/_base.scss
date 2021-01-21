@@ -1,0 +1,39 @@
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: "Avenir";
+  font-size: 16px;
+  background: $color-white;
+  color: $color-text;
+}
+
+.c-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.c-main {
+  flex: 1 0 auto;
+}
+
+input,
+button {
+  &:focus {
+    outline: 0;
+  }
+}
+
+input[type=number] {
+  -moz-appearance:textfield; /* Firefox */
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
+}

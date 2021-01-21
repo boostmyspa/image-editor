@@ -1,8 +1,15 @@
 <template>
     <div class="current-image-box">
-        <button @click.left="setThumbnailPrevious">&#8592; Prev</button>
-        <img class="current-image" :src="thumbnailSrc" alt="">
-        <button @click.left="setThumbnailNext">Next &#8594;</button>
+        <img class="current-image-box--thumbnail" :src="thumbnailSrc" alt="">
+
+        <div class="current-image-box--buttons">
+            <button @click.left="setThumbnailPrevious" class="btn-reset current-image-box--btn current-image-box--btn-left">
+                <i class="icon icon-left-open-mini"></i>
+            </button>
+            <button @click.left="setThumbnailNext" class="btn-reset current-image-box--btn current-image-box--btn-right">
+                <i class="icon icon-right-open-mini"></i>
+            </button>
+        </div>
     </div>
 </template>
 
@@ -75,16 +82,5 @@
 </script>
 
 <style scoped>
-    .current-image-box {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        margin: 5px 0 0;
-    }
 
-    .current-image {
-        display: block;
-        max-width: 100px;
-        margin: 5px 0;
-    }
 </style>

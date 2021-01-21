@@ -1,20 +1,22 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import moduleBackgroundImage from './bgImage'
-import moduleTextBox from './textBox';
-import moduleImageBox from './imageBox';
-import moduleGallery from './gallery';
+import bgImage from './bgImage'
+import textBox from './textBox';
+import imageBox from './imageBox';
+import gallery from './gallery';
+import selectedLayer from './selectedLayer';
 
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
-        bgImage: moduleBackgroundImage,
-        textBox: moduleTextBox,
-        imageBox: moduleImageBox,
-        gallery: moduleGallery,
+        bgImage: bgImage,
+        textBox: textBox,
+        imageBox: imageBox,
+        gallery: gallery,
+        selectedLayer: selectedLayer
     },
 
     state: {
@@ -64,8 +66,7 @@ export default new Vuex.Store({
 
         layersLastId: 0,
         layers: [],
-        selectedLayerId: null,
-        dataFromServer: null
+        dataFromServer: null,
     },
 
     getters: {
@@ -79,7 +80,6 @@ export default new Vuex.Store({
 
         prepareForSave: (state) => {
             let saveLayers = state.layers.map((item) => {
-                const settings = item.settings || {};
 
                 switch (item.name) {
                     case 'textBox':
@@ -91,13 +91,11 @@ export default new Vuex.Store({
                             width: item.width,
                             height: item.height,
                             rotate: item.rotate,
-                            settings: {
-                                hAlign: settings.hAlign,
-                                vAlign: settings.vAlign,
-                                fontSize: settings.fontSize,
-                                fontFamily: settings.fontFamily,
-                                fill: settings.fill
-                            }
+                            hAlign: item.hAlign,
+                            vAlign: item.vAlign,
+                            fontSize: item.fontSize,
+                            fontFamily: item.fontFamily,
+                            fill: item.fill,
                         };
 
                     case 'imageBox':
@@ -114,10 +112,8 @@ export default new Vuex.Store({
                             width: item.width,
                             height: item.height,
                             rotate: item.rotate,
-                            settings: {
-                                hAlign: settings.hAlign,
-                                vAlign: settings.vAlign
-                            }
+                            hAlign: item.hAlign,
+                            vAlign: item.vAlign,
                         };
 
                     default:
@@ -146,14 +142,6 @@ export default new Vuex.Store({
             state.layers.splice(index, 1);
         },
 
-        changeLayer(state, { index, item }) {
-            state.layers.splice(index, 1, item)
-        },
-
-        setSelectedLayerId(state, id) {
-            state.selectedLayerId = id;
-        },
-
         replaceLayerInOrder(state, { from, to }) {
             state.layers.splice(to, 0, state.layers.splice(from, 1)[0]);
         },
@@ -171,7 +159,7 @@ export default new Vuex.Store({
 
             commit('addLayer', item);
 
-            dispatch('setSelectedLayerIdToLastId');
+            dispatch('selectedLayer/setSelectedLayer', item);
         },
 
         removeLayer({ getters, commit }, item) {
@@ -184,21 +172,6 @@ export default new Vuex.Store({
             let index = getters.getLayerIndexById(id);
 
             commit('removeLayer', index);
-        },
-
-        changeLayer({ getters, commit }, item) {
-            let index = getters.getLayerIndexById(item['id']);
-
-            commit('changeLayer', { index, item });
-        },
-
-        setSelectedLayerId({ commit }, id) {
-            commit('setSelectedLayerId', id);
-        },
-
-        setSelectedLayerIdToLastId({ state, commit }) {
-            const layersLastId = `id-${state.layersLastId}`;
-            commit('setSelectedLayerId', layersLastId);
         },
 
         replaceLayerInOrder({ commit }, { from, to }) {

@@ -1,0 +1,11 @@
+
+.c-canvas {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - #{$header-height});
+  background: $color-canvas-bg;
+}
+
+#canvas-container {
+  flex: 1 1 auto;
+}

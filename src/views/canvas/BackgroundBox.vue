@@ -1,15 +1,15 @@
 <template>
     <v-image :config="{
                 image: image,
-                x: -imageSize.width / 2,
-                y: -imageSize.height / 2,
+                x: 0, // -imageSize.width / 2,
+                y: 0, // -imageSize.height / 2,
                 width: imageSize.width,
                 height: imageSize.height,
-                offsetX: -stageWidth / 2,
-                offsetY: -stageHeight / 2,
-                rotate: 0,
-                draggable: true,
-                dragBoundFunc: dragBoundFunc
+                offsetX: 0, // -stageWidth / 2,
+                offsetY: 0, // -stageHeight / 2,
+                // rotate: 0,
+                // draggable: true,
+                // dragBoundFunc: dragBoundFunc
                 }"
     ></v-image>
 </template>
@@ -18,7 +18,7 @@
     import { mapState,/* mapGetters, mapMutations, mapActions*/ } from 'vuex';
 
     export default {
-        name: "Background",
+        name: "BackgroundBox",
         props: [
             'stageWidth',
             'stageHeight',

@@ -18,21 +18,22 @@
 
         data: () => {
             return {
-                minTransformSize: 20
+                transformerNode: null,
+                minTransformSize: 20,
             }
         },
 
         methods: {
-            ...mapActions([
-                'setSelectedLayerId',
+            ...mapActions('selectedLayer', [
+                'setSelectedLayer',
             ]),
 
-            transformerSelect(id) {
-                this.setSelectedLayerId(id);
+            transformerSelect(layer) {
+                this.setSelectedLayer(layer);
             },
 
             transformerDeselect() {
-                this.setSelectedLayerId(null);
+                this.setSelectedLayer(null);
             },
 
             handleStageMouseDown(e) {
@@ -63,7 +64,7 @@
                 const layer = this.getLayerById(id);
 
                 if (layer) {
-                    this.transformerSelect(id);
+                    this.transformerSelect(layer);
                 } else {
                     this.transformerDeselect();
                 }
@@ -71,24 +72,32 @@
 
             updateTransformer() {
                 // here we need to manually attach or detach Transformer node
-                const transformerNode = this.$refs.transformer.getNode();
-                const stage = transformerNode.getStage();
+                // const transformerNode = this.$refs.transformer.getNode();
+                const stage = this.transformerNode.getStage();
 
-                const selectedNode = stage.findOne('#' + this.selectedLayerId);
+                let selectedNode;
+
+                if (this.selectedLayer) {
+                    selectedNode = stage.findOne('#' + this.selectedLayer.id);
+                }
+                else {
+                    selectedNode = null;
+                }
 
                 // do nothing if selected node is already attached
-                if (selectedNode === transformerNode.node()) {
+                if (selectedNode === this.transformerNode.node()) {
                     return;
                 }
 
                 if (selectedNode) {
                     // attach to another node
-                    transformerNode.nodes([selectedNode]);
+                    this.transformerNode.nodes([selectedNode]);
                 } else {
                     // remove transformer
-                    transformerNode.nodes([]);
+                    this.transformerNode.nodes([]);
                 }
-                transformerNode.getLayer().batchDraw();
+
+                this.transformerNode.getLayer().batchDraw();
             },
 
             boundBoxFunc(oldBox, newBox) {
@@ -101,27 +110,56 @@
                     return newBox;
                 }
                 return newBox;
-            }
+            },
+
+            forceUpdate () {
+                // it is for update Transformer when the Layer size changing from the Settings Bar
+                let t = setTimeout(() => {
+                    this.transformerNode.forceUpdate();
+                    this.transformerNode.getLayer().batchDraw();
+
+                    clearTimeout(t);
+                });
+            },
+
         },
 
         created () {
-            this.stageEventsBus.$on('handleStageMouseDown', this.handleStageMouseDown)
+            this.stageEventsBus.$on('handleStageMouseDown', this.handleStageMouseDown);
+        },
+
+        mounted () {
+            this.transformerNode = this.$refs.transformer.getNode();
         },
 
         computed: {
+            ...mapState('selectedLayer', [
+                'selectedLayer',
+            ]),
+
             ...mapGetters([
                 'getLayerById'
             ]),
 
-            ...mapState([
-                'selectedLayerId'
-            ]),
+            ...mapGetters('selectedLayer', {
+                selectedLayerWidth: 'width',
+                selectedLayerHeight: 'height',
+            }),
+
         },
 
         watch: {
-            selectedLayerId() {
+            selectedLayer () {
                 this.updateTransformer();
-            }
+            },
+
+            selectedLayerWidth () {
+                this.forceUpdate();
+            },
+
+            selectedLayerHeight () {
+                this.forceUpdate();
+            },
         }
     }
 </script>

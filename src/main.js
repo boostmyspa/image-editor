@@ -4,7 +4,7 @@ import Axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueKonva from 'vue-konva';
 
-import App from './App.vue';
+import App from './views/App';
 // import Router from './router';
 
 Vue.config.productionTip = false;

@@ -39,6 +39,7 @@
 </template>
 
 <script>
+    // import throttle from '../../util/throttle';
     import { mapActions } from 'vuex';
 
     export default {
@@ -53,10 +54,10 @@
             }
         },
         methods: {
-            ...mapActions('imageBox', [
+            ...mapActions('selectedLayer', [
                 'changeImage',
                 'changePosition',
-                'transformed'
+                'changeSize',
             ]),
 
             changeImageBoxPosition (e) {
@@ -64,7 +65,7 @@
                     textBoxNode = e.target,
                     position = textBoxNode.position();
 
-                this.changePosition({ item: this.item, position });
+                this.changePosition(position);
             },
 
             transforming (e) {
@@ -97,7 +98,12 @@
                     //     height = this.minTransformSize + 2;
                     // }
 
-                    this.transformed({ item: this.item, width, height });
+                    const size = {
+                        width: width,
+                        height: height
+                    };
+
+                    this.changeSize(size);
 
                     // if (transformer && stopTransform) {
                     //     transformer.stopTransform();
@@ -110,6 +116,11 @@
         },
 
         computed: {
+            // throttleTransforming (e) {
+            //     let DELAY = 1000;
+            //     return throttle(this.transforming.bind(e), DELAY);
+            // },
+
             imageSize () {
                 if (!this.item.image) return;
                 
@@ -133,14 +144,14 @@
                     size = {
                         width: imgWidth * scale,
                         height: imgHeight * scale
-                    }
+                    };
                 }
 
                 return size;
             },
 
             imagePositionX () {
-                const hAlign = this.item.settings.hAlign;
+                const hAlign = this.item.hAlign;
                 let x;
 
                 switch (hAlign) {
@@ -162,7 +173,7 @@
             },
 
             imagePositionY () {
-                const vAlign = this.item.settings.vAlign;
+                const vAlign = this.item.vAlign;
                 let y;
 
                 switch (vAlign) {
@@ -196,7 +207,7 @@
                 imageObj.onload = (e) => {
                     let image = e.path[0];
 
-                    this.changeImage({ item: this.item, image: image, src: imageSrc })
+                    this.changeImage(image);
                 };
 
                 imageObj.src = imageSrc;

@@ -74,7 +74,7 @@
                 };
 
                 if (this.catalogDraggedFromGallery) {
-                    const catalog = this.catalogDraggedFromGallery;
+                    const catalog = Object.assign({}, this.catalogDraggedFromGallery);
 
                     item.catalog = catalog;
                     item.catalogId = catalog.id;

@@ -1,7 +1,26 @@
 <template>
     <div class="gallery" note="sort the gallery by the items Name or DateAdding (settings)">
-        <h3>Gallery</h3>
-        <gallery-group v-for="group in galleryPrivate" :publicGroup="setPublicRootGroup(group)" :group="group" :key="group.rootId"></gallery-group>
+        <ul class="gallery-links list-unstyled">
+            <li :class="activeGroup == 'Backgrounds' ? 'active' : ''" @click.left="activeGroup = 'Backgrounds'">
+                <i class="icon icon-content"></i>
+                <span class="d-block">Background</span>
+            </li>
+            <li :class="activeGroup == 'Statics' ? 'active' : ''" @click.left="activeGroup = 'Statics'">
+                <i class="icon icon-content"></i>
+                <span>Static</span>
+            </li>
+            <li :class="activeGroup == 'Catalogs' ? 'active' : ''" @click.left="activeGroup = 'Catalogs'">
+                <i class="icon icon-content"></i>
+                <span>Choices</span>
+            </li>
+        </ul>
+
+        <gallery-group v-for="group in galleryPrivate"
+                       :publicGroup="setPublicRootGroup(group)"
+                       :group="group"
+                       :activeGroup="activeGroup"
+                       :key="group.rootId"
+        ></gallery-group>
     </div>
 </template>
 
@@ -16,7 +35,7 @@
         },
         data: () => {
             return {
-
+                activeGroup: 'Backgrounds', // 'Backgrounds'
             }
         },
 

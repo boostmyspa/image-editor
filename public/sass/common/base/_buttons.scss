@@ -1,0 +1,44 @@
+
+.upload-image {
+  margin: 0;
+}
+
+.btn {
+  border: 0;
+}
+
+.btn-primary {
+  color: $color-white;
+  background: $color-brand;
+
+  &:hover {
+    background: $color-brand-2;
+  }
+}
+
+.btn-reset {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn-icon-wrap {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  text-align: center;
+  color: $color-btn-icon-wrap;
+  background: transparent;
+  cursor: pointer;
+
+  input[type="file"] {
+    display: none;
+  }
+
+  &:hover {
+    background: $color-btn-icon-wrap--bg-hover;
+  }
+}

@@ -10,17 +10,15 @@
     >
         <slot></slot>
     </div>
-    <div v-else class="upload-image">
-        <label>
-            {{ label }}
-            <input type="file" name="imageLoader"
-                    :value="value"
-                    :multiple="multiple"
-                    :accept="acceptFileTypes.join(',')"
-                    @change="handleImage"
-            >
-        </label>
-    </div>
+    <label v-else class="upload-image">
+        <slot></slot>
+        <input type="file" name="imageLoader"
+               :value="value"
+               :multiple="multiple"
+               :accept="acceptFileTypes.join(',')"
+               @change="handleImage"
+        >
+    </label>
 </template>
 
 <script>
@@ -88,7 +86,10 @@
                 // upload only images
                 let correctImageSrc = this.acceptImagesOnly(imageSrc);
 
-                if (!correctImageSrc) return;
+                if (!correctImageSrc) {
+                    console.warn('Uploaded file is not image type: ' + imageSrc);
+                    return;
+                }
 
                 let reader = new FileReader();
 
