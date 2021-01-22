@@ -11,6 +11,8 @@
                  @mousedown="handleStageMouseDown"
         >
             <v-layer ref="layer-main">
+                <hidden-dynamic-text-mask v-if="showHiddenDynamicTextMask" :item="selectedLayer"></hidden-dynamic-text-mask>
+
                 <background-box
                         :stageWidth="stageConfig.width"
                         :stageHeight="stageConfig.height"
@@ -36,6 +38,7 @@
     import TextBox from './TextBox';
     import ImageBox from './ImageBox';
     import Transformer from './Transformer';
+    import HiddenDynamicTextMask from '../layers/HiddenDynamicTextMask';
 
     export default {
         name: "MainCanvas",
@@ -44,7 +47,8 @@
             'background-box': BackgroundBox,
             'text-box': TextBox,
             'image-box': ImageBox,
-            'transformer': Transformer
+            'transformer': Transformer,
+            'hidden-dynamic-text-mask': HiddenDynamicTextMask,
         },
         props: [
             'stageConfig'
@@ -73,13 +77,21 @@
         },
 
         computed: {
+            ...mapState([
+                'layers'
+            ]),
+
             ...mapState('bgImage', {
                 uploadedImage: 'image'
             }),
 
-            ...mapState([
-                'layers'
+            ...mapState('selectedLayer', [
+                'selectedLayer'
             ]),
+
+            showHiddenDynamicTextMask () {
+                return this.selectedLayer && this.selectedLayer.type == 'textDynamic';
+            }
         },
 
         created() {

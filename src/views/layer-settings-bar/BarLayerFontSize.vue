@@ -1,6 +1,5 @@
 <template>
     <div class="layers-settings-bar--font-size">
-        <label for="settings-font-size" class="layers-settings-bar--label ml-1">Font:</label>
         <input id="settings-font-size"
                type="number"
                class="layers-settings-bar--input"

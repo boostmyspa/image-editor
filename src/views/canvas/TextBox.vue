@@ -21,10 +21,11 @@
                         text: item.text,
                         fontSize: +item.fontSize,
                         fontFamily: item.fontFamily,
+                        lineHeight: textLineHeight,
                         align: item.hAlign,
                         verticalAlign: item.vAlign,
                         fill: item.fill,
-                        // wrap: 'none',
+                        wrap: textWrap,
                         }"
         ></v-text>
 
@@ -47,11 +48,11 @@
     export default {
         name: "TextBox",
         props: [
-            'item'
+            'item',
         ],
         data: () => {
             return {
-                rotation: 0
+                rotation: 0,
             }
         },
 
@@ -96,12 +97,19 @@
         },
 
         computed: {
+            textLineHeight () {
+                return this.isDynamicText ? 1 : +this.item.lineHeight;
+            },
 
+            textWrap () {
+                return this.isDynamicText ? 'none' : 'word';
+            },
+
+            isDynamicText () {
+                return this.item.type == 'textDynamic';
+            },
         },
 
-        mounted () {
-
-        }
     }
 </script>
 

@@ -8,8 +8,12 @@
             <i class="icon-image"></i>
         </upload-image-to-canvas>
 
-        <button @click="addNewTextBox" class="btn-icon-wrap" title="Add Static Text">
+        <button @click="addTextStaticBox" class="btn-icon-wrap" title="Add Static Text">
             <i class="icon-add-text"></i>
+        </button>
+
+        <button @click="addTextDynamicBox" class="btn-icon-wrap" title="Add Dynamic Text">
+            <i class="icon-text-width"></i>
         </button>
     </div>
 </template>
@@ -34,18 +38,20 @@
                 addImageBox: 'add',
             }),
 
-            addNewTextBox () {
-                this.addTextBox();
-            },
-
-            addNewImageBox (image) {
-                let imageItem = {
-                    type: 'imageStatic',
-                    image: image,
-                    src: image.src
+            addTextStaticBox () {
+                let item = {
+                    type: 'textStatic',
                 };
 
-                this.addImageBox(imageItem);
+                this.addTextBox(item);
+            },
+
+            addTextDynamicBox () {
+                let item = {
+                    type: 'textDynamic',
+                };
+
+                this.addTextBox(item);
             },
         }
     }

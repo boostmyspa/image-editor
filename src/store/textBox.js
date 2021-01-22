@@ -3,6 +3,7 @@ export default {
     
     state: {
         default: {
+            type: 'textStatic', // textStatic, textDynamic
             name: 'textBox',
             text: '',
             x: 0,
@@ -14,6 +15,7 @@ export default {
             vAlign: 'middle',
             fontSize: '30',
             fontFamily: 'Avenir',
+            lineHeight: 1,
             fill: 'black',
         }
     },
@@ -39,6 +41,7 @@ export default {
             let textItem = {
                 scaleX: 1, // don't change. This is for prevent the transformer scaling
                 scaleY: 1,
+                type: setProperty('type'),
                 name: def.name,
                 text: setProperty('text'),
                 x: setProperty('x'),
@@ -50,6 +53,7 @@ export default {
                 vAlign: setProperty('vAlign'),
                 fontSize: setProperty('fontSize'),
                 fontFamily: setProperty('fontFamily'),
+                lineHeight: setProperty('lineHeight'),
                 fill: setProperty('fill'),
             };
 

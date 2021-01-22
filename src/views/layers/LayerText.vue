@@ -1,6 +1,6 @@
 <template>
     <div class="layer layer-text" @click="selectLayer">
-        <i class="layer-type-icon icon-add-text"></i>
+        <i class="layer-type-icon" :class="isDynamicText ? 'icon-text-width' : 'icon-add-text'"></i>
 
         <input class="text-input" type="text"
                :value="item.text"
@@ -22,14 +22,17 @@
         components: {
 
         },
+
         props: [
             'item'
         ],
+
         data: () => {
            return {
 
            }
         },
+
         methods: {
             ...mapActions('selectedLayer', [
                 'setSelectedLayer',
@@ -54,7 +57,13 @@
             selectLayer () {
                 this.$emit('selectLayer', this.item);
             }
-        }
+        },
+
+        computed: {
+            isDynamicText () {
+                return this.item.type == 'textDynamic';
+            }
+        },
     }
 </script>
 

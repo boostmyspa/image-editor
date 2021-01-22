@@ -10,10 +10,11 @@
 
         <bar-layer-align v-if="selectedLayer" class="layers-settings-bar--group"></bar-layer-align>
 
-        <div v-if="selectedLayer && selectedLayer.name == 'textBox'" class="layers-settings-bar--group">
+        <div v-if="layerIsTextBox" class="layers-settings-bar--group">
             <bar-layer-color></bar-layer-color>
 
-            <bar-layer-font-size></bar-layer-font-size>
+            <label class="layers-settings-bar--label ml-1">Font:</label>
+            <bar-layer-font-size v-if="!layerIsDynamicText"></bar-layer-font-size>
 
             <bar-layer-font-family></bar-layer-font-family>
         </div>
@@ -51,6 +52,14 @@
             ...mapState('selectedLayer', [
                 'selectedLayer',
             ]),
+
+            layerIsTextBox () {
+                return this.selectedLayer && this.selectedLayer.name == 'textBox';
+            },
+
+            layerIsDynamicText () {
+                return this.selectedLayer && this.selectedLayer.type == 'textDynamic'
+            },
         },
     }
 </script>
