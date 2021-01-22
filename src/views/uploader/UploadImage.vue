@@ -22,6 +22,7 @@
 </template>
 
 <script>
+    import LoadImage from '../../util/loadImage';
     import { mapState, /*mapActions*/ } from 'vuex';
 
     export default {
@@ -72,14 +73,12 @@
             },
 
             imageLoaded (imageSrc) {
-                let imageObj = new Image();
-
-                imageObj.onload = (e) => {
-                    let image = e.path[0];
-                    this.$emit('uploadedImage', image);
-                };
-
-                imageObj.src = imageSrc;
+                LoadImage(
+                    (image) => {
+                        this.$emit('uploadedImage', image);
+                    },
+                    imageSrc
+                );
             },
 
             imageReader (imageSrc) {

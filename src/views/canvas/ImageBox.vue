@@ -40,6 +40,7 @@
 
 <script>
     // import throttle from '../../util/throttle';
+    import LoadImage from '../../util/loadImage';
     import { mapActions } from 'vuex';
 
     export default {
@@ -201,16 +202,12 @@
                 itemImage = this.item.image;
 
             if (imageSrc && !itemImage) {
-                let
-                    imageObj = new Image();
-
-                imageObj.onload = (e) => {
-                    let image = e.path[0];
-
-                    this.changeImage(image);
-                };
-
-                imageObj.src = imageSrc;
+                LoadImage(
+                    (image) => {
+                        this.changeImage(image);
+                    },
+                    imageSrc
+                );
             }
         }
     }

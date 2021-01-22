@@ -2,6 +2,10 @@
     <div class="layers-settings-bar">
         <bar-add-layer class="layers-settings-bar--group"></bar-add-layer>
 
+        <div v-if="selectedLayer" class="layers-settings-bar--group">
+            <bar-layer-duplicate></bar-layer-duplicate>
+        </div>
+
         <bar-layer-transform v-if="selectedLayer" class="layers-settings-bar--group"></bar-layer-transform>
 
         <bar-layer-align v-if="selectedLayer" class="layers-settings-bar--group"></bar-layer-align>
@@ -19,6 +23,7 @@
 <script>
     import { mapState, /*mapGetters, mapActions*/ } from 'vuex';
     import BarAddLayer from './BarAddLayer';
+    import BarLayerDuplicate from './BarLayerDuplicate';
     import BarLayerTransform from './BarLayerTransform';
     import BarLayerAlign from './BarLayerAlign';
     import BarLayerColor from './BarLayerColor';
@@ -30,6 +35,7 @@
 
         components: {
             'bar-add-layer': BarAddLayer,
+            'bar-layer-duplicate': BarLayerDuplicate,
             'bar-layer-transform': BarLayerTransform,
             'bar-layer-align': BarLayerAlign,
             'bar-layer-color': BarLayerColor,

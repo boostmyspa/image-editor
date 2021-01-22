@@ -14,6 +14,8 @@
 </template>
 
 <script>
+    import LoadImage from '../../util/loadImage';
+
     export default {
         name: "CatalogThumbnail",
 
@@ -47,15 +49,12 @@
             },
 
             setThumbnailAsCurrentImage () {
-                let imageObj = new Image();
-
-                imageObj.onload = (e) => {
-                    let image = e.path[0];
-
-                    this.$emit('setCurrentImage', image);
-                };
-
-                imageObj.src = this.thumbnailSrc;
+                LoadImage(
+                    (image) => {
+                        this.$emit('setCurrentImage', image);
+                    },
+                    this.thumbnailSrc
+                );
             },
         },
 

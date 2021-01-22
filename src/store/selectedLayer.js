@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import LoadImage from '../util/loadImage';
 
 export default {
     namespaced: true,
@@ -148,5 +149,33 @@ export default {
 
             commit('setFontFamily', fontFamily);
         },
+
+        duplicateLayer ({ state, dispatch }, layer) {
+            if (!state.selectedLayer) return;
+
+            let newLayer = Object.assign({}, layer);
+
+            // shift new added layer position
+            newLayer.x += 10;
+            newLayer.y += 10;
+
+            if (newLayer.type == 'imageCatalog' && newLayer.catalog.items.length) {
+                // for the Catalog Layer sets Thumbnail image as the first of choices
+                const thumbnailSrc = newLayer.catalog.items[0].src;
+
+                LoadImage(
+                    (image, src) => {
+                        newLayer.image = image;
+                        newLayer.src = src;
+
+                        dispatch('addLayer', newLayer, { root: true });
+                    },
+                    thumbnailSrc
+                );
+            }
+            else {
+                dispatch('addLayer', newLayer, { root: true });
+            }
+        }
     },
 }
