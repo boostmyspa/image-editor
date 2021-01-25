@@ -23,7 +23,7 @@
                         padding: 1,
                         text: item.text,
                         fontSize: +item.fontSize,
-                        fontFamily: item.fontFamily,
+                        fontFamily: textFontFamily,
                         lineHeight: textLineHeight,
                         align: item.hAlign,
                         verticalAlign: item.vAlign,
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
 
     export default {
         name: "TextBox",
@@ -66,6 +66,7 @@
             ...mapActions('selectedLayer', [
                 'changePosition',
                 'changeSize',
+                'setFontFamily',
             ]),
 
             dragStart (e) {
@@ -126,7 +127,42 @@
 
             transformEnd () {
 
-            }
+            },
+
+            checkFontFamilyIsLoaded (currentFont, previousFont, attemptCount) {
+                const fontFamily = currentFont || this.item.fontFamily;
+
+                const FONT_INITIAL = `20px ${fontFamily}`;
+                let fontIsLoaded = document.fonts.check(FONT_INITIAL);
+
+                if (attemptCount === undefined) {
+                    attemptCount = 0;
+                }
+
+                if (!fontIsLoaded) {
+                    let t = setTimeout( () => {
+                        this.checkFontFamilyIsLoaded(currentFont, previousFont, attemptCount + 1);
+
+                        clearTimeout(t);
+                    }, 500);
+                }
+                else if (attemptCount) {
+                    // if 'attemptCount' is undefined and 'fontIsLoaded' is true - font was preLoaded before render
+                    // but if 'attemptCount' was increased - font was loaded right now and Layer should be reDraw
+
+                    if (currentFont && previousFont) {
+                        // work only for the 'selectedLayer' ???
+
+                        this.setFontFamily(previousFont);
+
+                        let t = setTimeout( () => {
+                            this.setFontFamily(currentFont);
+
+                            clearTimeout(t);
+                        });
+                    }
+                }
+            },
         },
 
         computed: {
@@ -142,6 +178,10 @@
                 return this.isDynamicText ? 1 : +this.item.lineHeight;
             },
 
+            textFontFamily () {
+                return this.item.fontFamily;
+            },
+
             textWrap () {
                 return this.isDynamicText ? 'none' : 'word';
             },
@@ -150,6 +190,16 @@
                 return this.item.type == 'textDynamic';
             },
         },
+
+        watch: {
+            textFontFamily (currentFont, previousFont) {
+                this.checkFontFamilyIsLoaded(currentFont, previousFont);
+            },
+        },
+
+        mounted () {
+            this.checkFontFamilyIsLoaded();
+        }
 
     }
 </script>

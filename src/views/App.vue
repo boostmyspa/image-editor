@@ -5,7 +5,6 @@
         <div class="d-none">
             <button @click="saveData">Save data</button>
             | <button @click="loadData">Load data</button>
-            | <button @click="changeScale">Zoom ({{ scaleIncrease ? '-' : '+' }})</button>
 
             <hr>
             <button @click="loadGalleryData">Load Gallery data</button>
@@ -20,7 +19,7 @@
                     <layers-settings-bar></layers-settings-bar>
 
                     <div id="canvas-container">
-                        <canvas-main :stageConfig="canvasMainConfig" @stageSizeChange="canvasMainSizeChanged"></canvas-main>
+                        <canvas-container></canvas-container>
                     </div>
                 </div>
             </div>
@@ -39,7 +38,7 @@
     import { mapState, mapGetters, mapActions } from 'vuex';
     import Header from './Header';
     import Gallery from './gallery/Gallery';
-    import CanvasMain from './canvas/CanvasMain';
+    import CanvasContiner from './canvas/CanvasContiner';
     import LayersSettingsBar from './layer-settings-bar/LayersSettingsBar';
     import LayerBackground from './layers/LayerBackground';
     import InputLayers from './layers/Layers';
@@ -49,7 +48,7 @@
         components: {
             'site-header': Header,
             'gallery': Gallery,
-            'canvas-main': CanvasMain,
+            'canvas-container': CanvasContiner,
             'layers-settings-bar': LayersSettingsBar,
             'layer-background': LayerBackground,
             'input-layers': InputLayers,
@@ -57,15 +56,7 @@
 
         data: () => {
             return {
-                canvasMainConfig: {
-                    x: -0.5,
-                    y: -0.5,
-                    width: 500,
-                    height: 500,
-                    scaleX: 1,
-                    scaleY: 1
-                },
-                scaleIncrease: false
+
             }
         },
 
@@ -96,23 +87,6 @@
                 console.log(this.$store.state.gallery.gallery);
             },
 
-            canvasMainSizeChanged (newSize) {
-                this.canvasMainConfig.width = newSize.width;
-                this.canvasMainConfig.height = newSize.height;
-            },
-
-            changeScale () {
-                this.scaleIncrease = !this.scaleIncrease;
-
-                if (this.scaleIncrease) {
-                    this.canvasMainConfig.scaleX = 2;
-                    this.canvasMainConfig.scaleY = 2;
-                }
-                else {
-                    this.canvasMainConfig.scaleX = 1;
-                    this.canvasMainConfig.scaleY = 1;
-                }
-            }
         },
 
         computed: {
