@@ -9,6 +9,10 @@ export default {
     },
 
     getters: {
+        id (state) {
+            return state.selectedLayer && state.selectedLayer.id;
+        },
+
         x (state) {
             const x = state.selectedLayer && state.selectedLayer.x;
             return x || 0;

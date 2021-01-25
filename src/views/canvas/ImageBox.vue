@@ -33,7 +33,7 @@
                         y: 0,
                         width: item.width,
                         height: item.height,
-                        stroke: 'black',
+                        stroke: boxBorderColor,
                         strokeWidth: 1,
                         strokeScaleEnabled: false,
                         }"
@@ -42,9 +42,8 @@
 </template>
 
 <script>
-    // import throttle from '../../util/throttle';
     import LoadImage from '../../util/loadImage';
-    import { mapActions } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: "ImageBox",
@@ -176,10 +175,17 @@
         },
 
         computed: {
-            // throttleTransforming (e) {
-            //     let DELAY = 1000;
-            //     return throttle(this.transforming.bind(e), DELAY);
-            // },
+            ...mapGetters('selectedLayer', {
+                selectedLayerId: 'id',
+            }),
+
+            isSelectedLayer () {
+               return this.selectedLayerId == this.item.id;
+            },
+
+            boxBorderColor () {
+                return this.isSelectedLayer ? 'transparent' : 'black';
+            },
 
             groupPositionX () {
                return this.isDragging ? this.dragStartPositionX : this.item.x;

@@ -1,6 +1,10 @@
 <template>
     <v-transformer ref="transformer"
                    :config="{
+                   borderStroke: '#6C60FF',
+                   anchorStroke: '#6C60FF',
+                   // anchorCornerRadius: 10,
+                   anchorSize: 10,
                    rotateEnabled: false,
                    boundBoxFunc: boundBoxFunc,
                    enabledAnchors: ['middle-right', 'bottom-center', 'bottom-right'],

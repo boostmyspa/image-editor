@@ -37,7 +37,7 @@
                         y: 0,
                         width: item.width,
                         height: item.height,
-                        stroke: 'black',
+                        stroke: boxBorderColor,
                         strokeWidth: 1,
                         strokeScaleEnabled: false,
                         }"
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    import { /*mapState,*/ mapActions } from 'vuex';
+    import { /*mapState,*/ mapGetters, mapActions } from 'vuex';
 
     export default {
         name: "TextBox",
@@ -131,36 +131,65 @@
 
             checkFontFamilyIsLoaded (currentFont, previousFont, attemptCount) {
                 const fontFamily = currentFont || this.item.fontFamily;
-
+                const fontLoadElementId = `font-family-load-${fontFamily}`;
                 const FONT_INITIAL = `20px ${fontFamily}`;
-                let fontIsLoaded = document.fonts.check(FONT_INITIAL);
+                const fontIsLoaded = document.fonts.check(FONT_INITIAL);
 
                 if (!attemptCount) {
                     attemptCount = 0;
                 }
 
+                if (attemptCount > 200) {
+                    return;
+                }
+
                 if (!fontIsLoaded) {
-                    if (previousFont) {
+                    if (currentFont && previousFont) {
                         // set back the previousFont before the currentFont finishes loading
                         this.setFontFamily(previousFont);
+
+                        // create DOM element for the fontFamily lazy load
+                        if (!document.getElementById(fontLoadElementId)) {
+                            let elFont = document.createElement("div");
+                            elFont.id = fontLoadElementId;
+                            elFont.textContent = 'text';
+                            elFont.style.fontFamily = fontFamily;
+
+                            document.querySelector('body').appendChild(elFont);
+                        }
                     }
 
                     let t = setTimeout( () => {
                         this.checkFontFamilyIsLoaded(currentFont, previousFont, ++attemptCount);
 
                         clearTimeout(t);
-                    }, 100);
+                    }, 20);
                 }
                 else if (attemptCount) {
                     // if 'attemptCount' is undefined and 'fontIsLoaded' is true - font was preLoaded before render
                     // but if 'attemptCount' was increased - font was loaded right now and Layer should be reDraw
 
                     this.setFontFamily(fontFamily);
+
+                    // remove DOM element for the fontFamily lazy load
+                    document.getElementById(fontLoadElementId).remove();
                 }
             },
         },
 
         computed: {
+            ...mapGetters('selectedLayer', {
+                selectedLayerId: 'id',
+            }),
+
+            isSelectedLayer () {
+                return this.selectedLayerId == this.item.id;
+            },
+
+            boxBorderColor () {
+                return this.isSelectedLayer ? 'transparent' : 'black';
+            },
+
             groupPositionX () {
                 return this.isDragging ? this.dragStartPositionX : this.item.x;
             },
