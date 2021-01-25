@@ -135,16 +135,16 @@
                 const FONT_INITIAL = `20px ${fontFamily}`;
                 let fontIsLoaded = document.fonts.check(FONT_INITIAL);
 
-                if (attemptCount === undefined) {
+                if (!attemptCount) {
                     attemptCount = 0;
                 }
 
                 if (!fontIsLoaded) {
                     let t = setTimeout( () => {
-                        this.checkFontFamilyIsLoaded(currentFont, previousFont, attemptCount + 1);
+                        this.checkFontFamilyIsLoaded(currentFont, previousFont, ++attemptCount);
 
                         clearTimeout(t);
-                    }, 500);
+                    }, 20);
                 }
                 else if (attemptCount) {
                     // if 'attemptCount' is undefined and 'fontIsLoaded' is true - font was preLoaded before render
