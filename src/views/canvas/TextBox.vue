@@ -140,27 +140,22 @@
                 }
 
                 if (!fontIsLoaded) {
+                    if (previousFont) {
+                        // set back the previousFont before the currentFont finishes loading
+                        this.setFontFamily(previousFont);
+                    }
+
                     let t = setTimeout( () => {
                         this.checkFontFamilyIsLoaded(currentFont, previousFont, ++attemptCount);
 
                         clearTimeout(t);
-                    }, 20);
+                    }, 100);
                 }
                 else if (attemptCount) {
                     // if 'attemptCount' is undefined and 'fontIsLoaded' is true - font was preLoaded before render
                     // but if 'attemptCount' was increased - font was loaded right now and Layer should be reDraw
 
-                    if (currentFont && previousFont) {
-                        // work only for the 'selectedLayer' ???
-
-                        this.setFontFamily(previousFont);
-
-                        let t = setTimeout( () => {
-                            this.setFontFamily(currentFont);
-
-                            clearTimeout(t);
-                        });
-                    }
+                    this.setFontFamily(fontFamily);
                 }
             },
         },
