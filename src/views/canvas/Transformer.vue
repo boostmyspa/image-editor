@@ -2,7 +2,8 @@
     <v-transformer ref="transformer"
                    :config="{
                    rotateEnabled: false,
-                   boundBoxFunc: boundBoxFunc
+                   boundBoxFunc: boundBoxFunc,
+                   enabledAnchors: ['middle-right', 'bottom-center', 'bottom-right'],
                    }"
     ></v-transformer>
 </template>

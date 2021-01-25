@@ -3,14 +3,17 @@
              :config="{
                    id: item.id,
                    name: 'textBox layerBox',
-                   x: item.x,
-                   y: item.y,
+                   x: groupPositionX,
+                   y: groupPositionY,
                    width: item.width,
                    height: item.height,
                    draggable: true,
                    }"
-             @dragend="changeTextBoxPosition"
+             @dragstart="dragStart"
+             @dragmove="dragMove"
+             @dragend="dragEnd"
              @transform="transforming"
+             @transformend="transformEnd"
     >
         <v-text :config="{
                         x: 0,
@@ -53,6 +56,9 @@
         data: () => {
             return {
                 rotation: 0,
+                dragStartPositionX: 0,
+                dragStartPositionY: 0,
+                isDragging: false,
             }
         },
 
@@ -62,11 +68,34 @@
                 'changeSize',
             ]),
 
-            changeTextBoxPosition (e) {
+            dragStart (e) {
                 const
                     textBoxNode = e.target,
                     position = textBoxNode.position();
 
+                this.dragStartPositionX = position.x;
+                this.dragStartPositionY = position.y;
+                this.isDragging = true;
+            },
+
+            dragMove (e) {
+                const
+                    textBoxNode = e.target,
+                    position = textBoxNode.position();
+
+                this.changeTextBoxPosition(position);
+            },
+
+            dragEnd (e) {
+                const
+                    textBoxNode = e.target,
+                    position = textBoxNode.position();
+
+                this.isDragging = false;
+                this.changeTextBoxPosition(position);
+            },
+
+            changeTextBoxPosition (position) {
                 this.changePosition(position);
             },
 
@@ -93,10 +122,22 @@
                     this.changeSize(size);
                 }
 
+            },
+
+            transformEnd () {
+
             }
         },
 
         computed: {
+            groupPositionX () {
+                return this.isDragging ? this.dragStartPositionX : this.item.x;
+            },
+
+            groupPositionY () {
+                return this.isDragging ? this.dragStartPositionY : this.item.y;
+            },
+
             textLineHeight () {
                 return this.isDynamicText ? 1 : +this.item.lineHeight;
             },

@@ -3,14 +3,17 @@
             :config="{
                    id: item.id,
                    name: 'imageBox layerBox',
-                   x: item.x,
-                   y: item.y,
+                   x: groupPositionX,
+                   y: groupPositionY,
                    width: item.width,
                    height: item.height,
                    draggable: true,
                    }"
-            @dragend="changeImageBoxPosition"
+            @dragstart="dragStart"
+            @dragmove="dragMove"
+            @dragend="dragEnd"
             @transform="transforming"
+            @transformend="transformEnd"
     >
         <v-image
                 v-if="item.image"
@@ -51,7 +54,10 @@
         data: () => {
             return {
                 rotation: 0,
-                minTransformSize: 20
+                minTransformSize: 20,
+                dragStartPositionX: 0,
+                dragStartPositionY: 0,
+                isDragging: false,
             }
         },
         methods: {
@@ -61,13 +67,56 @@
                 'changeSize',
             ]),
 
-            changeImageBoxPosition (e) {
+            dragStart (e) {
                 const
                     textBoxNode = e.target,
                     position = textBoxNode.position();
 
+                this.dragStartPositionX = position.x;
+                this.dragStartPositionY = position.y;
+                this.isDragging = true;
+            },
+
+            dragMove (e) {
+                const
+                    textBoxNode = e.target,
+                    position = textBoxNode.position();
+
+                this.changeImageBoxPosition(position);
+            },
+
+            dragEnd (e) {
+                const
+                    textBoxNode = e.target,
+                    position = textBoxNode.position();
+
+                this.isDragging = false;
+                this.changeImageBoxPosition(position);
+            },
+
+            changeImageBoxPosition (position) {
                 this.changePosition(position);
             },
+
+            // transformPosition ({ x, y, width, height }) {
+            //     // x, y - current (new) transformer position
+            //     // width, height - current (new) transformer size
+            //
+            //     const diffX = x - this.item.x;
+            //     const diffY = Math.abs(y - this.item.y);
+            //
+            //     // init defaults
+            //     let newX = this.item.x;
+            //     let newY = this.item.y;
+            //
+            //     if (Math.round(Math.abs(diffX)) > 1) {
+            //         console.log(1212213);
+            //     }
+            //
+            //     if (Math.round(diffY) > 1) {
+            //         console.log(1212213);
+            //     }
+            // },
 
             transforming (e) {
                 const
@@ -86,6 +135,12 @@
                         // stopTransform = false,
                         width = target.width() * target.scaleX(),
                         height = target.height() * target.scaleY();
+
+                    // const newX = target.x();
+                    // const newY = target.y();
+
+                    // change position on transform
+                    // this.transformPosition({ x: newX, y: newY, width, height });
 
 
                     // the box minimum transformation size
@@ -113,6 +168,10 @@
                     // }
                 }
 
+            },
+
+            transformEnd () {
+
             }
         },
 
@@ -121,6 +180,14 @@
             //     let DELAY = 1000;
             //     return throttle(this.transforming.bind(e), DELAY);
             // },
+
+            groupPositionX () {
+               return this.isDragging ? this.dragStartPositionX : this.item.x;
+            },
+
+            groupPositionY () {
+                return this.isDragging ? this.dragStartPositionY : this.item.y;
+            },
 
             imageSize () {
                 if (!this.item.image) return;

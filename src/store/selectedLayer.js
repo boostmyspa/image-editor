@@ -100,13 +100,23 @@ export default {
         changePosition ({ state, commit }, position) {
             if (!state.selectedLayer) return;
 
-            commit('changePosition', position);
+            const positionRound = {
+                x: Math.round(position.x),
+                y: Math.round(position.y),
+            };
+
+            commit('changePosition', positionRound);
         },
 
         changeSize ({ state, commit }, size) {
             if (!state.selectedLayer) return;
 
-            commit('changeSize', size);
+            const sizeRound = {
+                width: Math.round(size.width),
+                height: Math.round(size.height),
+            };
+
+            commit('changeSize', sizeRound);
         },
 
         changeImage ({ state, commit }, image) {
