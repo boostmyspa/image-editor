@@ -7,7 +7,7 @@
         </button>
 
         <div class="layers-settings-bar--align--choices">
-            <div class="layers-settings-bar--align--choices-row">
+            <div v-if="!isDynamicText" class="layers-settings-bar--align--choices-row">
                 <button class="btn-icon-wrap" title="Align" @click.left="setTopLeft" :class="topLeft ? 'active' : ''">
                     <i class="icon-align icon-align-left"></i>
                 </button>
@@ -31,7 +31,7 @@
                 </button>
             </div>
 
-            <div class="layers-settings-bar--align--choices-row">
+            <div v-if="!isDynamicText" class="layers-settings-bar--align--choices-row">
                 <button class="btn-icon-wrap" title="Align" @click.left="setBottomLeft" :class="bottomLeft ? 'active' : ''">
                     <i class="icon-align icon-align-left"></i>
                 </button>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import { /*mapState,*/ mapGetters, mapActions } from 'vuex';
+    import { mapState, mapGetters, mapActions } from 'vuex';
 
     export default {
         name: "BarLayerAlign",
@@ -130,10 +130,18 @@
         },
 
         computed: {
+            ...mapState('selectedLayer', [
+                'selectedLayer',
+            ]),
+
             ...mapGetters('selectedLayer', [
                 'hAlign',
                 'vAlign',
             ]),
+
+            isDynamicText () {
+                return this.selectedLayer.type == 'textDynamic';
+            },
 
             topLeft () {
                 return this.vAlign == 'top' && this.hAlign == 'left';

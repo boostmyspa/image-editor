@@ -26,7 +26,7 @@
                         fontFamily: textFontFamily,
                         lineHeight: textLineHeight,
                         align: item.hAlign,
-                        verticalAlign: item.vAlign,
+                        verticalAlign: textVerticalAlign,
                         fill: item.fill,
                         wrap: textWrap,
                         }"
@@ -204,6 +204,10 @@
 
             textFontFamily () {
                 return this.item.fontFamily;
+            },
+
+            textVerticalAlign () {
+                return this.isDynamicText ? 'middle' : this.item.vAlign;
             },
 
             textWrap () {
